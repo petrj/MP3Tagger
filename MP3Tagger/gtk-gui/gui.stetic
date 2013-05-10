@@ -1,0 +1,541 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<stetic-interface>
+  <configuration>
+    <images-root-path>..</images-root-path>
+    <target-gtk-version>2.12</target-gtk-version>
+  </configuration>
+  <import>
+    <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <widget-library name="../bin/Debug/MP3Tagger.exe" internal="true" />
+  </import>
+  <widget class="Gtk.Window" id="MainWindow" design-size="917 720">
+    <action-group name="Default">
+      <action id="SeznamMP3Action">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Seznam MP3</property>
+        <property name="ShortLabel" translatable="yes">Seznam MP3</property>
+      </action>
+      <action id="Action">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+      </action>
+      <action id="openAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Open</property>
+        <property name="ShortLabel" translatable="yes">Open</property>
+        <property name="StockId">gtk-open</property>
+        <signal name="Activated" handler="OnOpenActionActivated" />
+      </action>
+      <action id="editAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Edit</property>
+        <property name="ShortLabel" translatable="yes">Edit</property>
+        <property name="StockId">gtk-edit</property>
+        <signal name="Activated" handler="OnEditActionActivated" />
+      </action>
+      <action id="closeAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Close </property>
+        <property name="ShortLabel" translatable="yes">Close</property>
+        <property name="StockId">gtk-close</property>
+        <signal name="Activated" handler="OnCloseActionActivated" />
+      </action>
+      <action id="dndMultipleAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Selection MultRrow</property>
+        <property name="ShortLabel" translatable="yes">Select-Multi</property>
+        <property name="StockId">gtk-dnd-multiple</property>
+        <signal name="Activated" handler="OnDndMultipleActionActivated" />
+      </action>
+      <action id="dndAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Selection-Single</property>
+        <property name="ShortLabel" translatable="yes">Select-Single</property>
+        <property name="StockId">gtk-dnd</property>
+        <signal name="Activated" handler="OnDndActionActivated" />
+      </action>
+      <action id="goForwardAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Next</property>
+        <property name="ShortLabel" translatable="yes">Next</property>
+        <property name="StockId">gtk-go-forward</property>
+      </action>
+      <action id="goBackAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Previous</property>
+        <property name="ShortLabel" translatable="yes">Previous</property>
+        <property name="StockId">gtk-go-back</property>
+      </action>
+    </action-group>
+    <property name="MemberName" />
+    <property name="Title" translatable="yes">MainWindow</property>
+    <property name="WindowPosition">CenterOnParent</property>
+    <signal name="DeleteEvent" handler="OnDeleteEvent" />
+    <child>
+      <widget class="Gtk.Fixed" id="fixed">
+        <property name="MemberName" />
+        <property name="HasWindow">False</property>
+        <child>
+          <widget class="Gtk.Notebook" id="notebook">
+            <property name="MemberName" />
+            <property name="WidthRequest">900</property>
+            <property name="HeightRequest">600</property>
+            <property name="CanFocus">True</property>
+            <property name="CurrentPage">0</property>
+            <child>
+              <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow">
+                <property name="MemberName" />
+                <property name="ShadowType">In</property>
+                <child>
+                  <widget class="Gtk.TreeView" id="tree">
+                    <property name="MemberName" />
+                    <property name="CanFocus">True</property>
+                    <property name="ShowScrollbars">True</property>
+                    <signal name="SelectCursorRow" handler="OnTreeSelectCursorRow" />
+                    <signal name="ButtonPressEvent" handler="OnTreeButtonPressEvent" />
+                  </widget>
+                </child>
+              </widget>
+            </child>
+            <child>
+              <widget class="Gtk.Label" id="labelID3v1Tree">
+                <property name="MemberName" />
+                <property name="LabelProp" translatable="yes">ID3</property>
+              </widget>
+              <packing>
+                <property name="type">tab</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow1">
+                <property name="MemberName" />
+                <property name="ShadowType">In</property>
+                <child>
+                  <widget class="Gtk.TreeView" id="tree2">
+                    <property name="MemberName" />
+                    <property name="CanFocus">True</property>
+                    <property name="ShowScrollbars">True</property>
+                  </widget>
+                </child>
+              </widget>
+              <packing>
+                <property name="Position">1</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.Label" id="labelID3v2Tree">
+                <property name="MemberName" />
+                <property name="LabelProp" translatable="yes">ID3 v2</property>
+              </widget>
+              <packing>
+                <property name="type">tab</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="X">4</property>
+            <property name="Y">54</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.Toolbar" id="mainToolbar">
+            <property name="MemberName" />
+            <property name="ShowArrow">False</property>
+            <node name="mainToolbar" type="Toolbar">
+              <node type="Toolitem" action="openAction" />
+              <node type="Toolitem" action="editAction" />
+              <node type="Toolitem" action="goBackAction" />
+              <node type="Toolitem" action="goForwardAction" />
+              <node type="Toolitem" action="dndAction" />
+              <node type="Toolitem" action="dndMultipleAction" />
+              <node type="Toolitem" action="closeAction" />
+            </node>
+          </widget>
+          <packing>
+            <property name="X">5</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
+  <widget class="Gtk.Window" id="MP3Tagger.ProgressBarWindow" design-size="400 99">
+    <property name="MemberName" />
+    <property name="Title" translatable="yes">Please wait ...</property>
+    <property name="WindowPosition">CenterOnParent</property>
+    <child>
+      <widget class="Gtk.Fixed" id="fixed">
+        <property name="MemberName" />
+        <property name="HeightRequest">50</property>
+        <property name="HasWindow">False</property>
+        <child>
+          <widget class="Gtk.ProgressBar" id="progressBar">
+            <property name="MemberName" />
+            <property name="WidthRequest">320</property>
+            <property name="Text" translatable="yes" />
+            <property name="PulseStep">0.01</property>
+          </widget>
+          <packing>
+            <property name="X">16</property>
+            <property name="Y">32</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.Label" id="label">
+            <property name="MemberName" />
+            <property name="LabelProp" translatable="yes">Title</property>
+          </widget>
+          <packing>
+            <property name="X">14</property>
+            <property name="Y">7</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
+  <widget class="Gtk.Window" id="MP3Tagger.SongDetail" design-size="390 494">
+    <action-group name="Default">
+      <action id="goForwardAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Next</property>
+        <property name="ShortLabel" translatable="yes">Next</property>
+        <property name="StockId">gtk-go-forward</property>
+      </action>
+      <action id="goBackAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Previous</property>
+        <property name="ShortLabel" translatable="yes">Previous</property>
+        <property name="StockId">gtk-go-back</property>
+      </action>
+      <action id="editAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Edit</property>
+        <property name="ShortLabel" translatable="yes">Edit</property>
+        <property name="StockId">gtk-edit</property>
+      </action>
+      <action id="closeAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Close</property>
+        <property name="ShortLabel" translatable="yes">Close</property>
+        <property name="StockId">gtk-close</property>
+        <signal name="Activated" handler="OnCloseActionActivated" />
+      </action>
+      <action id="saveAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Save</property>
+        <property name="ShortLabel" translatable="yes">Save</property>
+        <property name="StockId">gtk-save</property>
+      </action>
+      <action id="applyAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">OK</property>
+        <property name="ShortLabel" translatable="yes">OK</property>
+        <property name="StockId">gtk-apply</property>
+        <signal name="Activated" handler="OnApplyActionActivated" />
+      </action>
+      <action id="cancelAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Cancel</property>
+        <property name="ShortLabel" translatable="yes">Cancel</property>
+        <property name="StockId">gtk-cancel</property>
+        <signal name="Activated" handler="OnCancelActionActivated" />
+      </action>
+    </action-group>
+    <property name="MemberName" />
+    <property name="Title" translatable="yes">SongDetail</property>
+    <property name="WindowPosition">CenterOnParent</property>
+    <signal name="Shown" handler="OnShown" />
+    <child>
+      <widget class="Gtk.Fixed" id="fixed">
+        <property name="MemberName" />
+        <property name="HasWindow">False</property>
+        <child>
+          <widget class="Gtk.Toolbar" id="toolbar">
+            <property name="MemberName" />
+            <property name="ShowArrow">False</property>
+            <node name="toolbar" type="Toolbar">
+              <node type="Toolitem" action="applyAction" />
+              <node type="Separator" />
+              <node type="Toolitem" action="goBackAction" />
+              <node type="Toolitem" action="goForwardAction" />
+              <node type="Separator" />
+              <node type="Toolitem" action="cancelAction" />
+            </node>
+          </widget>
+          <packing>
+            <property name="X">3</property>
+            <property name="Y">6</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.Notebook" id="notebook">
+            <property name="MemberName" />
+            <property name="WidthRequest">380</property>
+            <property name="HeightRequest">400</property>
+            <property name="CanFocus">True</property>
+            <property name="CurrentPage">0</property>
+            <child>
+              <widget class="Gtk.Fixed" id="fixedTAG1">
+                <property name="MemberName" />
+                <property name="HasWindow">False</property>
+                <child>
+                  <widget class="MP3Tagger.TagWidget" id="tagwidget1">
+                    <property name="MemberName" />
+                    <property name="Events">ButtonPressMask</property>
+                  </widget>
+                  <packing>
+                    <property name="X">6</property>
+                    <property name="Y">17</property>
+                  </packing>
+                </child>
+              </widget>
+            </child>
+            <child>
+              <widget class="Gtk.Label" id="labelTAG1">
+                <property name="MemberName" />
+                <property name="LabelProp" translatable="yes">TAG1</property>
+              </widget>
+              <packing>
+                <property name="type">tab</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.Fixed" id="fixedTAG2">
+                <property name="MemberName" />
+                <property name="HasWindow">False</property>
+              </widget>
+              <packing>
+                <property name="Position">1</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.Label" id="labelTAG2">
+                <property name="MemberName" />
+                <property name="LabelProp" translatable="yes">TAG2</property>
+              </widget>
+              <packing>
+                <property name="type">tab</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="X">4</property>
+            <property name="Y">63</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
+  <widget class="Gtk.Bin" id="MP3Tagger.TagWidget" design-size="357 260">
+    <property name="MemberName" />
+    <property name="Visible">False</property>
+    <child>
+      <widget class="Gtk.Fixed" id="fixed">
+        <property name="MemberName" />
+        <property name="HasWindow">False</property>
+        <child>
+          <widget class="Gtk.Entry" id="entryTitle">
+            <property name="MemberName" />
+            <property name="WidthRequest">250</property>
+            <property name="CanFocus">True</property>
+            <property name="IsEditable">True</property>
+            <property name="InvisibleChar">●</property>
+          </widget>
+          <packing>
+            <property name="X">75</property>
+            <property name="Y">22</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.Label" id="labelTitle">
+            <property name="MemberName" />
+            <property name="LabelProp" translatable="yes">Title</property>
+          </widget>
+          <packing>
+            <property name="X">5</property>
+            <property name="Y">26</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.Label" id="labelArtist">
+            <property name="MemberName" />
+            <property name="LabelProp" translatable="yes">Artist</property>
+          </widget>
+          <packing>
+            <property name="X">5</property>
+            <property name="Y">55</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.Entry" id="entryArtist">
+            <property name="MemberName" />
+            <property name="WidthRequest">250</property>
+            <property name="CanFocus">True</property>
+            <property name="IsEditable">True</property>
+            <property name="InvisibleChar">●</property>
+          </widget>
+          <packing>
+            <property name="X">75</property>
+            <property name="Y">52</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.Entry" id="entryAlbum">
+            <property name="MemberName" />
+            <property name="WidthRequest">250</property>
+            <property name="CanFocus">True</property>
+            <property name="IsEditable">True</property>
+            <property name="InvisibleChar">●</property>
+          </widget>
+          <packing>
+            <property name="X">75</property>
+            <property name="Y">80</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.Entry" id="entryYear">
+            <property name="MemberName" />
+            <property name="WidthRequest">50</property>
+            <property name="CanFocus">True</property>
+            <property name="IsEditable">True</property>
+            <property name="InvisibleChar">●</property>
+          </widget>
+          <packing>
+            <property name="X">75</property>
+            <property name="Y">108</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.Label" id="labelAlbum">
+            <property name="MemberName" />
+            <property name="LabelProp" translatable="yes">Album</property>
+          </widget>
+          <packing>
+            <property name="X">5</property>
+            <property name="Y">82</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.Label" id="labelYear">
+            <property name="MemberName" />
+            <property name="LabelProp" translatable="yes">Year</property>
+          </widget>
+          <packing>
+            <property name="X">5</property>
+            <property name="Y">109</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.Label" id="labelGenre">
+            <property name="MemberName" />
+            <property name="LabelProp" translatable="yes">Genre</property>
+          </widget>
+          <packing>
+            <property name="X">5</property>
+            <property name="Y">146</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.Label" id="labelComment">
+            <property name="MemberName" />
+            <property name="LabelProp" translatable="yes">Comment</property>
+          </widget>
+          <packing>
+            <property name="X">5</property>
+            <property name="Y">175</property>
+          </packing>
+        </child>
+        <child>
+          <placeholder />
+        </child>
+        <child>
+          <placeholder />
+        </child>
+        <child>
+          <placeholder />
+        </child>
+        <child>
+          <placeholder />
+        </child>
+        <child>
+          <placeholder />
+        </child>
+        <child>
+          <placeholder />
+        </child>
+        <child>
+          <placeholder />
+        </child>
+        <child>
+          <placeholder />
+        </child>
+        <child>
+          <placeholder />
+        </child>
+        <child>
+          <placeholder />
+        </child>
+        <child>
+          <placeholder />
+        </child>
+        <child>
+          <placeholder />
+        </child>
+        <child>
+          <placeholder />
+        </child>
+        <child>
+          <placeholder />
+        </child>
+        <child>
+          <placeholder />
+        </child>
+        <child>
+          <placeholder />
+        </child>
+        <child>
+          <placeholder />
+        </child>
+        <child>
+          <placeholder />
+        </child>
+        <child>
+          <placeholder />
+        </child>
+        <child>
+          <placeholder />
+        </child>
+        <child>
+          <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow">
+            <property name="MemberName" />
+            <property name="ShadowType">In</property>
+            <child>
+              <widget class="Gtk.TextView" id="textViewComment">
+                <property name="MemberName" />
+                <property name="WidthRequest">250</property>
+                <property name="CanFocus">True</property>
+                <property name="ShowScrollbars">True</property>
+                <property name="Text" translatable="yes" />
+              </widget>
+            </child>
+          </widget>
+          <packing>
+            <property name="X">75</property>
+            <property name="Y">175</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.ComboBox" id="comboBoxGenre">
+            <property name="MemberName" />
+            <property name="WidthRequest">250</property>
+            <property name="IsTextCombo">True</property>
+            <property name="Items" translatable="yes" />
+          </widget>
+          <packing>
+            <property name="X">75</property>
+            <property name="Y">139</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
+</stetic-interface>
