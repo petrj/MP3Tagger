@@ -59,12 +59,14 @@
         <property name="Label" translatable="yes">Next</property>
         <property name="ShortLabel" translatable="yes">Next</property>
         <property name="StockId">gtk-go-forward</property>
+        <signal name="Activated" handler="OnGoForwardActionActivated" />
       </action>
       <action id="goBackAction">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">Previous</property>
         <property name="ShortLabel" translatable="yes">Previous</property>
         <property name="StockId">gtk-go-back</property>
+        <signal name="Activated" handler="OnGoBackActionActivated" />
       </action>
     </action-group>
     <property name="MemberName" />
@@ -199,12 +201,14 @@
         <property name="Label" translatable="yes">Next</property>
         <property name="ShortLabel" translatable="yes">Next</property>
         <property name="StockId">gtk-go-forward</property>
+        <signal name="Activated" handler="OnGoForwardActionActivated" />
       </action>
       <action id="goBackAction">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">Previous</property>
         <property name="ShortLabel" translatable="yes">Previous</property>
         <property name="StockId">gtk-go-back</property>
+        <signal name="Activated" handler="OnGoBackActionActivated" />
       </action>
       <action id="editAction">
         <property name="Type">Action</property>

@@ -130,6 +130,8 @@ public partial class MainWindow
 		this.closeAction.Activated += new global::System.EventHandler (this.OnCloseActionActivated);
 		this.dndMultipleAction.Activated += new global::System.EventHandler (this.OnDndMultipleActionActivated);
 		this.dndAction.Activated += new global::System.EventHandler (this.OnDndActionActivated);
+		this.goForwardAction.Activated += new global::System.EventHandler (this.OnGoForwardActionActivated);
+		this.goBackAction.Activated += new global::System.EventHandler (this.OnGoBackActionActivated);
 		this.tree.SelectCursorRow += new global::Gtk.SelectCursorRowHandler (this.OnTreeSelectCursorRow);
 		this.tree.ButtonPressEvent += new global::Gtk.ButtonPressEventHandler (this.OnTreeButtonPressEvent);
 	}

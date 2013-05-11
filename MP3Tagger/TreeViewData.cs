@@ -7,8 +7,14 @@ namespace Grid
 	public class TreeViewData
 	{
 		private List<Gtk.TreeViewColumn> _columns = new List<Gtk.TreeViewColumn>();
+
+		// key .. int: 0 .. (count-1)
+		// value .. List<> of any object
 		private Dictionary<int,List<object>> _data = new Dictionary<int,List<object>>();
-		private List<Gtk.TreeIter> _treeIters;
+
+		// key .. index of Data value
+		// value .. TreeIter object
+		private Dictionary<int,Gtk.TreeIter> _treeIters;
 
 		public Gtk.TreeViewColumn AppendStringColumn(string name,bool editable = false)
 		{
@@ -58,18 +64,18 @@ namespace Grid
 			}
 
 			var listStore = new Gtk.ListStore (tps);
-			TreeIters = new List<TreeIter>();
+			TreeIters = new Dictionary<int,TreeIter>();
 
 			foreach (var row in Data.Keys)
 			{
 				var treeIter = listStore.AppendValues (Data[row].ToArray());
-				TreeIters.Add( treeIter );
+				TreeIters.Add(row, treeIter );
 			}
 	 
 			return listStore;				
 		}
 
-		public List<Gtk.TreeIter> TreeIters
+		public Dictionary<int,Gtk.TreeIter> TreeIters
 		{
 			get { return _treeIters;}
 			set { _treeIters = value; }

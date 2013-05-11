@@ -1,24 +1,25 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="MP3Tagger\TagWidget.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="MP3Tagger/SongDetail.cs">
     <Files>
-      <File FileName="MP3Tagger\MainWindow.cs" Line="1" Column="1" />
-      <File FileName="MP3Tagger\Main.cs" Line="1" Column="1" />
-      <File FileName="MP3Tagger\SongDetail.cs" Line="1" Column="1" />
-      <File FileName="MP3Tagger\TreeViewData.cs" Line="1" Column="1" />
-      <File FileName="MP3Tagger\TagWidget.cs" Line="22" Column="1" />
+      <File FileName="MP3Tagger/MainWindow.cs" Line="226" Column="26" />
+      <File FileName="MP3Tagger/Main.cs" Line="8" Column="3" />
+      <File FileName="MP3Tagger/SongDetail.cs" Line="23" Column="4" />
+      <File FileName="MP3Tagger/TreeViewData.cs" Line="61" Column="37" />
+      <File FileName="MP3Tagger/TagWidget.cs" Line="14" Column="8" />
+      <File FileName="MP3Tagger/TAGBase.cs" Line="115" Column="18" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/mnt/data/Develop/Source/mono/MP3Tagger/MP3Tagger/TAG2Frame.cs" line="113" column="1" />
-      <Breakpoint file="/mnt/data/Develop/Source/mono/MP3Tagger/MP3Tagger/TAG2Frame.cs" line="89" column="1" />
-      <Breakpoint file="/mnt/data/Develop/Source/mono/MP3Tagger/MP3Tagger/TAG2Frame.cs" line="98" column="1" />
-      <Breakpoint file="/mnt/data/Develop/Source/mono/MP3Tagger/MP3Tagger/TAGBase.cs" line="109" column="1" />
+      <Breakpoint file="/mnt/data/Develop/Source/mono/MP3Tagger/MP3Tagger/TAG2Frame.cs" line="113" />
+      <Breakpoint file="/mnt/data/Develop/Source/mono/MP3Tagger/MP3Tagger/TAG2Frame.cs" line="89" />
+      <Breakpoint file="/mnt/data/Develop/Source/mono/MP3Tagger/MP3Tagger/TAG2Frame.cs" line="98" />
+      <Breakpoint file="/mnt/data/Develop/Source/mono/MP3Tagger/MP3Tagger/TAGBase.cs" line="109" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
-    <Watch file="MP3Tagger\TAG2Frame.cs" line="188" offsetX="453" offsetY="3740" expression="dataBytes" liveUpdate="False" />
-    <Watch file="MP3Tagger\MainWindow.cs" line="61" offsetX="460" offsetY="1140" expression="MP3List" liveUpdate="False" />
+    <Watch file="MP3Tagger/TAG2Frame.cs" line="188" offsetX="453" offsetY="3740" expression="dataBytes" liveUpdate="False" />
+    <Watch file="MP3Tagger/MainWindow.cs" line="61" offsetX="460" offsetY="1140" expression="MP3List" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
 </Properties>

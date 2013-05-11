@@ -117,6 +117,8 @@ namespace MP3Tagger
 			this.DefaultHeight = 494;
 			this.Show ();
 			this.Shown += new global::System.EventHandler (this.OnShown);
+			this.goForwardAction.Activated += new global::System.EventHandler (this.OnGoForwardActionActivated);
+			this.goBackAction.Activated += new global::System.EventHandler (this.OnGoBackActionActivated);
 			this.closeAction.Activated += new global::System.EventHandler (this.OnCloseActionActivated);
 			this.applyAction.Activated += new global::System.EventHandler (this.OnApplyActionActivated);
 			this.cancelAction.Activated += new global::System.EventHandler (this.OnCancelActionActivated);

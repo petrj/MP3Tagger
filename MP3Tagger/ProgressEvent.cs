@@ -7,12 +7,12 @@ namespace MP3Tagger
 	public class ProgressEventArgs : EventArgs
 	{
 	    public double Percent { get; private set; }
-        public string Text { get; private set; }
 
-	    public ProgressEventArgs(double percent, string text)
+	    private ProgressEventArgs() {}
+
+	    public ProgressEventArgs(double percent)
 	    {
 	        Percent = percent;
-	        Text = text;
 	    }
 	}
 }

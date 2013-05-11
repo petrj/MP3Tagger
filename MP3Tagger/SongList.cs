@@ -17,7 +17,7 @@ namespace MP3Tagger
 			foreach (var f in files)
 			{
 				var percents = Convert.ToDecimal(i)/Convert.ToDecimal(files.Length/100.00);
-				progress(this, new MP3Tagger.ProgressEventArgs(Convert.ToDouble(percents), (i+1).ToString()+"/"+files.Length.ToString() ));
+				progress(this, new MP3Tagger.ProgressEventArgs(Convert.ToDouble(percents)));
 
 				if (Path.GetExtension(f).ToLower() == ".mp3")
 				{
@@ -37,7 +37,7 @@ namespace MP3Tagger
 				i++;
 			}
 
-            progress(this, new MP3Tagger.ProgressEventArgs(100, files.Length.ToString()));
+			progress(this, new MP3Tagger.ProgressEventArgs(100));
 		}
 	}
 }
