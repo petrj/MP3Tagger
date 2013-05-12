@@ -70,7 +70,7 @@ public partial class MainWindow
 		this.notebook.HeightRequest = 600;
 		this.notebook.CanFocus = true;
 		this.notebook.Name = "notebook";
-		this.notebook.CurrentPage = 0;
+		this.notebook.CurrentPage = 1;
 		// Container child notebook.Gtk.Notebook+NotebookChild
 		this.GtkScrolledWindow = new global::Gtk.ScrolledWindow ();
 		this.GtkScrolledWindow.Name = "GtkScrolledWindow";
@@ -134,5 +134,6 @@ public partial class MainWindow
 		this.goBackAction.Activated += new global::System.EventHandler (this.OnGoBackActionActivated);
 		this.tree.SelectCursorRow += new global::Gtk.SelectCursorRowHandler (this.OnTreeSelectCursorRow);
 		this.tree.ButtonPressEvent += new global::Gtk.ButtonPressEventHandler (this.OnTreeButtonPressEvent);
+		this.tree2.ButtonPressEvent += new global::Gtk.ButtonPressEventHandler (this.OnTreeButtonPressEvent);
 	}
 }

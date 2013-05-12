@@ -7,20 +7,33 @@ using Logger;
 
 public partial class MainWindow: Gtk.Window
 {
-    SongList _songList = new SongList();
-	MP3Tagger.ProgressBarWindow progressWin;
-	SongDetail editWindow;
+	#region private fields
 
-	private TreeViewData _treeView1Data = new TreeViewData(); 
-	private TreeViewData _treeView2Data = new TreeViewData(); 
+    private SongList _songList = new SongList();
+	private MP3Tagger.ProgressBarWindow progressWin;
+	private SongDetail editWindow;
+
+	private TreeViewData _treeView1Data;
+	private TreeViewData _treeView2Data;
+
+	#endregion
+
+	#region public fields
 
 	public string[] _args;
+
+	#endregion
    
+	#region constructor
+
 	public MainWindow (): base (Gtk.WindowType.Toplevel)
 	{
 		Logger.Logger.WriteToLog("Starting new application instance");
 
 		Build ();
+
+		_treeView1Data = new TreeViewData(tree); 
+		_treeView2Data = new TreeViewData(tree2); 
 
 		progressWin = new MP3Tagger.ProgressBarWindow();
 
@@ -36,12 +49,16 @@ public partial class MainWindow: Gtk.Window
 		//tree.Selection.Mode = SelectionMode.Browse;
 		//tree.Selection.Mode = SelectionMode.Single;
 
-		editWindow = new SongDetail();
-		editWindow.MainWin = this;
+		editWindow = new SongDetail(this);
 		editWindow.Hide();
 			
 		this.Show();
+	
 	}
+
+	#endregion
+
+	#region methods
 
 	private static void InfoDialog(string message,MessageType msgType)
 	{
@@ -76,8 +93,8 @@ public partial class MainWindow: Gtk.Window
 		Logger.Logger.WriteToLog("Filling TreeView");
 
         
-        _treeView1Data.CreateTreeViewColumns(tree);
-		_treeView2Data.CreateTreeViewColumns(tree2);
+        _treeView1Data.CreateTreeViewColumns();
+		_treeView2Data.CreateTreeViewColumns();
 
         foreach (var song in MP3List)
         {
@@ -93,9 +110,25 @@ public partial class MainWindow: Gtk.Window
 		SelectRow(0);
 
         Show();
-    }
+	}
+
+	#endregion
 
     #region properties
+
+	public TreeViewData SelectedTreeViewData
+	{
+		get
+		{
+			if (tree.IsFocus)
+			{
+				return _treeView1Data;
+			} else
+			{
+				return _treeView2Data;
+			}
+		}
+	}
 
 	public string[] Args 
 	{
@@ -111,9 +144,151 @@ public partial class MainWindow: Gtk.Window
 
     #endregion
 
-    #region events
+	#region selection methods
 
-    protected void OnDeleteEvent (object sender, DeleteEventArgs a)
+	public int ActualSelectedSongIndex(TreeViewData data)
+	{
+		Gtk.TreeIter iter;
+		var ok = data.Tree.Selection.GetSelected(out iter);
+
+		if (!ok)
+		{
+			return -1;
+		}
+
+		foreach (KeyValuePair<int,Gtk.TreeIter> kvp in data.TreeIters)
+		{
+			if (kvp.Value.UserData == iter.UserData)
+			{
+				var selectedDataIndex = kvp.Key;
+
+				if (MP3List.Count>selectedDataIndex)
+				{
+					return selectedDataIndex;
+				}
+			}
+		}
+
+		return -1;
+	}
+
+	public Song ActualSelectedSong(TreeViewData data)
+	{
+		var index = ActualSelectedSongIndex(data);
+		if (index == -1)
+			return null;
+
+		return MP3List[index];
+	}
+
+	private List<Song> GetSelectedSongs(TreeViewData data)
+	{
+		var selectedSongs = new List<Song>();
+
+		foreach(Gtk.TreePath selectedItem in data.Tree.Selection.GetSelectedRows())
+		{
+			var indicies = selectedItem.Indices;
+			if (indicies.Length>0)
+			{
+				var selectedIndex = indicies[0];
+				if (MP3List.Count>selectedIndex)
+				{
+					selectedSongs.Add(MP3List[selectedIndex]);
+				}
+			}
+		}
+
+		return selectedSongs;
+	}
+
+	private void EditSelectedSongs(TreeViewData data)
+	{
+		var actualSelectedSong = ActualSelectedSong(data);
+
+		if (actualSelectedSong == null)
+		{
+			InfoDialog("No row selected",MessageType.Warning);
+			return;
+		}
+
+		editWindow.CurrentSong = actualSelectedSong;
+		editWindow.Show();
+	}
+
+	public void SelectRow(int index)
+	{
+		if (index>=0 && index<=MP3List.Count-1)		
+		{
+			tree.Selection.UnselectAll();
+			tree.Selection.SelectIter( _treeView1Data.TreeIters[index]);
+
+			tree2.Selection.UnselectAll();
+			tree2.Selection.SelectIter( _treeView2Data.TreeIters[index]);
+
+			if (editWindow.Visible)
+			{
+				editWindow.CurrentSong = MP3List[index];
+			}
+		}
+	}
+
+	public void SelectNext()
+	{
+		if (MP3List.Count == 0)
+			return;
+
+		int actualSelectedSongIndex;
+		var actualTreeViewData = SelectedTreeViewData;
+
+		actualTreeViewData = SelectedTreeViewData;
+		actualSelectedSongIndex = ActualSelectedSongIndex(actualTreeViewData);			
+
+		if (actualSelectedSongIndex == -1 || MP3List.Count == 1)
+		{
+			SelectRow(0);
+			return;
+		}
+
+		var selectionMode = actualTreeViewData.Tree.Selection.Mode;
+		if ( (selectionMode == SelectionMode.Single) || (selectionMode == SelectionMode.Browse))
+		{
+			var nextSelectedSongIndex = actualSelectedSongIndex+1;
+			if (nextSelectedSongIndex>MP3List.Count-1) nextSelectedSongIndex = 0;
+			SelectRow(nextSelectedSongIndex);
+		}
+	}
+
+	public void SelectPrev()
+	{
+		if (MP3List.Count == 0)
+			return;
+
+		int actualSelectedSongIndex;
+		var actualTreeViewData = SelectedTreeViewData;
+
+		actualTreeViewData = SelectedTreeViewData;
+		actualSelectedSongIndex = ActualSelectedSongIndex(actualTreeViewData);			
+
+		if (actualSelectedSongIndex == -1 || MP3List.Count == 1)
+		{
+			SelectRow(0);
+			return;
+		}
+
+		var selectionMode = actualTreeViewData.Tree.Selection.Mode;
+		if ( (selectionMode == SelectionMode.Single) || (selectionMode == SelectionMode.Browse))
+		{
+			var nextSelectedSongIndex = actualSelectedSongIndex-1;
+			if (nextSelectedSongIndex<0) nextSelectedSongIndex = MP3List.Count-1;
+			SelectRow(nextSelectedSongIndex);
+		}
+	}
+
+	#endregion
+
+	#region events
+
+	protected void OnDeleteEvent (object sender, DeleteEventArgs a)
 	{
 		Application.Quit ();
 		a.RetVal = true;
@@ -134,144 +309,9 @@ public partial class MainWindow: Gtk.Window
         fc.Destroy();
 	}
 
-
-	public int ActualSelectedSongIndex()
-	{
-		Gtk.TreeIter iter;
-		var ok = tree.Selection.GetSelected(out iter);
-
-		if (!ok)
-		{
-			return -1;
-		}
-
-		foreach (KeyValuePair<int,Gtk.TreeIter> kvp in _treeView1Data.TreeIters)
-		{
-			if (kvp.Value.UserData == iter.UserData)
-			{
-				var selectedDataIndex = kvp.Key;
-
-				if (MP3List.Count>selectedDataIndex)
-				{
-					return selectedDataIndex;
-				}
-			}
-		}
-
-		return -1;
-	}
-
-	public Song ActualSelectedSong()
-	{
-		var index = ActualSelectedSongIndex();
-		if (index == -1)
-			return null;
-
-		return MP3List[index];
-	}
-
-
-	private List<Song> GetSelectedSongs()
-	{
-		var selectedSongs = new List<Song>();
-
-		foreach(Gtk.TreePath selectedItem in tree.Selection.GetSelectedRows())
-		{
-			var indicies = selectedItem.Indices;
-			if (indicies.Length>0)
-			{
-				var selectedIndex = indicies[0];
-				if (MP3List.Count>selectedIndex)
-				{
-					selectedSongs.Add(MP3List[selectedIndex]);
-				}
-			}
-		}
-
-		return selectedSongs;
-	}
-
-	private void EditSelectedSongs()
-	{
-		var actualSelectedSong = ActualSelectedSong();
-
-		if (actualSelectedSong == null)
-		{
-			InfoDialog("No row selected",MessageType.Warning);
-			return;
-		}
-
-		var selectedSongs = GetSelectedSongs();
-		if (selectedSongs.Count>0)
-		{
-			editWindow.CurrentSong = actualSelectedSong;
-			editWindow.Songs = selectedSongs;
-			editWindow.Show();
-		}
-	}
-
-	public void SelectRow(int index)
-	{
-		if (index>=0 && index<=MP3List.Count-1)		
-		{
-			tree.Selection.UnselectAll();
-			tree.Selection.SelectIter( _treeView1Data.TreeIters[index]);
-
-			if (editWindow.Visible)
-			{
-				editWindow.CurrentSong = MP3List[index];
-			}
-		}
-	}
-
-	public void SelectNext()
-	{
-		if (MP3List.Count == 0)
-			return;
-
-		var actualSelectedSongIndex = ActualSelectedSongIndex();
-
-		if (actualSelectedSongIndex == -1 || MP3List.Count == 1)
-		{
-			SelectRow(0);
-			return;
-		}
-
-		var selectionMode = tree.Selection.Mode;
-		if ( (selectionMode == SelectionMode.Single) || (selectionMode == SelectionMode.Browse))
-		{
-			var nextSelectedSongIndex = actualSelectedSongIndex+1;
-			if (nextSelectedSongIndex>MP3List.Count-1) nextSelectedSongIndex = 0;
-			SelectRow(nextSelectedSongIndex);
-		}
-	}
-
-	public void SelectPrev()
-	{
-		if (MP3List.Count == 0)
-			return;
-
-		var actualSelectedSongIndex = ActualSelectedSongIndex();
-
-		if (actualSelectedSongIndex == -1 || MP3List.Count == 1)
-		{
-			SelectRow(0);
-			return;
-		}
-
-		var selectionMode = tree.Selection.Mode;
-		if ( (selectionMode == SelectionMode.Single) || (selectionMode == SelectionMode.Browse))
-		{
-			var nextSelectedSongIndex = actualSelectedSongIndex-1;
-			if (nextSelectedSongIndex<0) nextSelectedSongIndex = MP3List.Count-1;
-			SelectRow(nextSelectedSongIndex);
-		}
-	}
-
-
 	protected void OnEditActionActivated (object sender, EventArgs e)
 	{
-		EditSelectedSongs();
+		EditSelectedSongs(_treeView1Data);
 	}
 
 	protected void OnCloseActionActivated (object sender, EventArgs e)	
@@ -281,7 +321,7 @@ public partial class MainWindow: Gtk.Window
 
 	protected void OnTreeSelectCursorRow (object o, SelectCursorRowArgs args)
 	{
-		var x = 0;
+
 	}
 
 	protected void OnDndMultipleActionActivated (object sender, EventArgs e)
@@ -301,7 +341,7 @@ public partial class MainWindow: Gtk.Window
 	{
 		if (args.Event.Type == Gdk.EventType.TwoButtonPress)
 		{
-			EditSelectedSongs();
+			EditSelectedSongs(SelectedTreeViewData);
 		}
 	}
 
@@ -314,6 +354,7 @@ public partial class MainWindow: Gtk.Window
 	{
 		SelectPrev();
 	}
+
     #endregion
 
 }

@@ -19,11 +19,11 @@ namespace MP3Tagger
 			{
 				_tag = value;
 
-				entryTitle.Text = value.Title;
-				entryArtist.Text = value.Artist;
-				entryAlbum.Text = value.Album;
-				entryYear.Text = value.Year.ToString();
-				textViewComment.Buffer.Text = value.Comment;
+				entryTitle.Text = value.Title == null ? String.Empty : value.Title;
+				entryArtist.Text = value.Artist == null ? String.Empty : value.Artist;
+				entryAlbum.Text = value.Album == null ? String.Empty : value.Album;
+				entryYear.Text = value.Year == 0 ? String.Empty : value.Year.ToString();
+				textViewComment.Buffer.Text = value.Comment == null ? String.Empty : value.Comment;
 
 				if (TAGBase.ID3Genre.Length>value.Genre)
 				{

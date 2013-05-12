@@ -6,6 +6,10 @@ namespace Grid
 {
 	public class TreeViewData
 	{
+		public Gtk.TreeView Tree { get; set; }
+
+		#region private fields
+
 		private List<Gtk.TreeViewColumn> _columns = new List<Gtk.TreeViewColumn>();
 
 		// key .. int: 0 .. (count-1)
@@ -15,6 +19,15 @@ namespace Grid
 		// key .. index of Data value
 		// value .. TreeIter object
 		private Dictionary<int,Gtk.TreeIter> _treeIters;
+
+		#endregion
+
+		public TreeViewData(Gtk.TreeView treeView)
+		{
+			Tree = treeView;
+		}
+
+		#region public methods
 
 		public Gtk.TreeViewColumn AppendStringColumn(string name,bool editable = false)
 		{
@@ -35,12 +48,12 @@ namespace Grid
 			return newColumn;
 		}
 
-		public void CreateTreeViewColumns(Gtk.TreeView tree)
+		public void CreateTreeViewColumns()
 		{
 			var columnPosition=0;
 			foreach (var column in Columns)
 			{
-				tree.AppendColumn (column);		 
+				Tree.AppendColumn (column);		 
 
 				column.AddAttribute(column.Data["cellRenderer"] as Gtk.CellRendererText, column.Data["cellType"] as string,columnPosition);
 				columnPosition++;
@@ -53,7 +66,6 @@ namespace Grid
 			Data.Add(rowIndex, values);
 			return rowIndex;
 		}
-		
 
 		public Gtk.ListStore  CreateTreeViewListStore()
 		{		 
@@ -74,6 +86,10 @@ namespace Grid
 	 
 			return listStore;				
 		}
+
+		#endregion
+
+		#region properties
 
 		public Dictionary<int,Gtk.TreeIter> TreeIters
 		{
@@ -100,6 +116,8 @@ namespace Grid
 				return _data;
 			}
 		}
+
+		#endregion
 	}
 }
 

@@ -9,25 +9,43 @@ namespace MP3Tagger
 
 	public class TAG2Frame
 	{
+		public static byte HeaderByteLength = 10;
+
+		#region private fields
+
 		private Encoding _defaultEncoding = Encoding.GetEncoding("iso-8859-1");
 		private static List<string> SupportedFrames = new List<string> () {"TIT2"};
 
 		private bool _frameSupported = false;
-		public static byte HeaderByteLength = 10;
 
 		private byte[] _originalFrameHeader;			
 		private byte _versionMajor;			
 
-		private byte[] _flags  = new byte[] {0,0};					// 2
+		private byte[] _flags  = new byte[] {0,0};					
 
 		private long _size  = 0;
 		private byte[] _originalData;
 		private string _value;
 		private string _name;
 
+		#endregion
+
 		// Frame ID       $xx xx xx xx (four characters)
 		// Size           $xx xx xx xx
 		// Flags          $xx xx
+
+		#region public methods
+
+		public void WriteToLog()
+		{						
+			Logger.Logger.WriteToLog("Frame Info:");
+			Logger.Logger.WriteToLog("Name:"+Name);
+			Logger.Logger.WriteToLog("Size:"+Size);
+			Logger.Logger.WriteToLog("Value:"+Value);
+			if (Name != "APIC")
+			Logger.Logger.WriteToLog("Data:"+TAG2Frame.ByteArrayToDecimalStrings(OriginalData));
+			Logger.Logger.WriteToLog("-------------");
+		}
 
 		public bool ReadFromOpenedStream(FileStream fStream, byte versionMajor, bool throwExceptions=false)
 		{
@@ -112,8 +130,13 @@ namespace MP3Tagger
 			{
 				if (throwExceptions) throw;
 				return false;
-			}			
+			}		
+		
 		}			
+
+		#endregion
+
+		#region private methods
 
 		private void ParseDataToValue()
 		{
@@ -228,16 +251,7 @@ namespace MP3Tagger
 			}
 		}
 
-		public void WriteToLog()
-		{						
-			Logger.Logger.WriteToLog("Frame Info:");
-			Logger.Logger.WriteToLog("Name:"+Name);
-			Logger.Logger.WriteToLog("Size:"+Size);
-			Logger.Logger.WriteToLog("Value:"+Value);
-			if (Name != "APIC")
-			Logger.Logger.WriteToLog("Data:"+TAG2Frame.ByteArrayToDecimalStrings(OriginalData));
-			Logger.Logger.WriteToLog("-------------");
-		}
+		#endregion
 
 		#region static - common methods
 
@@ -345,6 +359,8 @@ namespace MP3Tagger
 
 		#endregion
 
+		#region properties
+
 		public bool FrameSupported 
 		{
 			get 
@@ -451,6 +467,8 @@ namespace MP3Tagger
 			get {return _size;}
 			set {_size = value;}
 		}
+
+		#endregion
 	}
 }
 

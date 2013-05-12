@@ -16,10 +16,17 @@ namespace MP3Tagger
 		private global::Gtk.Toolbar toolbar;
 		private global::Gtk.Notebook notebook;
 		private global::Gtk.Fixed fixedTAG1;
-		private global::MP3Tagger.TagWidget tagwidget1;
+		private global::MP3Tagger.TagWidget tagWidget1;
 		private global::Gtk.Label labelTAG1;
 		private global::Gtk.Fixed fixedTAG2;
+		private global::MP3Tagger.TagWidget tagWidget2;
 		private global::Gtk.Label labelTAG2;
+		private global::Gtk.Fixed fixedTAG2Frames;
+		private global::Gtk.ScrolledWindow GtkScrolledWindow2;
+		private global::Gtk.TreeView treeViewFrames;
+		private global::Gtk.Label labelTAG2Frames;
+		private global::Gtk.CheckButton checkButtonID31Active;
+		private global::Gtk.CheckButton checkButtonID32Active;
 		
 		protected virtual void Build ()
 		{
@@ -72,23 +79,24 @@ namespace MP3Tagger
 			this.notebook.HeightRequest = 400;
 			this.notebook.CanFocus = true;
 			this.notebook.Name = "notebook";
-			this.notebook.CurrentPage = 0;
+			this.notebook.CurrentPage = 2;
 			// Container child notebook.Gtk.Notebook+NotebookChild
 			this.fixedTAG1 = new global::Gtk.Fixed ();
 			this.fixedTAG1.Name = "fixedTAG1";
 			this.fixedTAG1.HasWindow = false;
 			// Container child fixedTAG1.Gtk.Fixed+FixedChild
-			this.tagwidget1 = new global::MP3Tagger.TagWidget ();
-			this.tagwidget1.Events = ((global::Gdk.EventMask)(256));
-			this.tagwidget1.Name = "tagwidget1";
-			this.fixedTAG1.Add (this.tagwidget1);
-			global::Gtk.Fixed.FixedChild w3 = ((global::Gtk.Fixed.FixedChild)(this.fixedTAG1 [this.tagwidget1]));
-			w3.X = 6;
-			w3.Y = 17;
+			this.tagWidget1 = new global::MP3Tagger.TagWidget ();
+			this.tagWidget1.Events = ((global::Gdk.EventMask)(256));
+			this.tagWidget1.Name = "tagWidget1";
+			this.fixedTAG1.Add (this.tagWidget1);
+			global::Gtk.Fixed.FixedChild w3 = ((global::Gtk.Fixed.FixedChild)(this.fixedTAG1 [this.tagWidget1]));
+			w3.X = 5;
+			w3.Y = 5;
 			this.notebook.Add (this.fixedTAG1);
 			// Notebook tab
 			this.labelTAG1 = new global::Gtk.Label ();
 			this.labelTAG1.Name = "labelTAG1";
+			this.labelTAG1.Xpad = 8;
 			this.labelTAG1.LabelProp = global::Mono.Unix.Catalog.GetString ("TAG1");
 			this.notebook.SetTabLabel (this.fixedTAG1, this.labelTAG1);
 			this.labelTAG1.ShowAll ();
@@ -96,25 +104,86 @@ namespace MP3Tagger
 			this.fixedTAG2 = new global::Gtk.Fixed ();
 			this.fixedTAG2.Name = "fixedTAG2";
 			this.fixedTAG2.HasWindow = false;
+			// Container child fixedTAG2.Gtk.Fixed+FixedChild
+			this.tagWidget2 = new global::MP3Tagger.TagWidget ();
+			this.tagWidget2.Events = ((global::Gdk.EventMask)(256));
+			this.tagWidget2.Name = "tagWidget2";
+			this.fixedTAG2.Add (this.tagWidget2);
+			global::Gtk.Fixed.FixedChild w5 = ((global::Gtk.Fixed.FixedChild)(this.fixedTAG2 [this.tagWidget2]));
+			w5.X = 5;
+			w5.Y = 5;
 			this.notebook.Add (this.fixedTAG2);
-			global::Gtk.Notebook.NotebookChild w5 = ((global::Gtk.Notebook.NotebookChild)(this.notebook [this.fixedTAG2]));
-			w5.Position = 1;
+			global::Gtk.Notebook.NotebookChild w6 = ((global::Gtk.Notebook.NotebookChild)(this.notebook [this.fixedTAG2]));
+			w6.Position = 1;
 			// Notebook tab
 			this.labelTAG2 = new global::Gtk.Label ();
 			this.labelTAG2.Name = "labelTAG2";
+			this.labelTAG2.Xpad = 8;
 			this.labelTAG2.LabelProp = global::Mono.Unix.Catalog.GetString ("TAG2");
 			this.notebook.SetTabLabel (this.fixedTAG2, this.labelTAG2);
 			this.labelTAG2.ShowAll ();
+			// Container child notebook.Gtk.Notebook+NotebookChild
+			this.fixedTAG2Frames = new global::Gtk.Fixed ();
+			this.fixedTAG2Frames.Name = "fixedTAG2Frames";
+			this.fixedTAG2Frames.HasWindow = false;
+			// Container child fixedTAG2Frames.Gtk.Fixed+FixedChild
+			this.GtkScrolledWindow2 = new global::Gtk.ScrolledWindow ();
+			this.GtkScrolledWindow2.Name = "GtkScrolledWindow2";
+			this.GtkScrolledWindow2.ShadowType = ((global::Gtk.ShadowType)(1));
+			// Container child GtkScrolledWindow2.Gtk.Container+ContainerChild
+			this.treeViewFrames = new global::Gtk.TreeView ();
+			this.treeViewFrames.WidthRequest = 350;
+			this.treeViewFrames.HeightRequest = 350;
+			this.treeViewFrames.CanFocus = true;
+			this.treeViewFrames.Name = "treeViewFrames";
+			this.GtkScrolledWindow2.Add (this.treeViewFrames);
+			this.fixedTAG2Frames.Add (this.GtkScrolledWindow2);
+			global::Gtk.Fixed.FixedChild w8 = ((global::Gtk.Fixed.FixedChild)(this.fixedTAG2Frames [this.GtkScrolledWindow2]));
+			w8.X = 5;
+			w8.Y = 5;
+			this.notebook.Add (this.fixedTAG2Frames);
+			global::Gtk.Notebook.NotebookChild w9 = ((global::Gtk.Notebook.NotebookChild)(this.notebook [this.fixedTAG2Frames]));
+			w9.Position = 2;
+			// Notebook tab
+			this.labelTAG2Frames = new global::Gtk.Label ();
+			this.labelTAG2Frames.Name = "labelTAG2Frames";
+			this.labelTAG2Frames.Xpad = 8;
+			this.labelTAG2Frames.LabelProp = global::Mono.Unix.Catalog.GetString ("TAG2 - frames");
+			this.notebook.SetTabLabel (this.fixedTAG2Frames, this.labelTAG2Frames);
+			this.labelTAG2Frames.ShowAll ();
 			this.@fixed.Add (this.notebook);
-			global::Gtk.Fixed.FixedChild w6 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.notebook]));
-			w6.X = 4;
-			w6.Y = 63;
+			global::Gtk.Fixed.FixedChild w10 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.notebook]));
+			w10.X = 4;
+			w10.Y = 100;
+			// Container child fixed.Gtk.Fixed+FixedChild
+			this.checkButtonID31Active = new global::Gtk.CheckButton ();
+			this.checkButtonID31Active.CanFocus = true;
+			this.checkButtonID31Active.Name = "checkButtonID31Active";
+			this.checkButtonID31Active.Label = global::Mono.Unix.Catalog.GetString ("TAG 1");
+			this.checkButtonID31Active.Active = true;
+			this.checkButtonID31Active.DrawIndicator = true;
+			this.checkButtonID31Active.UseUnderline = true;
+			this.@fixed.Add (this.checkButtonID31Active);
+			global::Gtk.Fixed.FixedChild w11 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.checkButtonID31Active]));
+			w11.X = 5;
+			w11.Y = 71;
+			// Container child fixed.Gtk.Fixed+FixedChild
+			this.checkButtonID32Active = new global::Gtk.CheckButton ();
+			this.checkButtonID32Active.CanFocus = true;
+			this.checkButtonID32Active.Name = "checkButtonID32Active";
+			this.checkButtonID32Active.Label = global::Mono.Unix.Catalog.GetString ("TAG 2");
+			this.checkButtonID32Active.DrawIndicator = true;
+			this.checkButtonID32Active.UseUnderline = true;
+			this.@fixed.Add (this.checkButtonID32Active);
+			global::Gtk.Fixed.FixedChild w12 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.checkButtonID32Active]));
+			w12.X = 70;
+			w12.Y = 70;
 			this.Add (this.@fixed);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
 			this.DefaultWidth = 390;
-			this.DefaultHeight = 494;
+			this.DefaultHeight = 529;
 			this.Show ();
 			this.Shown += new global::System.EventHandler (this.OnShown);
 			this.goForwardAction.Activated += new global::System.EventHandler (this.OnGoForwardActionActivated);

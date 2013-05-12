@@ -83,7 +83,7 @@
             <property name="WidthRequest">900</property>
             <property name="HeightRequest">600</property>
             <property name="CanFocus">True</property>
-            <property name="CurrentPage">0</property>
+            <property name="CurrentPage">1</property>
             <child>
               <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow">
                 <property name="MemberName" />
@@ -117,6 +117,7 @@
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
                     <property name="ShowScrollbars">True</property>
+                    <signal name="ButtonPressEvent" handler="OnTreeButtonPressEvent" />
                   </widget>
                 </child>
               </widget>
@@ -194,7 +195,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Window" id="MP3Tagger.SongDetail" design-size="390 494">
+  <widget class="Gtk.Window" id="MP3Tagger.SongDetail" design-size="390 529">
     <action-group name="Default">
       <action id="goForwardAction">
         <property name="Type">Action</property>
@@ -276,19 +277,19 @@
             <property name="WidthRequest">380</property>
             <property name="HeightRequest">400</property>
             <property name="CanFocus">True</property>
-            <property name="CurrentPage">0</property>
+            <property name="CurrentPage">2</property>
             <child>
               <widget class="Gtk.Fixed" id="fixedTAG1">
                 <property name="MemberName" />
                 <property name="HasWindow">False</property>
                 <child>
-                  <widget class="MP3Tagger.TagWidget" id="tagwidget1">
+                  <widget class="MP3Tagger.TagWidget" id="tagWidget1">
                     <property name="MemberName" />
                     <property name="Events">ButtonPressMask</property>
                   </widget>
                   <packing>
-                    <property name="X">6</property>
-                    <property name="Y">17</property>
+                    <property name="X">5</property>
+                    <property name="Y">5</property>
                   </packing>
                 </child>
               </widget>
@@ -296,6 +297,7 @@
             <child>
               <widget class="Gtk.Label" id="labelTAG1">
                 <property name="MemberName" />
+                <property name="Xpad">8</property>
                 <property name="LabelProp" translatable="yes">TAG1</property>
               </widget>
               <packing>
@@ -306,6 +308,16 @@
               <widget class="Gtk.Fixed" id="fixedTAG2">
                 <property name="MemberName" />
                 <property name="HasWindow">False</property>
+                <child>
+                  <widget class="MP3Tagger.TagWidget" id="tagWidget2">
+                    <property name="MemberName" />
+                    <property name="Events">ButtonPressMask</property>
+                  </widget>
+                  <packing>
+                    <property name="X">5</property>
+                    <property name="Y">5</property>
+                  </packing>
+                </child>
               </widget>
               <packing>
                 <property name="Position">1</property>
@@ -314,7 +326,55 @@
             <child>
               <widget class="Gtk.Label" id="labelTAG2">
                 <property name="MemberName" />
+                <property name="Xpad">8</property>
                 <property name="LabelProp" translatable="yes">TAG2</property>
+              </widget>
+              <packing>
+                <property name="type">tab</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.Fixed" id="fixedTAG2Frames">
+                <property name="MemberName" />
+                <property name="HasWindow">False</property>
+                <child>
+                  <placeholder />
+                </child>
+                <child>
+                  <placeholder />
+                </child>
+                <child>
+                  <placeholder />
+                </child>
+                <child>
+                  <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow2">
+                    <property name="MemberName" />
+                    <property name="ShadowType">In</property>
+                    <child>
+                      <widget class="Gtk.TreeView" id="treeViewFrames">
+                        <property name="MemberName" />
+                        <property name="WidthRequest">350</property>
+                        <property name="HeightRequest">350</property>
+                        <property name="CanFocus">True</property>
+                        <property name="ShowScrollbars">True</property>
+                      </widget>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="X">5</property>
+                    <property name="Y">5</property>
+                  </packing>
+                </child>
+              </widget>
+              <packing>
+                <property name="Position">2</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.Label" id="labelTAG2Frames">
+                <property name="MemberName" />
+                <property name="Xpad">8</property>
+                <property name="LabelProp" translatable="yes">TAG2 - frames</property>
               </widget>
               <packing>
                 <property name="type">tab</property>
@@ -323,7 +383,36 @@
           </widget>
           <packing>
             <property name="X">4</property>
-            <property name="Y">63</property>
+            <property name="Y">100</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.CheckButton" id="checkButtonID31Active">
+            <property name="MemberName" />
+            <property name="CanFocus">True</property>
+            <property name="Label" translatable="yes">TAG 1</property>
+            <property name="Active">True</property>
+            <property name="DrawIndicator">True</property>
+            <property name="HasLabel">True</property>
+            <property name="UseUnderline">True</property>
+          </widget>
+          <packing>
+            <property name="X">5</property>
+            <property name="Y">71</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.CheckButton" id="checkButtonID32Active">
+            <property name="MemberName" />
+            <property name="CanFocus">True</property>
+            <property name="Label" translatable="yes">TAG 2</property>
+            <property name="DrawIndicator">True</property>
+            <property name="HasLabel">True</property>
+            <property name="UseUnderline">True</property>
+          </widget>
+          <packing>
+            <property name="X">70</property>
+            <property name="Y">70</property>
           </packing>
         </child>
       </widget>

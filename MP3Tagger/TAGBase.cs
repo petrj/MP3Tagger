@@ -9,6 +9,8 @@ namespace MP3Tagger
 {
 	public class TAGBase
 	{
+		#region public fields
+
 		public bool Active { get; set; }
 		public Encoding DefaultEncoding = Encoding.GetEncoding("iso-8859-1");
 		public string FileName;
@@ -25,6 +27,10 @@ namespace MP3Tagger
 		public byte[] OriginalHeader  { get; set; }
 		public byte HeaderByteLength  { get; set; }
 
+		#endregion
+
+		#region properties
+
 		public virtual string GenreText
 		{
 			get
@@ -37,6 +43,10 @@ namespace MP3Tagger
 				return String.Empty;
 			}
 		}
+
+		#endregion
+
+		#region public methods
 
 		public virtual void WriteToLog()
 		{
@@ -58,7 +68,7 @@ namespace MP3Tagger
                 {
                     case "Artist": result.Add(Artist);break;
                     case "Album": result.Add(Album); break;
-                    case "Year": result.Add(Year.ToString()); break;
+                    case "Year": result.Add(Year == 0 ? String.Empty : Year.ToString()); break;
                     case "Comment": result.Add(Comment); break;
                     case "Title": result.Add(Title); break;
                     case "Genre": result.Add(GenreText); break;
@@ -110,7 +120,9 @@ namespace MP3Tagger
 			throw new Exception("Calling base ReadFromStream");
 		}
 
-		#region Genre
+		#endregion
+
+		#region Genre Constant
 
 	 	public static string[] ID3Genre = 
 		{

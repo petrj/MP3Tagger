@@ -10,12 +10,18 @@ namespace MP3Tagger
 	{
 		// http://id3.org/id3v2.4.0-structure
 
+		#region private fields
+
 		private List<TAG2Frame> _frames = new List<TAG2Frame>();
 		private Dictionary<string,TAG2Frame> _frameByName = new Dictionary<string,TAG2Frame>();
 
 		private byte _versionMajor  = 0;							// 1
 		private byte _versionRevision  = 0;							// 1
 		private long _framesSize = 0;
+
+		#endregion
+
+		#region Basic Frames names constants
 
 		public static string frameNameTitle = "TIT2";
 		public static string frameNameArtist = "TPE1";
@@ -24,6 +30,8 @@ namespace MP3Tagger
 		public static string frameNameYear = "TYER";
 		public static string frameNameComment = "COMM";
 		public static string frameNameGenre = "TCON";
+
+		#endregion
 
 		public TAGID3v2()
 		{
@@ -98,32 +106,6 @@ namespace MP3Tagger
 			}
 		}
 
-		#endregion
-
-		#region Flags
-
-		public bool FlagUnsynchronisation
-		{
-			get { return (OriginalHeader[5] & 128) == 128; }
-		}
-
-		public bool FlagExtendedHeader
-		{
-			get { return (OriginalHeader[5] & 64) == 64; }
-		}
-
-		public bool FlagExperimental
-		{
-			get { return (OriginalHeader[5] & 32) == 32; }
-		}
-
-		public bool FlagFooter
-		{
-			get { return (OriginalHeader[5] & 16) == 16; }
-		}
-
-		#endregion
-
 		public bool IsValid
 		{
 			get
@@ -158,7 +140,35 @@ namespace MP3Tagger
 			}
 		}
 
-		public void SetBaseValues()
+		#endregion
+
+		#region Flags
+
+		public bool FlagUnsynchronisation
+		{
+			get { return (OriginalHeader[5] & 128) == 128; }
+		}
+
+		public bool FlagExtendedHeader
+		{
+			get { return (OriginalHeader[5] & 64) == 64; }
+		}
+
+		public bool FlagExperimental
+		{
+			get { return (OriginalHeader[5] & 32) == 32; }
+		}
+
+		public bool FlagFooter
+		{
+			get { return (OriginalHeader[5] & 16) == 16; }
+		}
+
+		#endregion
+
+		#region private methods
+
+		private void SetBaseValues()
 		{
 			if (FrameByName.ContainsKey(frameNameAlbum)) Album = FrameByName[frameNameAlbum].Value;
 			if (FrameByName.ContainsKey(frameNameTitle)) Title = FrameByName[frameNameTitle].Value;
@@ -201,13 +211,15 @@ namespace MP3Tagger
 
 		}
 
+		#endregion
+
+		#region public override methods
 
 		public override void WriteToLog()
 		{
 			Logger.Logger.WriteToLog(String.Format("TAG v2 {0}:",FileName));
 			base.WriteToLog();
 		}
-
 
 		public override bool ReadFromStream (FileStream fStream, bool throwExceptions)
 		{
@@ -323,6 +335,7 @@ namespace MP3Tagger
 			}
 		}	
 
+		#endregion
 	}
 }
 

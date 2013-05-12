@@ -22,6 +22,9 @@ namespace MP3Tagger
 
 		// http://en.wikipedia.org/wiki/ID3
 
+		private bool _extendedHeaderPresent = false;
+		public byte[] OriginalExtendedHeaderData { get; set; }
+
 		public string ExtendedTitle { get; set; }
 		public string ExtendedArtist { get; set; }
 		public string ExtendedAlbum { get; set; }
@@ -31,12 +34,9 @@ namespace MP3Tagger
 		public string ExtendedStartTime { get; set; }
 		public string ExtendedEndTime { get; set; }
 
-		#endregion 
-
-		public byte[] OriginalExtendedHeaderData { get; set; }
-		private bool _extendedHeaderPresent = false;
-
 		public static byte ExtendedByteLength { get; set; }
+
+		#endregion 
 
 		public TAGID3v1 ()
 		{
@@ -47,11 +47,14 @@ namespace MP3Tagger
 			ExtendedByteLength = 227;
 		}	
 
+		#region properties
 
 		public bool ExtendedHeaderPresent 
 		{
 			get { return _extendedHeaderPresent; }
 		}
+
+		#endregion
 
 		public void ConsoleInfo()
 		{
@@ -62,6 +65,8 @@ namespace MP3Tagger
 			Console.WriteLine("Comment:"+Comment);
 			Console.WriteLine("Genre:"+GenreText);
 		}
+
+		#region private methods
 
 		private bool ReadExtendedHeader(FileStream fs, bool throwExceptions=false)
 		{
@@ -126,6 +131,10 @@ namespace MP3Tagger
 				Genre = OriginalHeader[HeaderByteLength-1];
 		}
 
+		#endregion
+
+		#region public override methods
+
 		public override void WriteToLog()
 		{
 			Logger.Logger.WriteToLog(String.Format("TAG v1 {0}:",FileName));
@@ -171,8 +180,8 @@ namespace MP3Tagger
 			}
 
 		}
-		
 
+		#endregion
 	}
 }
 
