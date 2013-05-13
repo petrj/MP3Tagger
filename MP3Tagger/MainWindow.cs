@@ -36,6 +36,7 @@ public partial class MainWindow: Gtk.Window
 		_treeView2Data = new TreeViewData(tree2); 
 
 		progressWin = new MP3Tagger.ProgressBarWindow();
+	    progressWin.Hide();
 
 		foreach (var colName in TAGBase.AllCollumnNames)
 		{

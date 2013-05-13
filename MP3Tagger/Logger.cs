@@ -43,7 +43,7 @@ namespace Logger
 				message += "---> Error: " + ex.ToString();
 			}
 			
-			Console.WriteLine(message);
+			//Console.WriteLine(message);
 	
 			//using (StreamWriter sw = File.AppendText(logFileName))
 			using(FileStream fs = new FileStream(
