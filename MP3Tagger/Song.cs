@@ -19,31 +19,29 @@ namespace MP3Tagger
 			FileName = null;
         }
 
-		public bool OpenFile(string fileName)
+		public bool OpenFile(string fileName, bool throwExceptions=false)
 		{
-			if (!File.Exists(fileName))
-				throw new FileNotFoundException();
-
-			FileName = fileName;				
-
 			try
-			{		
-				ID3v1.ReadFromFile(fileName,true);
+			{
+				if (!File.Exists(fileName))
+					throw new FileNotFoundException();
 
+				FileName = fileName;
+
+				using (var fs = new FileStream(fileName,FileMode.Open))
+				{
+					ID3v1.ReadFromStream(fs,throwExceptions);
+					ID3v2.ReadFromStream(fs,throwExceptions);
+
+					fs.Close();
+				}
+			
 			} catch (Exception ex)
 			{
-				Logger.Logger.WriteToLog("Error while reading MP3 tag.",ex);
+				Logger.Logger.WriteToLog(String.Format("Error while reading {0}",fileName),ex);
+				if (throwExceptions) throw;
+				return false;
 			}
-
-			try
-			{		
-				ID3v2.ReadFromFile(fileName,true);
-
-			} catch (Exception ex)
-			{
-				Logger.Logger.WriteToLog("Error while reading MP3 v2 tag.",ex);
-			}
-
 
 			return true;
 		}

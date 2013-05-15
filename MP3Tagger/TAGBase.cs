@@ -12,24 +12,106 @@ namespace MP3Tagger
 		#region public fields
 
 		public bool Active { get; set; }
+		public bool Loaded { get; set; }
+		public bool Changed { get; set; }
+
 		public Encoding DefaultEncoding = Encoding.GetEncoding("iso-8859-1");
-		public string FileName;
+		private string _fileName = null;
 
 		public static List<string> AllCollumnNames = new List<string>() {"Title", "Artist", "Album", "Year","Comment", "Genre"};
 
-		public string Title { get; set; }
-		public string Artist { get; set; }
-		public string Album { get; set; }
-		public int Year { get; set; }
-		public string Comment { get; set; }
-		public byte Genre { get; set; }
+		// basic values
+		private string _title;
+		private string _artist;
+		private string _album;
+		private int _year;
+		private string _comment;
+		private byte _genre;
+		//------------------------------------------//
 
 		public byte[] OriginalHeader  { get; set; }
 		public byte HeaderByteLength  { get; set; }
 
 		#endregion
 
+		public TAGBase()
+		{
+			Loaded = false;
+			Active = false;
+			Changed = false;
+		}
+
+		#region vasic values properties
+
+		public string Comment 
+		{
+			get { return _comment; }
+			set 
+			{
+				if (value != _comment) Changed = true;
+				_comment = value;
+
+			}
+		}
+
+		public byte Genre 
+		{
+			get { return _genre; }
+			set 
+			{
+				if (value != _genre) Changed = true;
+				_genre = value;
+			}
+		}
+
+		public int Year 
+		{
+			get { return _year;	}
+			set 
+			{
+				if (value != _year) Changed = true;
+				_year = value;
+			}
+		}
+
+		public string Album 
+		{
+			get { return _album; }
+			set 
+			{
+				if (value != _album) Changed = true;
+				_album = value;
+			}
+		}
+
+		public string Artist 
+		{
+			get { return _artist;}
+			set 
+			{
+				if (value != _artist) Changed = true;
+				_artist = value;
+			}
+		}
+
+		public string Title 
+		{
+			get { return _title; }
+			set 
+			{
+				if (value != _title) Changed = true;
+				_title = value;
+			}
+		}
+
+		#endregion
+
 		#region properties
+
+		public string FileName 
+		{
+			get { return _fileName;	}
+		}
 
 		public virtual string GenreText
 		{
@@ -84,7 +166,7 @@ namespace MP3Tagger
 		{
 			try
 			{
-				FileName = fileName;
+				_fileName = fileName;
 
 				if (!File.Exists(fileName))
 				{

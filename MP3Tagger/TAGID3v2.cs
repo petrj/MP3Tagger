@@ -36,7 +36,6 @@ namespace MP3Tagger
 		public TAGID3v2()
 		{
 			HeaderByteLength = 10;
-			FileName = null;
 			Active = false;
 		}
 
@@ -248,6 +247,9 @@ namespace MP3Tagger
 
 			try
 			{
+				Loaded = false;
+				Active = false;
+
 				Logger.Logger.WriteToLog(String.Format("Reading TAG v2 ..."));
 
 				if (fStream.Length<HeaderByteLength)
@@ -324,7 +326,11 @@ namespace MP3Tagger
 				SetBaseValues();
 
 				Logger.Logger.WriteToLog(String.Format("TAG found: (Title:{0}, Artist:{1}, ...)",Title,Artist));
+
 				Active = true;
+				Loaded = true;
+				Changed = false;
+
 				return true;
 
 			} catch (Exception ex)

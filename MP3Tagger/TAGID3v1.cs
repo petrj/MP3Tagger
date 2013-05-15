@@ -41,7 +41,6 @@ namespace MP3Tagger
 		public TAGID3v1 ()
 		{
 			Genre = 255;
-			FileName = null;
 			Active = false;
 			HeaderByteLength = 128;   // whole tag byte length
 			ExtendedByteLength = 227;
@@ -114,8 +113,6 @@ namespace MP3Tagger
 
 		private void ParseHeader()
 		{
-				Active = true;
-
 				Title = GetNotNullSubString(3,30);
 				Artist = GetNotNullSubString(33,30);
 				Album = GetNotNullSubString(63,30);
@@ -129,6 +126,8 @@ namespace MP3Tagger
 				}
 
 				Genre = OriginalHeader[HeaderByteLength-1];
+
+				Active = true;
 		}
 
 		#endregion
@@ -145,6 +144,9 @@ namespace MP3Tagger
 		{
 			try
 			{
+				Loaded = false;
+				Active = false;
+
 				Logger.Logger.WriteToLog(String.Format("Reading TAG v1 ..."));
 		
 				if (fStream.Length<HeaderByteLength)
@@ -170,6 +172,10 @@ namespace MP3Tagger
 				ParseHeader();
 
 				Logger.Logger.WriteToLog(String.Format("TAG found: (Title:{0}, Artist:{1}, ...)",Title,Artist));
+
+				Loaded = true;
+				Changed = false;
+
 				return true;
 
 			} catch (Exception ex)
