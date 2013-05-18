@@ -66,7 +66,7 @@ public partial class MainWindow
 		this.@fixed.HasWindow = false;
 		// Container child fixed.Gtk.Fixed+FixedChild
 		this.notebook = new global::Gtk.Notebook ();
-		this.notebook.WidthRequest = 900;
+		this.notebook.WidthRequest = 1000;
 		this.notebook.HeightRequest = 600;
 		this.notebook.CanFocus = true;
 		this.notebook.Name = "notebook";
@@ -121,7 +121,7 @@ public partial class MainWindow
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();
 		}
-		this.DefaultWidth = 917;
+		this.DefaultWidth = 1038;
 		this.DefaultHeight = 720;
 		this.Show ();
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);

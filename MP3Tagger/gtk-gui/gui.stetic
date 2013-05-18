@@ -8,7 +8,7 @@
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <widget-library name="../bin/Debug/MP3Tagger.exe" internal="true" />
   </import>
-  <widget class="Gtk.Window" id="MainWindow" design-size="917 720">
+  <widget class="Gtk.Window" id="MainWindow" design-size="1038 720">
     <action-group name="Default">
       <action id="SeznamMP3Action">
         <property name="Type">Action</property>
@@ -80,7 +80,7 @@
         <child>
           <widget class="Gtk.Notebook" id="notebook">
             <property name="MemberName" />
-            <property name="WidthRequest">900</property>
+            <property name="WidthRequest">1000</property>
             <property name="HeightRequest">600</property>
             <property name="CanFocus">True</property>
             <property name="CurrentPage">1</property>

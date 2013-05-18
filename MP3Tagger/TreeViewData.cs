@@ -29,6 +29,63 @@ namespace Grid
 
 		#region public methods
 
+		/// <summary>
+		/// Experimental function 
+		/// </summary>
+		/// <returns>
+		/// The combo column.
+		/// </returns>
+		/// <param name='name'>
+		/// Name.
+		/// </param>
+		/// <param name='editable'>
+		/// Editable.
+		/// </param>
+		public Gtk.TreeViewColumn AppendComboColumn(string name,bool editable = false)
+		{
+			var newColumn = new Gtk.TreeViewColumn ();
+            newColumn.Title = name;
+				 
+			var cellRenderer = new Gtk.CellRendererCombo();
+			cellRenderer.Editable = editable;
+
+
+			var listStore = new Gtk.ListStore (typeof(string));
+			var treeIter = listStore.AppendValues( new string[] {"Value 1","Value 2","Value 3"} );
+
+			cellRenderer.Model = listStore; 
+	 
+			newColumn.PackStart (cellRenderer, true);
+
+			Columns.Add(newColumn);
+
+			newColumn.Data["cellRenderer"] = cellRenderer;
+			newColumn.Data["cellType"] = "text";
+			newColumn.Data["cellTypeOf"] = typeof(string);
+
+			return newColumn;
+		}
+
+		public Gtk.TreeViewColumn AppendCheckBoxColumn(string name,bool editable = false)
+		{
+			var newColumn = new Gtk.TreeViewColumn ();
+            newColumn.Title = name;
+				 
+			var cellRenderer = new Gtk.CellRendererToggle();
+			cellRenderer.Activatable = editable;
+	 
+			newColumn.PackStart (cellRenderer, true);	 
+
+			Columns.Add(newColumn);
+
+			newColumn.Data["cellRenderer"] = cellRenderer;
+			newColumn.Data["cellType"] = "active";
+			newColumn.Data["cellTypeOf"] = typeof(bool);
+
+			return newColumn;
+		}
+
+
 		public Gtk.TreeViewColumn AppendStringColumn(string name,bool editable = false)
 		{
 			var newColumn = new Gtk.TreeViewColumn ();
@@ -55,7 +112,7 @@ namespace Grid
 			{
 				Tree.AppendColumn (column);		 
 
-				column.AddAttribute(column.Data["cellRenderer"] as Gtk.CellRendererText, column.Data["cellType"] as string,columnPosition);
+				column.AddAttribute(column.Data["cellRenderer"] as Gtk.CellRenderer, column.Data["cellType"] as string,columnPosition);
 				columnPosition++;
 			}
 		}

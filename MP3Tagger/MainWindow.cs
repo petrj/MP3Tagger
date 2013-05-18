@@ -40,15 +40,23 @@ public partial class MainWindow: Gtk.Window
 
 		foreach (var colName in TAGBase.AllCollumnNames)
 		{
-			_treeView1Data.AppendStringColumn(colName);
+			_treeView1Data.AppendStringColumn(colName,true);
 			_treeView2Data.AppendStringColumn(colName);
 		}
+
+		_treeView1Data.AppendComboColumn("Genre*",true);
+		_treeView2Data.AppendComboColumn("Genre*",true);
+
+		_treeView1Data.AppendCheckBoxColumn("Ch",true);
+		_treeView2Data.AppendCheckBoxColumn("Ch",false);
 
 		//tree.Selection.Mode = SelectionMode.Multiple;
 		//tree.Selection.Mode = SelectionMode.Extended;
 		tree.Selection.Mode = SelectionMode.Browse;
 		//tree.Selection.Mode = SelectionMode.Browse;
 		//tree.Selection.Mode = SelectionMode.Single;
+
+		//tree.Selection.Mode = SelectionMode.
 
 		editWindow = new SongDetail(this);
 		editWindow.Hide();
@@ -101,8 +109,20 @@ public partial class MainWindow: Gtk.Window
         {
             //ViewData.AppendData(new List<object>() { "Show must go on", "Queen", "Best of" });
 
-            _treeView1Data.AppendData(song.ID3v1.ValuesAsOLbjecttList(TAGBase.AllCollumnNames));
-			_treeView2Data.AppendData(song.ID3v2.ValuesAsOLbjecttList(TAGBase.AllCollumnNames));
+			var tree1Values = song.ID3v1.ValuesAsOLbjecttList(TAGBase.AllCollumnNames);
+			var tree2Values = song.ID3v2.ValuesAsOLbjecttList(TAGBase.AllCollumnNames);
+
+			// combo
+			tree1Values.Add("Value 1");
+			tree2Values.Add("");
+
+			// checkbox
+			tree1Values.Add(song.ID3v1.Changed);
+			tree2Values.Add(true);
+
+			// add data values to tree
+            _treeView1Data.AppendData(tree1Values);
+			_treeView2Data.AppendData(tree2Values);
         }
 
         tree.Model = _treeView1Data.CreateTreeViewListStore();
