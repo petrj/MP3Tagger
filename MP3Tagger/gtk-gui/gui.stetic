@@ -195,7 +195,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Window" id="MP3Tagger.SongDetail" design-size="390 529">
+  <widget class="Gtk.Window" id="MP3Tagger.SongDetail" design-size="482 529">
     <action-group name="Default">
       <action id="goForwardAction">
         <property name="Type">Action</property>
@@ -232,7 +232,7 @@
       </action>
       <action id="applyAction">
         <property name="Type">Action</property>
-        <property name="Label" translatable="yes">OK</property>
+        <property name="Label" translatable="yes">klk</property>
         <property name="ShortLabel" translatable="yes">OK</property>
         <property name="StockId">gtk-apply</property>
         <signal name="Activated" handler="OnApplyActionActivated" />
@@ -243,6 +243,13 @@
         <property name="ShortLabel" translatable="yes">Cancel</property>
         <property name="StockId">gtk-cancel</property>
         <signal name="Activated" handler="OnCancelActionActivated" />
+      </action>
+      <action id="closeAction1">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Close</property>
+        <property name="ShortLabel" translatable="yes">Close</property>
+        <property name="StockId">gtk-close</property>
+        <signal name="Activated" handler="OnCloseAction1Activated" />
       </action>
     </action-group>
     <property name="MemberName" />
@@ -264,6 +271,8 @@
               <node type="Toolitem" action="goForwardAction" />
               <node type="Separator" />
               <node type="Toolitem" action="cancelAction" />
+              <node type="Separator" />
+              <node type="Toolitem" action="closeAction1" />
             </node>
           </widget>
           <packing>
@@ -277,7 +286,7 @@
             <property name="WidthRequest">380</property>
             <property name="HeightRequest">400</property>
             <property name="CanFocus">True</property>
-            <property name="CurrentPage">2</property>
+            <property name="CurrentPage">0</property>
             <child>
               <widget class="Gtk.Fixed" id="fixedTAG1">
                 <property name="MemberName" />

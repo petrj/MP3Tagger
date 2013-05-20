@@ -1,21 +1,18 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="MP3Tagger/TAGBase.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MP3Tagger/SongDetail.cs">
     <Files>
-      <File FileName="MP3Tagger/MainWindow.cs" Line="96" Column="8" />
+      <File FileName="MP3Tagger/MainWindow.cs" Line="247" Column="1" />
       <File FileName="MP3Tagger/Main.cs" Line="8" Column="3" />
-      <File FileName="MP3Tagger/SongDetail.cs" Line="13" Column="35" />
-      <File FileName="MP3Tagger/TreeViewData.cs" Line="65" Column="1" />
+      <File FileName="MP3Tagger/SongDetail.cs" Line="117" Column="4" />
+      <File FileName="MP3Tagger/TreeViewData.cs" Line="58" Column="45" />
       <File FileName="MP3Tagger/Song.cs" Line="15" Column="9" />
-      <File FileName="MP3Tagger/TAGBase.cs" Line="109" Column="21" />
-      <File FileName="MP3Tagger/TagWidget.cs" Line="12" Column="21" />
+      <File FileName="MP3Tagger/TAGBase.cs" Line="109" Column="3" />
+      <File FileName="MP3Tagger/TagWidget.cs" Line="40" Column="4" />
       <File FileName="MP3Tagger/SongList.cs" Line="25" Column="22" />
-      <File FileName="MP3Tagger/TAG2Frame.cs" Line="14" Column="3" />
       <File FileName="MP3Tagger/TAGID3v2.cs" Line="334" Column="17" />
-      <File FileName="MP3Tagger/ProgressEvent.cs" Line="1" Column="1" />
       <File FileName="MP3Tagger/TAGID3v1.cs" Line="178" Column="5" />
       <File FileName="MP3Tagger/AssemblyInfo.cs" Line="1" Column="1" />
-      <File FileName="MP3Tagger/Logger.cs" Line="29" Column="35" />
       <File FileName="MP3Tagger/ProgressBarWindow.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>

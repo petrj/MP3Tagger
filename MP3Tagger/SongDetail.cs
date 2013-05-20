@@ -115,12 +115,15 @@ namespace MP3Tagger
 
 		protected void OnCancelActionActivated (object sender, EventArgs e)
 		{
-			this.Hide();
+			MainWin.FillTree();
+			MainWin.SelectSong(CurrentSong);
 		}
 
 		protected void OnApplyActionActivated (object sender, EventArgs e)
 		{
-			this.Hide();
+			if (CurrentSong != null) tagWidget1.ApplyChanges();
+			MainWin.FillTree();
+			MainWin.SelectSong(CurrentSong);
 		}	
 
 		protected void OnGoBackActionActivated (object sender, EventArgs e)
@@ -136,8 +139,12 @@ namespace MP3Tagger
 		protected void OnCloseActionActivated (object sender, EventArgs e)
 		{
 			this.Hide();
+		}		
+
+		protected void OnCloseAction1Activated (object sender, EventArgs e)		
+		{
+			this.Hide();
 		}
-		
 		#endregion
 
 	}

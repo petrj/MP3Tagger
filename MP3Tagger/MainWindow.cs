@@ -88,6 +88,7 @@ public partial class MainWindow: Gtk.Window
 
         MP3List.AddFilesFromFolder(dir,recursive,Progress);
         FillTree();
+		SelectRow(0);
 		progressWin.Destroy();
 	}
 
@@ -97,11 +98,13 @@ public partial class MainWindow: Gtk.Window
 		while (GLib.MainContext.Iteration());
     }
 
-    private void FillTree()
+    public void FillTree()
     {
 		Logger.Logger.WriteToLog("Filling TreeView");
 
-        
+		_treeView1Data.Data.Clear();
+		_treeView2Data.Data.Clear();
+
         _treeView1Data.CreateTreeViewColumns();
 		_treeView2Data.CreateTreeViewColumns();
 
@@ -113,7 +116,7 @@ public partial class MainWindow: Gtk.Window
 			var tree2Values = song.ID3v2.ValuesAsOLbjecttList(TAGBase.AllCollumnNames);
 
 			// combo
-			tree1Values.Add("Value 1");
+			tree1Values.Add("");
 			tree2Values.Add("");
 
 			// checkbox
@@ -127,8 +130,6 @@ public partial class MainWindow: Gtk.Window
 
         tree.Model = _treeView1Data.CreateTreeViewListStore();
 		tree2.Model = _treeView2Data.CreateTreeViewListStore();
-
-		SelectRow(0);
 
         Show();
 	}
@@ -234,6 +235,19 @@ public partial class MainWindow: Gtk.Window
 
 		editWindow.CurrentSong = actualSelectedSong;
 		editWindow.Show();
+	}
+
+
+	public void SelectSong(Song song)
+	{
+		for (var i=0;i<MP3List.Count;i++)
+		{
+			if (MP3List[i] == song)
+			{
+				SelectRow(i);
+				break;
+			}
+		}
 	}
 
 	public void SelectRow(int index)

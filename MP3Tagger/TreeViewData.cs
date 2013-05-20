@@ -43,15 +43,20 @@ namespace Grid
 		/// </param>
 		public Gtk.TreeViewColumn AppendComboColumn(string name,bool editable = false)
 		{
-			var newColumn = new Gtk.TreeViewColumn ();
-            newColumn.Title = name;
-				 
+			var listStore = new Gtk.ListStore (typeof(string));
+			Gtk.ComboBox combo = new ComboBox(listStore);
+			combo.AppendText("a");
+			combo.AppendText("b");
+			combo.AppendText("c");
+			combo.Active = 1;
+							 
 			var cellRenderer = new Gtk.CellRendererCombo();
 			cellRenderer.Editable = editable;
 
+			var newColumn = new Gtk.TreeViewColumn ();
+            newColumn.Title = name;
 
-			var listStore = new Gtk.ListStore (typeof(string));
-			var treeIter = listStore.AppendValues( new string[] {"Value 1","Value 2","Value 3"} );
+			//var treeIter = listStore.AppendValues( new string[] {"Value 1","Value 2","Value 3"} );
 
 			cellRenderer.Model = listStore; 
 	 

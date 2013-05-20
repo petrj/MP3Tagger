@@ -13,6 +13,7 @@ namespace MP3Tagger
 		{
 			get 
 			{
+
 				return _tag;
 			}
 			set 
@@ -33,6 +34,28 @@ namespace MP3Tagger
 					comboBoxGenre.Active = -1;
 				}
 			}
+		}
+
+		public void ApplyChanges()
+		{
+				_tag.Title = entryTitle.Text;
+				_tag.Artist = entryArtist.Text;
+				_tag.Album = entryAlbum.Text;
+				if (comboBoxGenre.Active>=0 && comboBoxGenre.Active<TAGBase.ID3Genre.Length && TAGBase.ID3Genre.Length<=255)
+				{
+					_tag.Genre = (byte)comboBoxGenre.Active;
+				}
+				else 	_tag.Genre = 0;
+
+				int y;
+				if (int.TryParse(entryYear.Text,out y))
+				{
+					_tag.Year = y;
+				}
+				_tag.Year = 0;
+
+				_tag.Comment = textViewComment.Buffer.Text;
+	
 		}
 
 		public TagWidget ()
