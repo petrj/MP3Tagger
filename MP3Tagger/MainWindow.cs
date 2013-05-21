@@ -44,25 +44,20 @@ public partial class MainWindow: Gtk.Window
 			_treeView2Data.AppendStringColumn(colName);
 		}
 
-		_treeView1Data.AppendComboColumn("Genre*",true);
-		_treeView2Data.AppendComboColumn("Genre*",true);
+		var genreCol1 = _treeView1Data.AppendComboColumn("Genre*",true);
+	    genreCol1.MinWidth = 150;
+        var genreCol2 = _treeView2Data.AppendComboColumn("Genre*", true);
+        genreCol2.MinWidth = 150;
 
 		_treeView1Data.AppendCheckBoxColumn("Ch",true);
 		_treeView2Data.AppendCheckBoxColumn("Ch",false);
 
-		//tree.Selection.Mode = SelectionMode.Multiple;
-		//tree.Selection.Mode = SelectionMode.Extended;
 		tree.Selection.Mode = SelectionMode.Browse;
-		//tree.Selection.Mode = SelectionMode.Browse;
-		//tree.Selection.Mode = SelectionMode.Single;
-
-		//tree.Selection.Mode = SelectionMode.
 
 		editWindow = new SongDetail(this);
 		editWindow.Hide();
 			
 		this.Show();
-	
 	}
 
 	#endregion
@@ -116,8 +111,8 @@ public partial class MainWindow: Gtk.Window
 			var tree2Values = song.ID3v2.ValuesAsOLbjecttList(TAGBase.AllCollumnNames);
 
 			// combo
-			tree1Values.Add("");
-			tree2Values.Add("");
+			tree1Values.Add(song.ID3v1.GenreText);
+            tree2Values.Add(song.ID3v2.GenreText);
 
 			// checkbox
 			tree1Values.Add(song.ID3v1.Changed);

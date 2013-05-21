@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Gtk;
+using MP3Tagger;
 
 namespace Grid
 {
@@ -41,27 +42,22 @@ namespace Grid
 		/// <param name='editable'>
 		/// Editable.
 		/// </param>
-		public Gtk.TreeViewColumn AppendComboColumn(string name,bool editable = false)
+		public Gtk.TreeViewColumn AppendComboColumn(string name,bool editable)
 		{
 			var listStore = new Gtk.ListStore (typeof(string));
-			Gtk.ComboBox combo = new ComboBox(listStore);
-			combo.AppendText("a");
-			combo.AppendText("b");
-			combo.AppendText("c");
-			combo.Active = 1;
+
+            foreach (var value in TAGBase.ID3Genre) listStore.AppendValues(value);
 							 
 			var cellRenderer = new Gtk.CellRendererCombo();
 			cellRenderer.Editable = editable;
+            cellRenderer.TextColumn = 0;
+		    cellRenderer.HasEntry = false;
+            cellRenderer.Model = listStore; 
 
 			var newColumn = new Gtk.TreeViewColumn ();
             newColumn.Title = name;
-
-			//var treeIter = listStore.AppendValues( new string[] {"Value 1","Value 2","Value 3"} );
-
-			cellRenderer.Model = listStore; 
 	 
 			newColumn.PackStart (cellRenderer, true);
-
 			Columns.Add(newColumn);
 
 			newColumn.Data["cellRenderer"] = cellRenderer;
