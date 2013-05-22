@@ -208,7 +208,7 @@ namespace MP3Tagger
 
 	 	public static string[] ID3Genre = 
 		{
-		"Blues",
+		"Blues",            // 0
 		"Classic Rock",
 		"Country",
 		"Dance",
@@ -218,7 +218,7 @@ namespace MP3Tagger
 		"Hip-Hop",
 		"Jazz",
 		"Metal",
-		"New Age",
+		"New Age",          // 10
 		"Oldies",
 		"Other",
 		"Pop",
@@ -228,7 +228,7 @@ namespace MP3Tagger
 		"Rock",
 		"Techno",
 		"Industrial",
-		"Alternative",
+		"Alternative",      // 20
 		"Ska",
 		"Death Metal",
 		"Pranks",
@@ -238,7 +238,7 @@ namespace MP3Tagger
 		"Trip-Hop",
 		"Vocal",
 		"Jazz+Funk",
-		"Fusion",
+		"Fusion",           // 30
 		"Trance",
 		"Classical",
 		"Instrumental",
@@ -248,7 +248,7 @@ namespace MP3Tagger
 		"Sound Clip",
 		"Gospel",
 		"Noise",
-		"Alternative Rock",
+		"Alternative Rock", // 40
 		"Bass",
 		"Soul",
 		"Punk",
@@ -258,7 +258,7 @@ namespace MP3Tagger
 		"Instrumental Rock",
 		"Ethnic",
 		"Gothic",
-		"Darkwave",
+		"Darkwave",         // 50
 		"Techno-Industrial",
 		"Electronic",
 		"Pop-Folk",
@@ -268,7 +268,7 @@ namespace MP3Tagger
 		"Comedy",
 		"Cult",
 		"Gangsta",
-		"Top 40",
+		"Top 40",           // 60
 		"Christian Rap",
 		"Pop/Funk",
 		"Jungle",
@@ -278,7 +278,7 @@ namespace MP3Tagger
 		"Psychadelic",
 		"Rave",
 		"Showtunes",
-		"Trailer",
+		"Trailer",          // 70
 		"Lo-Fi",
 		"Tribal",
 		"Acid Punk",
@@ -288,7 +288,7 @@ namespace MP3Tagger
 		"Musical",
 		"Rock & Roll",
 		"Hard Rock",
-		"Folk",
+		"Folk",             // 80
 		"Folk-Rock",
 		"National Folk",
 		"Swing",
@@ -298,7 +298,7 @@ namespace MP3Tagger
 		"Revival",
 		"Celtic",
 		"Bluegrass",
-		"Avantgarde",
+		"Avantgarde",       // 90
 		"Gothic Rock",
 		"Progressive Rock",
 		"Psychedelic Rock",
@@ -308,7 +308,7 @@ namespace MP3Tagger
 		"Chorus",
 		"Easy Listening",
 		"Acoustic",
-		"Humour",
+		"Humour",           // 100
 		"Speech",
 		"Chanson",
 		"Opera",
@@ -318,7 +318,7 @@ namespace MP3Tagger
 		"Booty Bass",
 		"Primus",
 		"Porn Groove",
-		"Satire",
+		"Satire",           // 110
 		"Slow Jam",
 		"Club",
 		"Tango",
@@ -328,7 +328,7 @@ namespace MP3Tagger
 		"Power Ballad",
 		"Rhytmic Soul",
 		"Freestyle",
-		"Duet",
+		"Duet",             // 120
 		"Punk Rock",
 		"Drum Solo",
 		"Acapella",
@@ -338,7 +338,7 @@ namespace MP3Tagger
 		"Drum & Bass",
 		"Club-House",
 		"Hardcore",
-		"Terror",
+		"Terror",           // 130
 		"Indie",
 		"BritPop",
 		"Negerpunk",
@@ -348,7 +348,7 @@ namespace MP3Tagger
 		"Heavy Metal",
 		"Black Metal",
 		"Crossover",
-		"Contemporary Christian",
+		"Contemporary Christian", // 140
 		"Christian Rock",
 		"Merengue",
 		"Salsa",

@@ -40,18 +40,22 @@ public partial class MainWindow: Gtk.Window
 
 		foreach (var colName in TAGBase.AllCollumnNames)
 		{
-			_treeView1Data.AppendStringColumn(colName,true);
-			_treeView2Data.AppendStringColumn(colName);
+            if (colName == "Genre")
+                continue;
+
+            _treeView1Data.AppendStringColumn(colName, OnStringCellEdit,true);
+            _treeView2Data.AppendStringColumn(colName, OnStringCellEdit, true);
 		}
 
-		var genreCol1 = _treeView1Data.AppendComboColumn("Genre*",true);
+        var genreCol1 = _treeView1Data.AppendComboColumn("Genre", OnComboCellEdit, true, TAGBase.ID3Genre);
 	    genreCol1.MinWidth = 150;
-        var genreCol2 = _treeView2Data.AppendComboColumn("Genre*", true);
+
+        var genreCol2 = _treeView2Data.AppendComboColumn("Genre", OnComboCellEdit, true, TAGBase.ID3Genre);
         genreCol2.MinWidth = 150;
 
-		_treeView1Data.AppendCheckBoxColumn("Ch",true);
-		_treeView2Data.AppendCheckBoxColumn("Ch",false);
-
+        _treeView1Data.AppendCheckBoxColumn("Changed", null, false);
+        _treeView2Data.AppendCheckBoxColumn("Changed", null, false);
+        
 		tree.Selection.Mode = SelectionMode.Browse;
 
 		editWindow = new SongDetail(this);
@@ -105,18 +109,12 @@ public partial class MainWindow: Gtk.Window
 
         foreach (var song in MP3List)
         {
-            //ViewData.AppendData(new List<object>() { "Show must go on", "Queen", "Best of" });
-
 			var tree1Values = song.ID3v1.ValuesAsOLbjecttList(TAGBase.AllCollumnNames);
 			var tree2Values = song.ID3v2.ValuesAsOLbjecttList(TAGBase.AllCollumnNames);
 
-			// combo
-			tree1Values.Add(song.ID3v1.GenreText);
-            tree2Values.Add(song.ID3v2.GenreText);
-
 			// checkbox
 			tree1Values.Add(song.ID3v1.Changed);
-			tree2Values.Add(true);
+            tree2Values.Add(song.ID3v2.Changed);
 
 			// add data values to tree
             _treeView1Data.AppendData(tree1Values);
@@ -224,14 +222,29 @@ public partial class MainWindow: Gtk.Window
 
 		if (actualSelectedSong == null)
 		{
-			InfoDialog("No row selected",MessageType.Warning);
-			return;
+		    var selectedSongs = GetSelectedSongs(data);
+
+            if (selectedSongs.Count == 0)
+            {
+                InfoDialog("No row selected", MessageType.Warning);
+            }
+            else if (selectedSongs.Count == 1)
+            {
+                // editing as single row
+                actualSelectedSong = selectedSongs[0];
+            }
+            else
+            {
+                InfoDialog("Multi select not supported yet", MessageType.Warning);
+            }
 		}
 
-		editWindow.CurrentSong = actualSelectedSong;
-		editWindow.Show();
+        if (actualSelectedSong != null)
+        {
+            editWindow.CurrentSong = actualSelectedSong;
+            editWindow.Show();
+        }
 	}
-
 
 	public void SelectSong(Song song)
 	{
@@ -317,6 +330,16 @@ public partial class MainWindow: Gtk.Window
 	#endregion
 
 	#region events
+
+    private void OnStringCellEdit(object o, EditedArgs args)
+    {
+        
+    }
+
+    private void OnComboCellEdit(object o, EditedArgs args)
+    {
+
+    }
 
 	protected void OnDeleteEvent (object sender, DeleteEventArgs a)
 	{

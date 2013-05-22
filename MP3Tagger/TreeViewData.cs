@@ -42,17 +42,18 @@ namespace Grid
 		/// <param name='editable'>
 		/// Editable.
 		/// </param>
-		public Gtk.TreeViewColumn AppendComboColumn(string name,bool editable)
+        public Gtk.TreeViewColumn AppendComboColumn(string name,  EditedHandler EditedHandler, bool editable, string[] comboValues)
 		{
 			var listStore = new Gtk.ListStore (typeof(string));
 
-            foreach (var value in TAGBase.ID3Genre) listStore.AppendValues(value);
+            foreach (var value in comboValues) listStore.AppendValues(value);
 							 
 			var cellRenderer = new Gtk.CellRendererCombo();
 			cellRenderer.Editable = editable;
             cellRenderer.TextColumn = 0;
 		    cellRenderer.HasEntry = false;
-            cellRenderer.Model = listStore; 
+            cellRenderer.Model = listStore;
+            if (EditedHandler != null) cellRenderer.Edited += EditedHandler;
 
 			var newColumn = new Gtk.TreeViewColumn ();
             newColumn.Title = name;
@@ -67,13 +68,14 @@ namespace Grid
 			return newColumn;
 		}
 
-		public Gtk.TreeViewColumn AppendCheckBoxColumn(string name,bool editable = false)
+        public Gtk.TreeViewColumn AppendCheckBoxColumn(string name, ToggledHandler CheckBoxToggled, bool editable = false)
 		{
 			var newColumn = new Gtk.TreeViewColumn ();
             newColumn.Title = name;
 				 
 			var cellRenderer = new Gtk.CellRendererToggle();
 			cellRenderer.Activatable = editable;
+            if (CheckBoxToggled != null) cellRenderer.Toggled += CheckBoxToggled;
 	 
 			newColumn.PackStart (cellRenderer, true);	 
 
@@ -87,16 +89,18 @@ namespace Grid
 		}
 
 
-		public Gtk.TreeViewColumn AppendStringColumn(string name,bool editable = false)
+		public Gtk.TreeViewColumn AppendStringColumn(string name, EditedHandler EditedHandler , bool editable = false)
 		{
 			var newColumn = new Gtk.TreeViewColumn ();
             newColumn.Title = name;
 				 
 			var cellRenderer = new Gtk.CellRendererText ();
 			cellRenderer.Editable = editable;
+
+            if (EditedHandler != null) cellRenderer.Edited += EditedHandler;
 	 
 			newColumn.PackStart (cellRenderer, true);	 
-
+            
 			Columns.Add(newColumn);
 
 			newColumn.Data["cellRenderer"] = cellRenderer;

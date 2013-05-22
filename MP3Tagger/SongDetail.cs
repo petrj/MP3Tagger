@@ -29,8 +29,8 @@ namespace MP3Tagger
 
 			_framesTreeViewData = new TreeViewData(treeViewFrames);
 
-			_framesTreeViewData.AppendStringColumn("Name");
-			_framesTreeViewData.AppendStringColumn("Value");
+			_framesTreeViewData.AppendStringColumn("Name", null, false);
+            _framesTreeViewData.AppendStringColumn("Value", null, false);
 			_framesTreeViewData.CreateTreeViewColumns();
 
 		}
@@ -121,7 +121,11 @@ namespace MP3Tagger
 
 		protected void OnApplyActionActivated (object sender, EventArgs e)
 		{
-			if (CurrentSong != null) tagWidget1.ApplyChanges();
+			if (CurrentSong != null)
+			{
+			    tagWidget1.ApplyChanges();
+                tagWidget2.ApplyChanges();
+			}
 			MainWin.FillTree();
 			MainWin.SelectSong(CurrentSong);
 		}	
