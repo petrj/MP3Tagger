@@ -2,10 +2,35 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Drawing;
 using Logger;
 
 namespace MP3Tagger
 {
+	public enum ImageType
+	{
+	 	Other = 0,
+	 	Icon = 1,
+		OtherIcon = 2,
+		CoverFront = 3,
+		CoverBack = 4,
+		LeafletPage = 5,
+		Media = 6,
+		LeadArtist = 7,
+		Artist = 8,
+		Conductor = 9,
+		Band = 10,
+		Composer = 11,
+		Lyricist = 12,
+		RecordingLocation = 13,
+		DuringRecording = 14,
+		DuringPerformance = 15,
+		MovieCapture = 16,
+		ABrightColouredFish = 17,
+		Illustration = 18,
+		BandLogotype = 19,
+		Publisher = 20
+	}
 
 	public class TAG2Frame
 	{
@@ -27,6 +52,16 @@ namespace MP3Tagger
 		private byte[] _originalData;
 		private string _value;
 		private string _name;
+
+
+		#region image fields
+
+		private string _imgMime;
+		private string _imgDescription;
+		private Image _img;
+		private ImageType _imgType;
+
+		#endregion
 
 		#endregion
 
@@ -138,22 +173,27 @@ namespace MP3Tagger
 
 		#region private methods
 
-		private void ParseDataToValue()
+		private Encoding GetFrameEncoding(byte encodingByte)
 		{
+			/*
+			$00 – ISO-8859-1 (LATIN-1, Identical to ASCII for values smaller than 0x80).
+			$01 – UCS-2 (UTF-16 encoded Unicode with BOM), in ID3v2.2 and ID3v2.3.
+			$02 – UTF-16BE encoded Unicode without BOM, in ID3v2.4.
+			$03 – UTF-8 encoded Unicode, in ID3v2.4.
+			*/
 
-			Value = String.Empty;
-			_frameSupported = false;
-
-			if (Size<1)
+			switch (encodingByte)
 			{
-				return;
-			}
+				case 0: return DefaultEncoding;
+				case 1: return System.Text.Encoding.Unicode;
+				case 2: return System.Text.Encoding.Unicode; 
+				case 3: return System.Text.Encoding.UTF8;
+				default:throw new Exception(String.Format("Unknown frame encoding:{0}",encodingByte));	
+			}			
+		}
 
-			if (Name=="APIC")
-			{
-				return; // APIC not supported yet
-			}
-
+		private void ParseTextFrameData()
+		{
 			bool firstByteEncodingFlag = false;;
 			if (
 					(Name.StartsWith("T")) || 	//  User defined text information frame
@@ -179,22 +219,8 @@ namespace MP3Tagger
 						if ( (i==0) && (firstByteEncodingFlag))
 						{					
 
-						/*
-						$00 – ISO-8859-1 (LATIN-1, Identical to ASCII for values smaller than 0x80).
-						$01 – UCS-2 (UTF-16 encoded Unicode with BOM), in ID3v2.2 and ID3v2.3.
-						$02 – UTF-16BE encoded Unicode without BOM, in ID3v2.4.
-						$03 – UTF-8 encoded Unicode, in ID3v2.4.
-						*/
-
 							var encodingByte = OriginalData[i];
-							switch (encodingByte)
-							{
-								case 0:currentEncoding = DefaultEncoding; break;
-								case 1:currentEncoding = System.Text.Encoding.Unicode; break;
-								case 2:currentEncoding = System.Text.Encoding.Unicode; break;
-								case 3:currentEncoding = System.Text.Encoding.UTF8; break;
-								default:throw new Exception(String.Format("Unknown frame encoding:{0}",encodingByte));	
-							}							
+							currentEncoding =  GetFrameEncoding(encodingByte);
 							
 							continue;
 						}
@@ -249,6 +275,93 @@ namespace MP3Tagger
 
 				if (Name.StartsWith("T")) _frameSupported = true;
 			}
+		}
+
+		private void ParseImageData()
+		{
+			/* 
+				viz http://id3.org/id3v2.3.0
+
+				<Header for 'Attached picture', ID: "APIC">
+				Text encoding   $xx
+				MIME type       <text string> $00
+				Picture type    $xx
+				Description     <text string according to encoding> $00 (00)
+				Picture data    <binary data>
+			*/
+
+			if (OriginalData.Length==0)
+				return;
+
+			var encodingByte = OriginalData[0];
+			var apicEncoding =  GetFrameEncoding(encodingByte);
+
+			// detect mime bytes
+			var mimeBytes = new List<byte>();
+			var pos = 1;
+			while (pos<OriginalData.Length && OriginalData[pos] != 0)
+			{
+				mimeBytes.Add(OriginalData[pos]);
+				pos++;
+			}
+
+			ImageMime = apicEncoding.GetString( mimeBytes.ToArray() );
+
+			if (pos+1>=OriginalData.Length)
+				return;
+
+			pos++;
+
+			var pictureTypeAsByte = OriginalData[pos];
+			ImgType = (ImageType)pictureTypeAsByte;
+
+			pos++;
+
+			// detect dexcription
+			var descBytes = new List<byte>();
+			while (pos<OriginalData.Length && OriginalData[pos] != 0)
+			{
+				descBytes.Add(OriginalData[pos]);
+				pos++;
+			}
+
+			ImageDescription = apicEncoding.GetString( descBytes.ToArray() );
+
+			if (pos+1>=OriginalData.Length)
+			return;
+
+			pos++;
+
+			// reading image bytes
+
+			var imgBytes = new List<byte>();
+			while (pos<OriginalData.Length)
+			{
+				imgBytes.Add(OriginalData[pos]);
+				pos++;
+			}
+
+			var ms = new MemoryStream(imgBytes.ToArray());
+        	ImageData = System.Drawing.Image.FromStream(ms);
+		}		
+
+		private void ParseDataToValue()
+		{
+			Value = String.Empty;
+			_frameSupported = false;
+
+			if (Size<1)
+			{
+				return;
+			}
+
+			if (Name=="APIC")
+			{
+				ParseImageData();
+				return; 
+			}
+
+			ParseTextFrameData();
 		}
 
 		#endregion
@@ -360,6 +473,33 @@ namespace MP3Tagger
 		#endregion
 
 		#region properties
+
+		#region image
+
+		public Image ImageData 
+		{
+			get { return _img; }
+			set { _img = value; }
+		}
+
+		public string ImageDescription 
+		{
+			get { return _imgDescription;	}
+			set { _imgDescription = value; }
+		}
+
+		public string ImageMime 
+		{
+			get { return _imgMime; }
+			set { _imgMime = value; }
+		}
+
+		public ImageType ImgType 
+		{
+			get { return _imgType; }
+			set { _imgType = value;}
+		}
+		#endregion
 
 		public bool FrameSupported 
 		{
