@@ -129,6 +129,27 @@ namespace Grid
 			return rowIndex;
 		}
 
+		public void ClearTreeView()
+		{
+			// deleting rows  (remove from tre model)
+			if (TreeIters != null && TreeIters.Keys.Count>0)
+			{
+				for (var i=0;i<TreeIters.Keys.Count;i++)// (var iter in _treeView1Data.TreeIters.Values)
+				{
+					var iter = TreeIters[i];
+					(Tree.Model as Gtk.ListStore).Remove(ref iter);
+				}
+			}
+
+			// deleting colulmns
+
+			for (var i=this.Columns.Count-1;i>=0;i--)// (var iter in _treeView1Data.TreeIters.Values)
+			{
+				var column = Columns[i];
+				Tree.RemoveColumn(column);
+			}			
+		}
+
 		public Gtk.ListStore  CreateTreeViewListStore()
 		{		 
 			var tps = new Type[Columns.Count];

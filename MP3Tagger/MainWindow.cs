@@ -38,28 +38,16 @@ public partial class MainWindow: Gtk.Window
 		progressWin = new MP3Tagger.ProgressBarWindow();
 	    progressWin.Hide();
 
-		foreach (var colName in TAGBase.AllCollumnNames)
-		{
-            if (colName == "Genre")
-                continue;
+		EditingModeActive = false;
+		ActualSelectionMode = SelectionMode.Multiple;
 
-            _treeView1Data.AppendStringColumn(colName, OnStringCellEdit,true);
-            _treeView2Data.AppendStringColumn(colName, OnStringCellEdit, true);
-		}
-
-        var genreCol1 = _treeView1Data.AppendComboColumn("Genre", OnComboCellEdit, true, TAGBase.ID3Genre);
-	    genreCol1.MinWidth = 150;
-
-        var genreCol2 = _treeView2Data.AppendComboColumn("Genre", OnComboCellEdit, true, TAGBase.ID3Genre);
-        genreCol2.MinWidth = 150;
-
-        _treeView1Data.AppendCheckBoxColumn("Changed", null, false);
-        _treeView2Data.AppendCheckBoxColumn("Changed", null, false);
-        
-		tree.Selection.Mode = SelectionMode.Browse;
+		CreateGridColumns();
 
 		editWindow = new SongDetail(this);
 		editWindow.Hide();
+
+		tree.Selection.Changed+=new EventHandler(OnSelectionChanged);
+		tree2.Selection.Changed+=new EventHandler(OnSelectionChanged);
 			
 		this.Show();
 	}
@@ -68,7 +56,41 @@ public partial class MainWindow: Gtk.Window
 
 	#region methods
 
-	private static void InfoDialog(string message,MessageType msgType)
+	private void CreateGridColumns()
+	{
+		_treeView1Data.Data.Clear();
+		_treeView2Data.Data.Clear();
+
+		_treeView1Data.Columns.Clear();
+		_treeView2Data.Columns.Clear();
+
+		// creating base TAG columns
+
+		foreach (var colName in TAGBase.AllCollumnNames)
+		{
+            if (colName == "Genre")
+                continue;
+
+            _treeView1Data.AppendStringColumn(colName, OnStringCellEdit,EditingModeActive);
+            _treeView2Data.AppendStringColumn(colName, OnStringCellEdit, EditingModeActive);
+		}
+
+        var genreCol1 = _treeView1Data.AppendComboColumn("Genre", OnComboCellEdit, EditingModeActive, TAGBase.ID3Genre);
+	    genreCol1.MinWidth = 150;
+
+        var genreCol2 = _treeView2Data.AppendComboColumn("Genre", OnComboCellEdit, EditingModeActive, TAGBase.ID3Genre);
+        genreCol2.MinWidth = 150;
+
+        _treeView1Data.AppendCheckBoxColumn("Changed", null, false);
+        _treeView2Data.AppendCheckBoxColumn("Changed", null, false);
+
+		// creating TreeView columns
+
+		_treeView1Data.CreateTreeViewColumns();
+		_treeView2Data.CreateTreeViewColumns();
+	}
+
+	private static void InfoDialog(string message,MessageType msgType = MessageType.Info )
 	{
 		MessageDialog md = new MessageDialog (null, 
                                   DialogFlags.DestroyWithParent,
@@ -86,8 +108,7 @@ public partial class MainWindow: Gtk.Window
 		progressWin.Show();
 
         MP3List.AddFilesFromFolder(dir,recursive,Progress);
-        FillTree();
-		SelectRow(0);
+        FillTree(0);
 		progressWin.Destroy();
 	}
 
@@ -97,15 +118,12 @@ public partial class MainWindow: Gtk.Window
 		while (GLib.MainContext.Iteration());
     }
 
-    public void FillTree()
+    public void FillTree(int selectedSongindex = -1)
     {
 		Logger.Logger.WriteToLog("Filling TreeView");
 
 		_treeView1Data.Data.Clear();
 		_treeView2Data.Data.Clear();
-
-        _treeView1Data.CreateTreeViewColumns();
-		_treeView2Data.CreateTreeViewColumns();
 
         foreach (var song in MP3List)
         {
@@ -125,11 +143,52 @@ public partial class MainWindow: Gtk.Window
 		tree2.Model = _treeView2Data.CreateTreeViewListStore();
 
         Show();
+
+		if (selectedSongindex>=0)
+		{
+			SelectRow(selectedSongindex);
+		}
 	}
 
 	#endregion
 
     #region properties
+
+	public SelectionMode ActualSelectionMode
+	{
+		get
+		{
+			return tree.Selection.Mode;
+		}
+		set
+		{
+			tree.Selection.Mode = value;
+			tree2.Selection.Mode = value;
+
+			if (value == SelectionMode.Multiple)
+			{
+				selectSingleAction.Active = false;
+				selectMultipleAction.Active = true;
+			} else
+			{
+				selectSingleAction.Active = true;
+				selectMultipleAction.Active = false;
+			}
+		}
+	}
+
+
+	public bool EditingModeActive
+	{
+		get
+		{
+			return editingModeAction.Active;
+		}
+		set
+		{
+			editingModeAction.Active = value;
+		}
+	}
 
 	public TreeViewData SelectedTreeViewData
 	{
@@ -408,6 +467,28 @@ public partial class MainWindow: Gtk.Window
 		SelectPrev();
 	}
 
+	protected void OnSelectionChanged (object sender, EventArgs e)
+	{
+
+	}
+
+	protected void OnEditingModeActionActivated (object sender, EventArgs e)
+	{
+		_treeView1Data.ClearTreeView();
+		CreateGridColumns();
+		//ActualSelectionMode = SelectionMode.Single;
+		FillTree(0);
+	}
+
+	protected void OnTreeRowActivated (object o, RowActivatedArgs args)
+	{
+		EditSelectedSongs(SelectedTreeViewData);
+	}
+
+	protected void OnTreeToggleCursorRow (object o, ToggleCursorRowArgs args)
+	{
+
+	}
     #endregion
 
 }

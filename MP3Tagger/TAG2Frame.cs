@@ -345,23 +345,34 @@ namespace MP3Tagger
         	ImageData = System.Drawing.Image.FromStream(ms);
 		}		
 
-		private void ParseDataToValue()
+		private bool ParseDataToValue(bool throwExceptions = false)
 		{
-			Value = String.Empty;
-			_frameSupported = false;
-
-			if (Size<1)
+			try
 			{
-				return;
-			}
+				Value = String.Empty;
+				_frameSupported = false;
 
-			if (Name=="APIC")
+				if (Size<1)
+				{
+					return false;
+				}
+
+				if (Name=="APIC")
+				{
+					ParseImageData();
+					return true; 
+				}
+
+				ParseTextFrameData();
+
+				return true;
+
+			} catch (Exception ex)
 			{
-				ParseImageData();
-				return; 
+				Logger.Logger.WriteToLog("Error parsing frame",ex);
+				if (throwExceptions) throw new Exception("Error parsing frame",ex);
+				return false;
 			}
-
-			ParseTextFrameData();
 		}
 
 		#endregion

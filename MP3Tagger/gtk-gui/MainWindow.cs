@@ -9,10 +9,11 @@ public partial class MainWindow
 	private global::Gtk.Action openAction;
 	private global::Gtk.Action editAction;
 	private global::Gtk.Action closeAction;
-	private global::Gtk.Action dndMultipleAction;
-	private global::Gtk.Action dndAction;
+	private global::Gtk.RadioAction selectMultipleAction;
+	private global::Gtk.RadioAction selectSingleAction;
 	private global::Gtk.Action goForwardAction;
 	private global::Gtk.Action goBackAction;
+	private global::Gtk.ToggleAction editingModeAction;
 	private global::Gtk.Fixed @fixed;
 	private global::Gtk.Notebook notebook;
 	private global::Gtk.ScrolledWindow GtkScrolledWindow;
@@ -43,18 +44,23 @@ public partial class MainWindow
 		this.closeAction = new global::Gtk.Action ("closeAction", global::Mono.Unix.Catalog.GetString ("Close "), null, "gtk-close");
 		this.closeAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Close");
 		w1.Add (this.closeAction, null);
-		this.dndMultipleAction = new global::Gtk.Action ("dndMultipleAction", global::Mono.Unix.Catalog.GetString ("Selection MultRrow"), null, "gtk-dnd-multiple");
-		this.dndMultipleAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Select-Multi");
-		w1.Add (this.dndMultipleAction, null);
-		this.dndAction = new global::Gtk.Action ("dndAction", global::Mono.Unix.Catalog.GetString ("Selection-Single"), null, "gtk-dnd");
-		this.dndAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Select-Single");
-		w1.Add (this.dndAction, null);
+		this.selectMultipleAction = new global::Gtk.RadioAction ("selectMultipleAction", global::Mono.Unix.Catalog.GetString ("Selection MultRrow"), null, "gtk-dnd-multiple", 0);
+		this.selectMultipleAction.Group = new global::GLib.SList (global::System.IntPtr.Zero);
+		this.selectMultipleAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Select-Multi");
+		w1.Add (this.selectMultipleAction, null);
+		this.selectSingleAction = new global::Gtk.RadioAction ("selectSingleAction", global::Mono.Unix.Catalog.GetString ("Selection-Single"), null, "gtk-dnd", 0);
+		this.selectSingleAction.Group = this.selectMultipleAction.Group;
+		this.selectSingleAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Select-Single");
+		w1.Add (this.selectSingleAction, null);
 		this.goForwardAction = new global::Gtk.Action ("goForwardAction", global::Mono.Unix.Catalog.GetString ("Next"), null, "gtk-go-forward");
 		this.goForwardAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Next");
 		w1.Add (this.goForwardAction, null);
 		this.goBackAction = new global::Gtk.Action ("goBackAction", global::Mono.Unix.Catalog.GetString ("Previous"), null, "gtk-go-back");
 		this.goBackAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Previous");
 		w1.Add (this.goBackAction, null);
+		this.editingModeAction = new global::Gtk.ToggleAction ("editingModeAction", global::Mono.Unix.Catalog.GetString ("Edit Mode"), null, "gtk-edit");
+		this.editingModeAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Edit Mode");
+		w1.Add (this.editingModeAction, null);
 		this.UIManager.InsertActionGroup (w1, 0);
 		this.AddAccelGroup (this.UIManager.AccelGroup);
 		this.Name = "MainWindow";
@@ -70,7 +76,7 @@ public partial class MainWindow
 		this.notebook.HeightRequest = 600;
 		this.notebook.CanFocus = true;
 		this.notebook.Name = "notebook";
-		this.notebook.CurrentPage = 1;
+		this.notebook.CurrentPage = 0;
 		// Container child notebook.Gtk.Notebook+NotebookChild
 		this.GtkScrolledWindow = new global::Gtk.ScrolledWindow ();
 		this.GtkScrolledWindow.Name = "GtkScrolledWindow";
@@ -110,7 +116,7 @@ public partial class MainWindow
 		w6.X = 4;
 		w6.Y = 54;
 		// Container child fixed.Gtk.Fixed+FixedChild
-		this.UIManager.AddUiFromString ("<ui><toolbar name='mainToolbar'><toolitem name='openAction' action='openAction'/><toolitem name='editAction' action='editAction'/><toolitem name='goBackAction' action='goBackAction'/><toolitem name='goForwardAction' action='goForwardAction'/><toolitem name='dndAction' action='dndAction'/><toolitem name='dndMultipleAction' action='dndMultipleAction'/><toolitem name='closeAction' action='closeAction'/></toolbar></ui>");
+		this.UIManager.AddUiFromString ("<ui><toolbar name='mainToolbar'><toolitem name='openAction' action='openAction'/><toolitem name='editAction' action='editAction'/><separator/><toolitem name='goBackAction' action='goBackAction'/><toolitem name='goForwardAction' action='goForwardAction'/><separator/><toolitem name='selectSingleAction' action='selectSingleAction'/><toolitem name='selectMultipleAction' action='selectMultipleAction'/><toolitem name='editingModeAction' action='editingModeAction'/><separator/><toolitem name='closeAction' action='closeAction'/></toolbar></ui>");
 		this.mainToolbar = ((global::Gtk.Toolbar)(this.UIManager.GetWidget ("/mainToolbar")));
 		this.mainToolbar.Name = "mainToolbar";
 		this.mainToolbar.ShowArrow = false;
@@ -128,12 +134,13 @@ public partial class MainWindow
 		this.openAction.Activated += new global::System.EventHandler (this.OnOpenActionActivated);
 		this.editAction.Activated += new global::System.EventHandler (this.OnEditActionActivated);
 		this.closeAction.Activated += new global::System.EventHandler (this.OnCloseActionActivated);
-		this.dndMultipleAction.Activated += new global::System.EventHandler (this.OnDndMultipleActionActivated);
-		this.dndAction.Activated += new global::System.EventHandler (this.OnDndActionActivated);
+		this.selectMultipleAction.Activated += new global::System.EventHandler (this.OnDndMultipleActionActivated);
+		this.selectSingleAction.Activated += new global::System.EventHandler (this.OnDndActionActivated);
 		this.goForwardAction.Activated += new global::System.EventHandler (this.OnGoForwardActionActivated);
 		this.goBackAction.Activated += new global::System.EventHandler (this.OnGoBackActionActivated);
+		this.editingModeAction.Activated += new global::System.EventHandler (this.OnEditingModeActionActivated);
 		this.tree.SelectCursorRow += new global::Gtk.SelectCursorRowHandler (this.OnTreeSelectCursorRow);
-		this.tree.ButtonPressEvent += new global::Gtk.ButtonPressEventHandler (this.OnTreeButtonPressEvent);
-		this.tree2.ButtonPressEvent += new global::Gtk.ButtonPressEventHandler (this.OnTreeButtonPressEvent);
+		this.tree.RowActivated += new global::Gtk.RowActivatedHandler (this.OnTreeRowActivated);
+		this.tree.ToggleCursorRow += new global::Gtk.ToggleCursorRowHandler (this.OnTreeToggleCursorRow);
 	}
 }

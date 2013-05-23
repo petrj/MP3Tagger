@@ -40,18 +40,26 @@
         <property name="StockId">gtk-close</property>
         <signal name="Activated" handler="OnCloseActionActivated" />
       </action>
-      <action id="dndMultipleAction">
-        <property name="Type">Action</property>
+      <action id="selectMultipleAction">
+        <property name="Type">Radio</property>
         <property name="Label" translatable="yes">Selection MultRrow</property>
         <property name="ShortLabel" translatable="yes">Select-Multi</property>
         <property name="StockId">gtk-dnd-multiple</property>
+        <property name="DrawAsRadio">False</property>
+        <property name="Active">False</property>
+        <property name="Value">0</property>
+        <property name="Group">group1</property>
         <signal name="Activated" handler="OnDndMultipleActionActivated" />
       </action>
-      <action id="dndAction">
-        <property name="Type">Action</property>
+      <action id="selectSingleAction">
+        <property name="Type">Radio</property>
         <property name="Label" translatable="yes">Selection-Single</property>
         <property name="ShortLabel" translatable="yes">Select-Single</property>
         <property name="StockId">gtk-dnd</property>
+        <property name="DrawAsRadio">False</property>
+        <property name="Active">False</property>
+        <property name="Value">0</property>
+        <property name="Group">group1</property>
         <signal name="Activated" handler="OnDndActionActivated" />
       </action>
       <action id="goForwardAction">
@@ -68,6 +76,15 @@
         <property name="StockId">gtk-go-back</property>
         <signal name="Activated" handler="OnGoBackActionActivated" />
       </action>
+      <action id="editingModeAction">
+        <property name="Type">Toggle</property>
+        <property name="Label" translatable="yes">Edit Mode</property>
+        <property name="ShortLabel" translatable="yes">Edit Mode</property>
+        <property name="StockId">gtk-edit</property>
+        <property name="DrawAsRadio">False</property>
+        <property name="Active">False</property>
+        <signal name="Activated" handler="OnEditingModeActionActivated" />
+      </action>
     </action-group>
     <property name="MemberName" />
     <property name="Title" translatable="yes">MainWindow</property>
@@ -83,7 +100,7 @@
             <property name="WidthRequest">1000</property>
             <property name="HeightRequest">600</property>
             <property name="CanFocus">True</property>
-            <property name="CurrentPage">1</property>
+            <property name="CurrentPage">0</property>
             <child>
               <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow">
                 <property name="MemberName" />
@@ -94,7 +111,8 @@
                     <property name="CanFocus">True</property>
                     <property name="ShowScrollbars">True</property>
                     <signal name="SelectCursorRow" handler="OnTreeSelectCursorRow" />
-                    <signal name="ButtonPressEvent" handler="OnTreeButtonPressEvent" />
+                    <signal name="RowActivated" handler="OnTreeRowActivated" />
+                    <signal name="ToggleCursorRow" handler="OnTreeToggleCursorRow" />
                   </widget>
                 </child>
               </widget>
@@ -117,7 +135,6 @@
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
                     <property name="ShowScrollbars">True</property>
-                    <signal name="ButtonPressEvent" handler="OnTreeButtonPressEvent" />
                   </widget>
                 </child>
               </widget>
@@ -147,10 +164,14 @@
             <node name="mainToolbar" type="Toolbar">
               <node type="Toolitem" action="openAction" />
               <node type="Toolitem" action="editAction" />
+              <node type="Separator" />
               <node type="Toolitem" action="goBackAction" />
               <node type="Toolitem" action="goForwardAction" />
-              <node type="Toolitem" action="dndAction" />
-              <node type="Toolitem" action="dndMultipleAction" />
+              <node type="Separator" />
+              <node type="Toolitem" action="selectSingleAction" />
+              <node type="Toolitem" action="selectMultipleAction" />
+              <node type="Toolitem" action="editingModeAction" />
+              <node type="Separator" />
               <node type="Toolitem" action="closeAction" />
             </node>
           </widget>
