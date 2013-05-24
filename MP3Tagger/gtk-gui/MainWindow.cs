@@ -58,13 +58,13 @@ public partial class MainWindow
 		this.goBackAction = new global::Gtk.Action ("goBackAction", global::Mono.Unix.Catalog.GetString ("Previous"), null, "gtk-go-back");
 		this.goBackAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Previous");
 		w1.Add (this.goBackAction, null);
-		this.editingModeAction = new global::Gtk.ToggleAction ("editingModeAction", global::Mono.Unix.Catalog.GetString ("Edit Mode"), null, "gtk-edit");
+		this.editingModeAction = new global::Gtk.ToggleAction ("editingModeAction", global::Mono.Unix.Catalog.GetString ("Edit Mode"), null, "gtk-index");
 		this.editingModeAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Edit Mode");
 		w1.Add (this.editingModeAction, null);
 		this.UIManager.InsertActionGroup (w1, 0);
 		this.AddAccelGroup (this.UIManager.AccelGroup);
 		this.Name = "MainWindow";
-		this.Title = global::Mono.Unix.Catalog.GetString ("MainWindow");
+		this.Title = global::Mono.Unix.Catalog.GetString ("MP3 Tagger");
 		this.WindowPosition = ((global::Gtk.WindowPosition)(4));
 		// Container child MainWindow.Gtk.Container+ContainerChild
 		this.@fixed = new global::Gtk.Fixed ();
@@ -139,8 +139,5 @@ public partial class MainWindow
 		this.goForwardAction.Activated += new global::System.EventHandler (this.OnGoForwardActionActivated);
 		this.goBackAction.Activated += new global::System.EventHandler (this.OnGoBackActionActivated);
 		this.editingModeAction.Activated += new global::System.EventHandler (this.OnEditingModeActionActivated);
-		this.tree.SelectCursorRow += new global::Gtk.SelectCursorRowHandler (this.OnTreeSelectCursorRow);
-		this.tree.RowActivated += new global::Gtk.RowActivatedHandler (this.OnTreeRowActivated);
-		this.tree.ToggleCursorRow += new global::Gtk.ToggleCursorRowHandler (this.OnTreeToggleCursorRow);
 	}
 }

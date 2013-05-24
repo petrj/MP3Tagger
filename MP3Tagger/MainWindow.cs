@@ -12,6 +12,7 @@ public partial class MainWindow: Gtk.Window
     private SongList _songList = new SongList();
 	private MP3Tagger.ProgressBarWindow progressWin;
 	private SongDetail editWindow;
+	private Song _multiSelectSong;
 
 	private TreeViewData _treeView1Data;
 	private TreeViewData _treeView2Data;
@@ -42,6 +43,8 @@ public partial class MainWindow: Gtk.Window
 		ActualSelectionMode = SelectionMode.Multiple;
 
 		CreateGridColumns();
+
+		_multiSelectSong = new Song();
 
 		editWindow = new SongDetail(this);
 		editWindow.Hide();
@@ -154,6 +157,12 @@ public partial class MainWindow: Gtk.Window
 
     #region properties
 
+	public Song MultiSelectSong
+	{
+		get { return _multiSelectSong; }
+		set { _multiSelectSong = value; }
+	}
+
 	public SelectionMode ActualSelectionMode
 	{
 		get
@@ -190,20 +199,6 @@ public partial class MainWindow: Gtk.Window
 		}
 	}
 
-	public TreeViewData SelectedTreeViewData
-	{
-		get
-		{
-			if (tree.IsFocus)
-			{
-				return _treeView1Data;
-			} else
-			{
-				return _treeView2Data;
-			}
-		}
-	}
-
 	public string[] Args 
 	{
 		get { return _args; }
@@ -219,6 +214,26 @@ public partial class MainWindow: Gtk.Window
     #endregion
 
 	#region selection methods
+
+	public void ApplySongEdit()
+	{
+		var selectedSongs = GetSelectedSongs();
+		if (selectedSongs.Count > 1)
+		{
+			// multi selection
+			if (MultiSelectSong.ID3v1.Active)
+			{
+				foreach (var song in selectedSongs)
+				{
+					MultiSelectSong.ID3v1.CopyNonEmptyValuesTo(song.ID3v1);
+					MultiSelectSong.ID3v2.CopyNonEmptyValuesTo(song.ID3v2);
+				}
+			}
+		}	
+
+		FillTree();
+		SelectSongs(selectedSongs);
+	}
 
 	public int ActualSelectedSongIndex(TreeViewData data)
 	{
@@ -255,6 +270,23 @@ public partial class MainWindow: Gtk.Window
 		return MP3List[index];
 	}
 
+
+	public List<Song> GetSelectedSongs()
+	{
+		// detecting actual Tree 
+
+		if (notebook.CurrentPage  == 0)
+		{
+			return GetSelectedSongs(_treeView1Data);
+		}
+		if (notebook.CurrentPage  == 1)
+		{
+			return GetSelectedSongs(_treeView2Data);
+		}
+
+		return null;
+	}
+
 	private List<Song> GetSelectedSongs(TreeViewData data)
 	{
 		var selectedSongs = new List<Song>();
@@ -275,30 +307,46 @@ public partial class MainWindow: Gtk.Window
 		return selectedSongs;
 	}
 
-	private void EditSelectedSongs(TreeViewData data)
+
+	private void EditSelectedSongs()
 	{
-		var actualSelectedSong = ActualSelectedSong(data);
+		Song actualSelectedSong = null;
+		var selectedSongs = GetSelectedSongs();
 
-		if (actualSelectedSong == null)
+		if (selectedSongs.Count == 1)		
 		{
-		    var selectedSongs = GetSelectedSongs(data);
+			// single edit
+			actualSelectedSong = selectedSongs[0];
 
-            if (selectedSongs.Count == 0)
-            {
-                InfoDialog("No row selected", MessageType.Warning);
-            }
-            else if (selectedSongs.Count == 1)
-            {
-                // editing as single row
-                actualSelectedSong = selectedSongs[0];
-            }
-            else
-            {
-                InfoDialog("Multi select not supported yet", MessageType.Warning);
-            }
+		} else
+		if (selectedSongs.Count > 1)		
+		{
+			//	multiple edit
+
+			MultiSelectSong.Clear();
+			actualSelectedSong = MultiSelectSong;
+
+			// detect id3 v1 and v2
+			var v1Count = 0;
+			var v2Count = 0;
+			foreach (var s in selectedSongs)
+			{
+				if (s.ID3v1.Active) v1Count++;
+				if (s.ID3v2.Active) v2Count++;
+			}
+
+			if ( (double) v1Count >= (double)selectedSongs.Count/(double)2)
+			{
+				MultiSelectSong.ID3v1.Active = true;
+			}
+			if ( (double) v2Count >= (double)selectedSongs.Count/(double)2)
+			{
+				MultiSelectSong.ID3v2.Active = true;
+			}
+
 		}
 
-        if (actualSelectedSong != null)
+		if (actualSelectedSong != null)
         {
             editWindow.CurrentSong = actualSelectedSong;
             editWindow.Show();
@@ -307,29 +355,38 @@ public partial class MainWindow: Gtk.Window
 
 	public void SelectSong(Song song)
 	{
-		for (var i=0;i<MP3List.Count;i++)
-		{
-			if (MP3List[i] == song)
-			{
-				SelectRow(i);
-				break;
-			}
-		}
+		SelectRows(new List<int>() { song.Index });
 	}
 
-	public void SelectRow(int index)
+	public void SelectSongs(List<Song> songs)
 	{
-		if (index>=0 && index<=MP3List.Count-1)		
-		{
-			tree.Selection.UnselectAll();
-			tree.Selection.SelectIter( _treeView1Data.TreeIters[index]);
-
-			tree2.Selection.UnselectAll();
-			tree2.Selection.SelectIter( _treeView2Data.TreeIters[index]);
-
-			if (editWindow.Visible)
+			var rows = new List<int>();
+			foreach (var s in songs)
 			{
-				editWindow.CurrentSong = MP3List[index];
+				rows.Add(s.Index);
+			}
+			SelectRows(rows);
+	}
+
+	public void SelectRow(int rowIndex)
+	{
+		SelectRows(new List<int>() { rowIndex });
+	}
+
+	public void SelectRows(List<int> rows)
+	{
+		if (rows == null)
+			return;
+
+		tree.Selection.UnselectAll();
+		tree2.Selection.UnselectAll();
+
+		foreach (var row in rows)
+		{
+			if (row>=0 && row<=MP3List.Count-1)		
+			{
+				tree.Selection.SelectIter( _treeView1Data.TreeIters[row]);
+				tree2.Selection.SelectIter( _treeView2Data.TreeIters[row]);
 			}
 		}
 	}
@@ -339,24 +396,23 @@ public partial class MainWindow: Gtk.Window
 		if (MP3List.Count == 0)
 			return;
 
-		int actualSelectedSongIndex;
-		var actualTreeViewData = SelectedTreeViewData;
+		var selectedSongs = GetSelectedSongs();
 
-		actualTreeViewData = SelectedTreeViewData;
-		actualSelectedSongIndex = ActualSelectedSongIndex(actualTreeViewData);			
-
-		if (actualSelectedSongIndex == -1 || MP3List.Count == 1)
+		if (selectedSongs.Count == 1)
 		{
-			SelectRow(0);
-			return;
-		}
+			// single edit
 
-		var selectionMode = actualTreeViewData.Tree.Selection.Mode;
-		if ( (selectionMode == SelectionMode.Single) || (selectionMode == SelectionMode.Browse))
-		{
-			var nextSelectedSongIndex = actualSelectedSongIndex+1;
-			if (nextSelectedSongIndex>MP3List.Count-1) nextSelectedSongIndex = 0;
-			SelectRow(nextSelectedSongIndex);
+			int actualSelectedSongIndex;
+
+			actualSelectedSongIndex = selectedSongs[0].Index;
+			actualSelectedSongIndex++;
+
+			if (actualSelectedSongIndex>=MP3List.Count)
+			{
+				actualSelectedSongIndex = 0;
+			}			
+
+			SelectRow(actualSelectedSongIndex);
 		}
 	}
 
@@ -365,24 +421,23 @@ public partial class MainWindow: Gtk.Window
 		if (MP3List.Count == 0)
 			return;
 
-		int actualSelectedSongIndex;
-		var actualTreeViewData = SelectedTreeViewData;
+		var selectedSongs = GetSelectedSongs();
 
-		actualTreeViewData = SelectedTreeViewData;
-		actualSelectedSongIndex = ActualSelectedSongIndex(actualTreeViewData);			
-
-		if (actualSelectedSongIndex == -1 || MP3List.Count == 1)
+		if (selectedSongs.Count == 1)
 		{
-			SelectRow(0);
-			return;
-		}
+			// single edit
 
-		var selectionMode = actualTreeViewData.Tree.Selection.Mode;
-		if ( (selectionMode == SelectionMode.Single) || (selectionMode == SelectionMode.Browse))
-		{
-			var nextSelectedSongIndex = actualSelectedSongIndex-1;
-			if (nextSelectedSongIndex<0) nextSelectedSongIndex = MP3List.Count-1;
-			SelectRow(nextSelectedSongIndex);
+			int actualSelectedSongIndex;
+
+			actualSelectedSongIndex = selectedSongs[0].Index;
+			actualSelectedSongIndex--;
+
+			if (actualSelectedSongIndex<0)
+			{
+				actualSelectedSongIndex = MP3List.Count-1;
+			}			
+
+			SelectRow(actualSelectedSongIndex);
 		}
 	}
 
@@ -423,7 +478,19 @@ public partial class MainWindow: Gtk.Window
 
 	protected void OnEditActionActivated (object sender, EventArgs e)
 	{
-		EditSelectedSongs(_treeView1Data);
+		EditSelectedSongs();
+		/*
+		var x = GetSelectedSongs();
+
+		if ( (ActualSelectionMode == SelectionMode.Single) || (ActualSelectionMode == SelectionMode.Browse) )
+		{
+			//InfoDialog("single edit");
+		} else
+		if (ActualSelectionMode == SelectionMode.Multiple) 
+		{
+			//	InfoDialog("multiple edit");
+		}
+		*/
 	}
 
 	protected void OnCloseActionActivated (object sender, EventArgs e)	
@@ -453,7 +520,7 @@ public partial class MainWindow: Gtk.Window
 	{
 		if (args.Event.Type == Gdk.EventType.TwoButtonPress)
 		{
-			EditSelectedSongs(SelectedTreeViewData);
+			EditSelectedSongs();
 		}
 	}
 
@@ -482,7 +549,7 @@ public partial class MainWindow: Gtk.Window
 
 	protected void OnTreeRowActivated (object o, RowActivatedArgs args)
 	{
-		EditSelectedSongs(SelectedTreeViewData);
+		EditSelectedSongs();
 	}
 
 	protected void OnTreeToggleCursorRow (object o, ToggleCursorRowArgs args)

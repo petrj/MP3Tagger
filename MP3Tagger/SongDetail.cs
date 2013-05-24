@@ -63,6 +63,11 @@ namespace MP3Tagger
 		{
 			if (CurrentSong != null)
 			{
+				if (CurrentSong.FileName != null && System.IO.File.Exists(CurrentSong.FileName))			   
+				{
+					Title = System.IO.Path.GetFileName(CurrentSong.FileName);
+				}
+
 				checkButtonID31Active.Active = CurrentSong.ID3v1.Active;
 				checkButtonID32Active.Active = CurrentSong.ID3v2.Active;
 
@@ -92,6 +97,7 @@ namespace MP3Tagger
 
 		protected void OnShown(object sende, EventArgs e)
 		{
+			/*
 			//if (_shownFirst)
 			//{
 				// center
@@ -110,7 +116,7 @@ namespace MP3Tagger
 			//}
 
 			_shownFirst = false;
-
+			*/
 		}
 
 		protected void OnCancelActionActivated (object sender, EventArgs e)
@@ -126,8 +132,8 @@ namespace MP3Tagger
 			    tagWidget1.ApplyChanges();
                 tagWidget2.ApplyChanges();
 			}
-			MainWin.FillTree();
-			MainWin.SelectSong(CurrentSong);
+
+			MainWin.ApplySongEdit();
 		}	
 
 		protected void OnGoBackActionActivated (object sender, EventArgs e)

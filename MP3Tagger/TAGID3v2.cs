@@ -214,6 +214,18 @@ namespace MP3Tagger
 
 		#region public override methods
 
+		public override void Clear()
+		{
+			Frames.Clear();
+			FrameByName.Clear();
+
+			_versionMajor  = 0;						
+			_versionRevision  = 0;
+			_framesSize = 0;
+
+			base.Clear(); 
+		}
+
 		public override void WriteToLog()
 		{
 			Logger.Logger.WriteToLog(String.Format("TAG v2 {0}:",FileName));

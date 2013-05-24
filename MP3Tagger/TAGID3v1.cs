@@ -134,6 +134,15 @@ namespace MP3Tagger
 
 		#region public override methods
 
+		public override void Clear()
+		{
+			ExtendedTitle = ExtendedArtist = ExtendedAlbum = ExtendedGenre = ExtendedStartTime = ExtendedEndTime = "";
+			ExtendedSpeed = 0;
+
+			base.Clear(); 
+		}
+
+
 		public override void WriteToLog()
 		{
 			Logger.Logger.WriteToLog(String.Format("TAG v1 {0}:",FileName));

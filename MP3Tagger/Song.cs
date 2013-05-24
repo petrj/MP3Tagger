@@ -11,13 +11,22 @@ namespace MP3Tagger
         public TAGID3v1 ID3v1 { get; set; }
 		public TAGID3v2 ID3v2 { get; set; }
         public string FileName { get; set; }
+		public int Index { get; set; }
 
         public Song()
         {
             ID3v1 = new TAGID3v1();
 			ID3v2 = new TAGID3v2();
 			FileName = null;
+			Index = 0;
         }
+
+		public void Clear()
+		{
+			FileName = null;
+			ID3v1.Clear();
+			ID3v2.Clear();
+		}
 
 		public bool OpenFile(string fileName, bool throwExceptions=false)
 		{

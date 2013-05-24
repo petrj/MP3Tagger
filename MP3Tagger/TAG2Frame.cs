@@ -39,7 +39,6 @@ namespace MP3Tagger
 		#region private fields
 
 		private Encoding _defaultEncoding = Encoding.GetEncoding("iso-8859-1");
-		private static List<string> SupportedFrames = new List<string> () {"TIT2"};
 
 		private bool _frameSupported = false;
 

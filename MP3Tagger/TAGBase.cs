@@ -130,6 +130,27 @@ namespace MP3Tagger
 
 		#region public methods
 
+		public void CopyNonEmptyValuesTo(TAGBase tag)
+		{
+			if (!Active)
+				return;
+
+			if (!String.IsNullOrEmpty(Title)) tag.Title = Title;
+			if (!String.IsNullOrEmpty(Album)) tag.Album = Album;
+			if (!String.IsNullOrEmpty(Artist)) tag.Artist = Artist;
+			if (!String.IsNullOrEmpty(Comment)) tag.Comment = Comment;
+			if (Year !=0) tag.Year = Year;
+			// todo genre?
+		}
+
+		public virtual void Clear()
+		{
+			this.Active = false;
+			this.Loaded = false;
+			Album = Artist = Title = Comment = "";
+			Year = Genre = 0;
+		}
+
 		public virtual void WriteToLog()
 		{
 			Logger.Logger.WriteToLog(String.Format("  Title  :{0}",Title));

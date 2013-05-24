@@ -80,14 +80,14 @@
         <property name="Type">Toggle</property>
         <property name="Label" translatable="yes">Edit Mode</property>
         <property name="ShortLabel" translatable="yes">Edit Mode</property>
-        <property name="StockId">gtk-edit</property>
+        <property name="StockId">gtk-index</property>
         <property name="DrawAsRadio">False</property>
         <property name="Active">False</property>
         <signal name="Activated" handler="OnEditingModeActionActivated" />
       </action>
     </action-group>
     <property name="MemberName" />
-    <property name="Title" translatable="yes">MainWindow</property>
+    <property name="Title" translatable="yes">MP3 Tagger</property>
     <property name="WindowPosition">CenterOnParent</property>
     <signal name="DeleteEvent" handler="OnDeleteEvent" />
     <child>
@@ -110,9 +110,6 @@
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
                     <property name="ShowScrollbars">True</property>
-                    <signal name="SelectCursorRow" handler="OnTreeSelectCursorRow" />
-                    <signal name="RowActivated" handler="OnTreeRowActivated" />
-                    <signal name="ToggleCursorRow" handler="OnTreeToggleCursorRow" />
                   </widget>
                 </child>
               </widget>
