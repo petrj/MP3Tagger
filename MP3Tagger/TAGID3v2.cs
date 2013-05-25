@@ -41,6 +41,14 @@ namespace MP3Tagger
 
 		#region properties
 
+		public int TotalByteLength
+		{
+			get
+			{
+				return HeaderByteLength + Convert.ToInt32(FramesSize);
+			}
+		}
+
 		public byte VersionMajor 
 		{
 			get { return _versionMajor;	}

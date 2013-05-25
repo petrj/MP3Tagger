@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -147,6 +148,105 @@ namespace MP3Tagger
 		{
 			Logger.Logger.WriteToLog(String.Format("TAG v1 {0}:",FileName));
 			base.WriteToLog();
+		}
+
+		public static void AddToByteList(List<byte> byteList, string value,int length, Encoding enc)
+		{
+			byte[] valueAsByteArray;
+			var valueByteLength = 0;
+			do
+			{
+				if (valueByteLength>0) // not first time
+				{
+					value = value.Substring(0,value.Length-1);
+				}
+				valueAsByteArray = enc.GetBytes(value);
+				valueByteLength = valueAsByteArray.Length;
+
+			} while (valueByteLength>length);
+
+			byteList.AddRange(valueAsByteArray);
+
+			for(var i=valueByteLength;i<length;i++)
+			{
+				byteList.Add(0);
+			}
+		}
+
+		public override bool SaveToStream (FileStream fStream, bool throwExceptions)
+		{
+			try
+			{
+				Logger.Logger.WriteToLog(String.Format("Saving TAG v1 ..."));
+		
+				OriginalHeader = new byte[HeaderByteLength];
+
+				var originalHeaderAsGenericList = new List<byte>();
+
+				//originalHeaderAsGenericList.AddRange(DefaultEncoding.GetBytes(Title));
+				AddToByteList(originalHeaderAsGenericList,"TAG",3,DefaultEncoding);
+				AddToByteList(originalHeaderAsGenericList,Title,30,DefaultEncoding);
+				AddToByteList(originalHeaderAsGenericList,Artist,30,DefaultEncoding);
+				AddToByteList(originalHeaderAsGenericList,Album,30,DefaultEncoding);
+
+				if (Year>0)
+				{
+					AddToByteList(originalHeaderAsGenericList,Year.ToString(),4,DefaultEncoding);
+				} else
+				{
+					originalHeaderAsGenericList.AddRange( new byte[] {0,0,0,0} );
+				}
+
+				AddToByteList(originalHeaderAsGenericList,Comment,30,DefaultEncoding);
+				originalHeaderAsGenericList.Add(Genre);
+
+				OriginalHeader = originalHeaderAsGenericList.ToArray();
+
+				fStream.Write(OriginalHeader,0,HeaderByteLength);
+
+		/*
+			header 	3 	"TAG"
+			title 	30 	30 characters of the title
+			artist 	30 	30 characters of the artist name
+			album 	30 	30 characters of the album name
+			year 	4 	A four-digit year
+			comment 	28[3] or 30 	The comment.
+			zero-byte[3] 	1 	If a track number is stored, this byte contains a binary 0.
+			track[3] 	1 	The number of the track on the album, or 0. Invalid, if previous byte is not a binary 0.
+			genre 	1 	Index in a list of genres, or 255
+		 */
+					/*
+				titleAsByteArray = DefaultEncoding.GetBytes(Title);
+
+				fStream.Seek(fStream.Length-HeaderByteLength,0);
+				fStream.Read(OriginalHeader,0,HeaderByteLength);
+
+				ReadExtendedHeader(fStream);
+
+				var flag = System.Text.Encoding.ASCII.GetString(OriginalHeader,0,3);
+
+				if (flag != "TAG")
+				{
+					Logger.Logger.WriteToLog("TAG not found");
+					return false; 
+				}
+
+				ParseHeader();
+
+				Logger.Logger.WriteToLog(String.Format("TAG found: (Title:{0}, Artist:{1}, ...)",Title,Artist));
+
+				Loaded = true;
+				Changed = false;
+				*/
+				return true;
+
+			} catch (Exception ex)
+			{
+				Logger.Logger.WriteToLog(String.Format("Error while reading TAG v1"),ex);
+				if (throwExceptions) throw;
+				return false;
+			}
+			return false;
 		}
 
 		public override bool ReadFromStream(FileStream fStream, bool throwExceptions=false)

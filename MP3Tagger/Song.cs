@@ -28,6 +28,71 @@ namespace MP3Tagger
 			ID3v2.Clear();
 		}
 
+		public bool SaveChanges(bool throwExceptions=false)
+		{
+			try
+			{
+				var tmpFileName = Path.GetTempFileName();
+				if (File.Exists(tmpFileName)) File.Delete(tmpFileName);
+				if (SaveAs(tmpFileName))
+				{
+					File.Delete(FileName);
+					File.Move(tmpFileName,FileName);
+				}
+
+				ID3v1.Changed = false;
+				ID3v2.Changed = false;
+
+			} catch (Exception ex)
+			{
+				Logger.Logger.WriteToLog(String.Format("Error while saving {0}",FileName),ex);
+				if (throwExceptions) throw;
+				return false;
+			}
+
+			return true;
+		}
+
+		public bool SaveAs(string saveFileName, bool throwExceptions=false)
+		{
+			try
+			{
+				if (File.Exists(saveFileName))
+					throw new FieldAccessException(String.Format("File {0} already exists.",saveFileName));
+
+				// reading originale file
+				using (var frs = new FileStream(FileName,FileMode.Open))
+				{
+					var dataByteLength = Convert.ToInt32(frs.Length);
+					if (ID3v1.Active) dataByteLength = dataByteLength - ID3v1.HeaderByteLength;
+					if (ID3v2.Active) dataByteLength = dataByteLength - ID3v2.TotalByteLength;
+
+					if (ID3v2.Active) frs.Seek(ID3v2.TotalByteLength,0);
+
+					var data = new byte[dataByteLength];
+					frs.Read(data,0,dataByteLength);
+
+					using (var fs = new FileStream(saveFileName,FileMode.CreateNew))
+					{
+						fs.Write(data,0,dataByteLength);
+						if (ID3v1.Active) ID3v1.SaveToStream(fs,throwExceptions);
+
+						fs.Close();
+					}
+
+					frs.Close();
+				}
+			
+			} catch (Exception ex)
+			{
+				Logger.Logger.WriteToLog(String.Format("Error while saving {0}",saveFileName),ex);
+				if (throwExceptions) throw;
+				return false;
+			}
+
+			return true;
+		}
+
 		public bool OpenFile(string fileName, bool throwExceptions=false)
 		{
 			try

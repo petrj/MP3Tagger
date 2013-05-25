@@ -14,6 +14,7 @@ public partial class MainWindow
 	private global::Gtk.Action goForwardAction;
 	private global::Gtk.Action goBackAction;
 	private global::Gtk.ToggleAction editingModeAction;
+	private global::Gtk.Action saveAction;
 	private global::Gtk.Fixed @fixed;
 	private global::Gtk.Notebook notebook;
 	private global::Gtk.ScrolledWindow GtkScrolledWindow;
@@ -61,6 +62,9 @@ public partial class MainWindow
 		this.editingModeAction = new global::Gtk.ToggleAction ("editingModeAction", global::Mono.Unix.Catalog.GetString ("Edit Mode"), null, "gtk-index");
 		this.editingModeAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Edit Mode");
 		w1.Add (this.editingModeAction, null);
+		this.saveAction = new global::Gtk.Action ("saveAction", global::Mono.Unix.Catalog.GetString ("_Save"), null, "gtk-save");
+		this.saveAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("_Save");
+		w1.Add (this.saveAction, null);
 		this.UIManager.InsertActionGroup (w1, 0);
 		this.AddAccelGroup (this.UIManager.AccelGroup);
 		this.Name = "MainWindow";
@@ -116,7 +120,7 @@ public partial class MainWindow
 		w6.X = 4;
 		w6.Y = 54;
 		// Container child fixed.Gtk.Fixed+FixedChild
-		this.UIManager.AddUiFromString ("<ui><toolbar name='mainToolbar'><toolitem name='openAction' action='openAction'/><toolitem name='editAction' action='editAction'/><separator/><toolitem name='goBackAction' action='goBackAction'/><toolitem name='goForwardAction' action='goForwardAction'/><separator/><toolitem name='selectSingleAction' action='selectSingleAction'/><toolitem name='selectMultipleAction' action='selectMultipleAction'/><toolitem name='editingModeAction' action='editingModeAction'/><separator/><toolitem name='closeAction' action='closeAction'/></toolbar></ui>");
+		this.UIManager.AddUiFromString ("<ui><toolbar name='mainToolbar'><toolitem name='openAction' action='openAction'/><toolitem name='editAction' action='editAction'/><separator/><toolitem name='goBackAction' action='goBackAction'/><toolitem name='goForwardAction' action='goForwardAction'/><separator/><toolitem name='selectSingleAction' action='selectSingleAction'/><toolitem name='selectMultipleAction' action='selectMultipleAction'/><toolitem name='editingModeAction' action='editingModeAction'/><separator/><toolitem name='saveAction' action='saveAction'/><separator/><toolitem name='closeAction' action='closeAction'/></toolbar></ui>");
 		this.mainToolbar = ((global::Gtk.Toolbar)(this.UIManager.GetWidget ("/mainToolbar")));
 		this.mainToolbar.Name = "mainToolbar";
 		this.mainToolbar.ShowArrow = false;
@@ -139,5 +143,6 @@ public partial class MainWindow
 		this.goForwardAction.Activated += new global::System.EventHandler (this.OnGoForwardActionActivated);
 		this.goBackAction.Activated += new global::System.EventHandler (this.OnGoBackActionActivated);
 		this.editingModeAction.Activated += new global::System.EventHandler (this.OnEditingModeActionActivated);
+		this.saveAction.Activated += new global::System.EventHandler (this.OnSaveActionActivated);
 	}
 }

@@ -40,6 +40,20 @@ namespace MP3Tagger
 
 			progress(this, new MP3Tagger.ProgressEventArgs(100));
 		}
+	
+		public  List<Song> ChangedSongs
+		{
+			get
+			{
+				var c=new List<Song>();
+				foreach (var song in this) 
+				{
+					if (song.ID3v1.Changed || song.ID3v2.Changed) c.Add(song);
+				}
+
+				return c;
+			}
+		}	
 	}
 }
 

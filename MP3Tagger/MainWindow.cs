@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Collections.Generic;
 using Grid;
 using Gtk;
@@ -91,6 +92,20 @@ public partial class MainWindow: Gtk.Window
 
 		_treeView1Data.CreateTreeViewColumns();
 		_treeView2Data.CreateTreeViewColumns();
+	}
+
+
+	private static ResponseType QuestionDialog(string message)
+	{
+		MessageDialog md = new MessageDialog (null, 
+                                  DialogFlags.DestroyWithParent,
+                              	  MessageType.Question, 
+                                  ButtonsType.Close, message);
+
+		var result = (ResponseType)md.Run ();
+		md.Destroy();
+
+		return result;
 	}
 
 	private static void InfoDialog(string message,MessageType msgType = MessageType.Info )
@@ -479,18 +494,6 @@ public partial class MainWindow: Gtk.Window
 	protected void OnEditActionActivated (object sender, EventArgs e)
 	{
 		EditSelectedSongs();
-		/*
-		var x = GetSelectedSongs();
-
-		if ( (ActualSelectionMode == SelectionMode.Single) || (ActualSelectionMode == SelectionMode.Browse) )
-		{
-			//InfoDialog("single edit");
-		} else
-		if (ActualSelectionMode == SelectionMode.Multiple) 
-		{
-			//	InfoDialog("multiple edit");
-		}
-		*/
 	}
 
 	protected void OnCloseActionActivated (object sender, EventArgs e)	
@@ -555,6 +558,24 @@ public partial class MainWindow: Gtk.Window
 	protected void OnTreeToggleCursorRow (object o, ToggleCursorRowArgs args)
 	{
 
+	}
+
+	protected void OnSaveActionActivated (object sender, EventArgs e)
+	{
+		var changedSongs = MP3List.ChangedSongs;
+		if (changedSongs.Count==0)
+		{
+			InfoDialog("No changes");
+		} else
+		{
+			if (QuestionDialog(String.Format("Save all changhes ({0})?",changedSongs.Count))!= ResponseType.Ok)
+			return;			
+
+			foreach (var song in changedSongs)
+			{
+				song.SaveChanges(false);
+			}
+		}
 	}
     #endregion
 

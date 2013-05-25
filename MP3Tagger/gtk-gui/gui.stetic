@@ -85,6 +85,13 @@
         <property name="Active">False</property>
         <signal name="Activated" handler="OnEditingModeActionActivated" />
       </action>
+      <action id="saveAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">_Save</property>
+        <property name="ShortLabel" translatable="yes">_Save</property>
+        <property name="StockId">gtk-save</property>
+        <signal name="Activated" handler="OnSaveActionActivated" />
+      </action>
     </action-group>
     <property name="MemberName" />
     <property name="Title" translatable="yes">MP3 Tagger</property>
@@ -168,6 +175,8 @@
               <node type="Toolitem" action="selectSingleAction" />
               <node type="Toolitem" action="selectMultipleAction" />
               <node type="Toolitem" action="editingModeAction" />
+              <node type="Separator" />
+              <node type="Toolitem" action="saveAction" />
               <node type="Separator" />
               <node type="Toolitem" action="closeAction" />
             </node>

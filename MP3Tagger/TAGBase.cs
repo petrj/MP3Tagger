@@ -223,6 +223,11 @@ namespace MP3Tagger
 			throw new Exception("Calling base ReadFromStream");
 		}
 
+		public virtual bool SaveToStream(FileStream fStream, bool throwExceptions=false)
+		{
+			throw new Exception("Calling base SaveToStream");
+		}
+
 		#endregion
 
 		#region Genre Constant
