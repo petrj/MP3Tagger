@@ -454,7 +454,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Bin" id="MP3Tagger.TagWidget" design-size="357 260">
+  <widget class="Gtk.Bin" id="MP3Tagger.TagWidget" design-size="401 260">
     <property name="MemberName" />
     <property name="Visible">False</property>
     <child>
@@ -540,7 +540,7 @@
           </widget>
           <packing>
             <property name="X">5</property>
-            <property name="Y">82</property>
+            <property name="Y">85</property>
           </packing>
         </child>
         <child>
@@ -550,7 +550,7 @@
           </widget>
           <packing>
             <property name="X">5</property>
-            <property name="Y">109</property>
+            <property name="Y">114</property>
           </packing>
         </child>
         <child>
@@ -560,7 +560,7 @@
           </widget>
           <packing>
             <property name="X">5</property>
-            <property name="Y">146</property>
+            <property name="Y">144</property>
           </packing>
         </child>
         <child>
@@ -662,6 +662,29 @@
           <packing>
             <property name="X">75</property>
             <property name="Y">139</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.Label" id="labelTrackNumber">
+            <property name="MemberName" />
+            <property name="LabelProp" translatable="yes">Track Number</property>
+          </widget>
+          <packing>
+            <property name="X">180</property>
+            <property name="Y">114</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.Entry" id="entryTrackNumber">
+            <property name="MemberName" />
+            <property name="WidthRequest">50</property>
+            <property name="CanFocus">True</property>
+            <property name="IsEditable">True</property>
+            <property name="InvisibleChar">●</property>
+          </widget>
+          <packing>
+            <property name="X">276</property>
+            <property name="Y">108</property>
           </packing>
         </child>
       </widget>

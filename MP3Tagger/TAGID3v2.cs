@@ -9,6 +9,7 @@ namespace MP3Tagger
 	public class TAGID3v2 : MP3Tagger.TAGBase
 	{
 		// http://id3.org/id3v2.4.0-structure
+		// http://id3.org/id3v2.3.0
 
 		#region private fields
 
@@ -30,6 +31,7 @@ namespace MP3Tagger
 		public static string frameNameYear = "TYER";
 		public static string frameNameComment = "COMM";
 		public static string frameNameGenre = "TCON";
+		public static string frameNameTrack = "TRCK";
 
 		#endregion
 
@@ -181,6 +183,16 @@ namespace MP3Tagger
 			if (FrameByName.ContainsKey(frameNameTitle)) Title = FrameByName[frameNameTitle].Value;
 			if (FrameByName.ContainsKey(frameNameArtist)) Artist = FrameByName[frameNameArtist].Value;
 			if (FrameByName.ContainsKey(frameNameComment)) Comment = FrameByName[frameNameComment].Value;
+
+			// parsing track number
+			if (FrameByName.ContainsKey(frameNameTrack))			
+			{
+				byte track;
+				if (byte.TryParse(FrameByName[frameNameTrack].Value, out track))
+				{
+					TrackNumber = track;
+				}
+			}
 
 			// parsing year
 			if (FrameByName.ContainsKey(frameNameYear))

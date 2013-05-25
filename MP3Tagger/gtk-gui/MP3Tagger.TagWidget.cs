@@ -18,6 +18,8 @@ namespace MP3Tagger
 		private global::Gtk.ScrolledWindow GtkScrolledWindow;
 		private global::Gtk.TextView textViewComment;
 		private global::Gtk.ComboBox comboBoxGenre;
+		private global::Gtk.Label labelTrackNumber;
+		private global::Gtk.Entry entryTrackNumber;
 		
 		protected virtual void Build ()
 		{
@@ -96,7 +98,7 @@ namespace MP3Tagger
 			this.@fixed.Add (this.labelAlbum);
 			global::Gtk.Fixed.FixedChild w7 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.labelAlbum]));
 			w7.X = 5;
-			w7.Y = 82;
+			w7.Y = 85;
 			// Container child fixed.Gtk.Fixed+FixedChild
 			this.labelYear = new global::Gtk.Label ();
 			this.labelYear.Name = "labelYear";
@@ -104,7 +106,7 @@ namespace MP3Tagger
 			this.@fixed.Add (this.labelYear);
 			global::Gtk.Fixed.FixedChild w8 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.labelYear]));
 			w8.X = 5;
-			w8.Y = 109;
+			w8.Y = 114;
 			// Container child fixed.Gtk.Fixed+FixedChild
 			this.labelGenre = new global::Gtk.Label ();
 			this.labelGenre.Name = "labelGenre";
@@ -112,7 +114,7 @@ namespace MP3Tagger
 			this.@fixed.Add (this.labelGenre);
 			global::Gtk.Fixed.FixedChild w9 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.labelGenre]));
 			w9.X = 5;
-			w9.Y = 146;
+			w9.Y = 144;
 			// Container child fixed.Gtk.Fixed+FixedChild
 			this.labelComment = new global::Gtk.Label ();
 			this.labelComment.Name = "labelComment";
@@ -143,6 +145,25 @@ namespace MP3Tagger
 			global::Gtk.Fixed.FixedChild w13 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.comboBoxGenre]));
 			w13.X = 75;
 			w13.Y = 139;
+			// Container child fixed.Gtk.Fixed+FixedChild
+			this.labelTrackNumber = new global::Gtk.Label ();
+			this.labelTrackNumber.Name = "labelTrackNumber";
+			this.labelTrackNumber.LabelProp = global::Mono.Unix.Catalog.GetString ("Track Number");
+			this.@fixed.Add (this.labelTrackNumber);
+			global::Gtk.Fixed.FixedChild w14 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.labelTrackNumber]));
+			w14.X = 180;
+			w14.Y = 114;
+			// Container child fixed.Gtk.Fixed+FixedChild
+			this.entryTrackNumber = new global::Gtk.Entry ();
+			this.entryTrackNumber.WidthRequest = 50;
+			this.entryTrackNumber.CanFocus = true;
+			this.entryTrackNumber.Name = "entryTrackNumber";
+			this.entryTrackNumber.IsEditable = true;
+			this.entryTrackNumber.InvisibleChar = '●';
+			this.@fixed.Add (this.entryTrackNumber);
+			global::Gtk.Fixed.FixedChild w15 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.entryTrackNumber]));
+			w15.X = 276;
+			w15.Y = 108;
 			this.Add (this.@fixed);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();

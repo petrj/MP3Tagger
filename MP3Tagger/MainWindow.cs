@@ -100,7 +100,7 @@ public partial class MainWindow: Gtk.Window
 		MessageDialog md = new MessageDialog (null, 
                                   DialogFlags.DestroyWithParent,
                               	  MessageType.Question, 
-                                  ButtonsType.Close, message);
+                                  ButtonsType.OkCancel, message);
 
 		var result = (ResponseType)md.Run ();
 		md.Destroy();
@@ -126,7 +126,8 @@ public partial class MainWindow: Gtk.Window
 		progressWin.Show();
 
         MP3List.AddFilesFromFolder(dir,recursive,Progress);
-        FillTree(0);
+        FillTree();
+		if (MP3List.Count>0) SelectSong(MP3List[0]);
 		progressWin.Destroy();
 	}
 
@@ -136,7 +137,7 @@ public partial class MainWindow: Gtk.Window
 		while (GLib.MainContext.Iteration());
     }
 
-    public void FillTree(int selectedSongindex = -1)
+    public void FillTree()
     {
 		Logger.Logger.WriteToLog("Filling TreeView");
 
@@ -161,11 +162,6 @@ public partial class MainWindow: Gtk.Window
 		tree2.Model = _treeView2Data.CreateTreeViewListStore();
 
         Show();
-
-		if (selectedSongindex>=0)
-		{
-			SelectRow(selectedSongindex);
-		}
 	}
 
 	#endregion
@@ -547,7 +543,8 @@ public partial class MainWindow: Gtk.Window
 		_treeView1Data.ClearTreeView();
 		CreateGridColumns();
 		//ActualSelectionMode = SelectionMode.Single;
-		FillTree(0);
+		FillTree();
+		if (MP3List.Count>0) SelectSong(MP3List[0]);
 	}
 
 	protected void OnTreeRowActivated (object o, RowActivatedArgs args)
@@ -575,6 +572,8 @@ public partial class MainWindow: Gtk.Window
 			{
 				song.SaveChanges(false);
 			}
+
+			FillTree();
 		}
 	}
     #endregion

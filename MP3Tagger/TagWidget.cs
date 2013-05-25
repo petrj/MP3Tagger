@@ -26,6 +26,8 @@ namespace MP3Tagger
 				entryYear.Text = value.Year == 0 ? String.Empty : value.Year.ToString();
 				textViewComment.Buffer.Text = value.Comment == null ? String.Empty : value.Comment;
 
+				entryTrackNumber.Text = value.TrackNumber == 0 ? String.Empty : value.TrackNumber.ToString();
+
 				if (TAGBase.ID3Genre.Length>value.Genre)
 				{
 					comboBoxGenre.Active = value.Genre;
@@ -43,16 +45,22 @@ namespace MP3Tagger
 				_tag.Album = entryAlbum.Text;
 				if (comboBoxGenre.Active>=0 && comboBoxGenre.Active<TAGBase.ID3Genre.Length && TAGBase.ID3Genre.Length<=255)
 				{
-					_tag.Genre = (byte)comboBoxGenre.Active;
+						_tag.Genre = (byte)comboBoxGenre.Active;
 				}
 				else 	_tag.Genre = 0;
 
 				int y;
 				if (int.TryParse(entryYear.Text,out y))
 				{
-					_tag.Year = y;
-				}
-				_tag.Year = 0;
+						_tag.Year = y;
+				} else
+						_tag.Year = 0;
+
+				byte tn;
+				if (byte.TryParse(entryTrackNumber.Text,out tn))
+				{
+					_tag.TrackNumber = tn;
+				} else _tag.TrackNumber = 0;
 
 				_tag.Comment = textViewComment.Buffer.Text;
 	

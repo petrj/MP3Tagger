@@ -18,7 +18,7 @@ namespace MP3Tagger
 		public Encoding DefaultEncoding = Encoding.GetEncoding("iso-8859-1");
 		private string _fileName = null;
 
-		public static List<string> AllCollumnNames = new List<string>() {"Title", "Artist", "Album", "Year","Comment", "Genre"};
+		public static List<string> AllCollumnNames = new List<string>() {"Title", "Artist", "Album", "Year","Comment", "Track", "Genre"};
 
 		// basic values
 		private string _title;
@@ -28,6 +28,7 @@ namespace MP3Tagger
 		private string _comment;
 		private byte _genre;
 		//------------------------------------------//
+		private byte _trackNumber;
 
 		public byte[] OriginalHeader  { get; set; }
 		public byte HeaderByteLength  { get; set; }
@@ -39,6 +40,7 @@ namespace MP3Tagger
 			Loaded = false;
 			Active = false;
 			Changed = false;
+			Clear();
 		}
 
 		#region vasic values properties
@@ -104,6 +106,17 @@ namespace MP3Tagger
 			}
 		}
 
+		public byte TrackNumber
+		{
+			get { return _trackNumber; }
+			set 
+			{
+				if (value != _trackNumber) Changed = true;
+				_trackNumber = value;
+			}
+		}
+
+
 		#endregion
 
 		#region properties
@@ -140,7 +153,8 @@ namespace MP3Tagger
 			if (!String.IsNullOrEmpty(Artist)) tag.Artist = Artist;
 			if (!String.IsNullOrEmpty(Comment)) tag.Comment = Comment;
 			if (Year !=0) tag.Year = Year;
-			// todo genre?
+			if (TrackNumber !=0) tag.TrackNumber = TrackNumber;
+			if (Genre !=255) tag.Genre = Genre;
 		}
 
 		public virtual void Clear()
@@ -148,7 +162,9 @@ namespace MP3Tagger
 			this.Active = false;
 			this.Loaded = false;
 			Album = Artist = Title = Comment = "";
-			Year = Genre = 0;
+			Year = TrackNumber = 0;
+			Genre = 255;
+						
 		}
 
 		public virtual void WriteToLog()
@@ -175,6 +191,7 @@ namespace MP3Tagger
                     case "Comment": result.Add(Comment); break;
                     case "Title": result.Add(Title); break;
                     case "Genre": result.Add(GenreText); break;
+					case "Track": result.Add(TrackNumber.ToString()); break;
 
 				default: result.Add("Unknown column "+col); break;
                 }

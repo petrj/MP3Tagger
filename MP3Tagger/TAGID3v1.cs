@@ -101,24 +101,36 @@ namespace MP3Tagger
 			return false;
 		}
 
-		private string GetNotNullSubString(int start,int count)
+		public static string GetNotNullSubString(byte[] stringAsByteArray,int start,int count, Encoding encoding)
 		{
 			var finish = start+count-1;
-			while ( (finish>=start) && OriginalHeader[finish] == 0 )
+			while ( (finish>=start) && stringAsByteArray[finish] == 0 )
 			{
 				finish--;
 			}
 
-			return DefaultEncoding.GetString(OriginalHeader,start,finish-start+1).Trim();
+			return encoding.GetString(stringAsByteArray,start,finish-start+1).Trim();
 		}
 
 		private void ParseHeader()
 		{
-				Title = GetNotNullSubString(3,30);
-				Artist = GetNotNullSubString(33,30);
-				Album = GetNotNullSubString(63,30);
-				var y = GetNotNullSubString(93,4);
-				Comment = GetNotNullSubString(97,30);
+				Title = GetNotNullSubString(OriginalHeader,3,30,DefaultEncoding);
+				Artist = GetNotNullSubString(OriginalHeader,33,30,DefaultEncoding);
+				Album = GetNotNullSubString(OriginalHeader,63,30,DefaultEncoding);
+				var y = GetNotNullSubString(OriginalHeader,93,4,DefaultEncoding);
+
+				//	zero byte + track number?
+				if (
+					(OriginalHeader[125] == 0) && // zero byte 
+					(OriginalHeader[126] != 1)
+					)
+				{
+					TrackNumber = OriginalHeader[126];
+					Comment = GetNotNullSubString(OriginalHeader,97,28,DefaultEncoding);
+				} else
+				{
+					Comment = GetNotNullSubString(OriginalHeader,97,30,DefaultEncoding);
+				}
 
 				int year;
 				if (int.TryParse(y,out year))
@@ -183,7 +195,6 @@ namespace MP3Tagger
 
 				var originalHeaderAsGenericList = new List<byte>();
 
-				//originalHeaderAsGenericList.AddRange(DefaultEncoding.GetBytes(Title));
 				AddToByteList(originalHeaderAsGenericList,"TAG",3,DefaultEncoding);
 				AddToByteList(originalHeaderAsGenericList,Title,30,DefaultEncoding);
 				AddToByteList(originalHeaderAsGenericList,Artist,30,DefaultEncoding);
@@ -197,47 +208,23 @@ namespace MP3Tagger
 					originalHeaderAsGenericList.AddRange( new byte[] {0,0,0,0} );
 				}
 
-				AddToByteList(originalHeaderAsGenericList,Comment,30,DefaultEncoding);
+				if (TrackNumber>0)
+				{
+					AddToByteList(originalHeaderAsGenericList,Comment,28,DefaultEncoding);
+					originalHeaderAsGenericList.Add(0); // zero byte
+					originalHeaderAsGenericList.Add(TrackNumber);
+				} else
+				{
+					AddToByteList(originalHeaderAsGenericList,Comment,30,DefaultEncoding);
+				}
+
 				originalHeaderAsGenericList.Add(Genre);
+
 
 				OriginalHeader = originalHeaderAsGenericList.ToArray();
 
 				fStream.Write(OriginalHeader,0,HeaderByteLength);
-
-		/*
-			header 	3 	"TAG"
-			title 	30 	30 characters of the title
-			artist 	30 	30 characters of the artist name
-			album 	30 	30 characters of the album name
-			year 	4 	A four-digit year
-			comment 	28[3] or 30 	The comment.
-			zero-byte[3] 	1 	If a track number is stored, this byte contains a binary 0.
-			track[3] 	1 	The number of the track on the album, or 0. Invalid, if previous byte is not a binary 0.
-			genre 	1 	Index in a list of genres, or 255
-		 */
-					/*
-				titleAsByteArray = DefaultEncoding.GetBytes(Title);
-
-				fStream.Seek(fStream.Length-HeaderByteLength,0);
-				fStream.Read(OriginalHeader,0,HeaderByteLength);
-
-				ReadExtendedHeader(fStream);
-
-				var flag = System.Text.Encoding.ASCII.GetString(OriginalHeader,0,3);
-
-				if (flag != "TAG")
-				{
-					Logger.Logger.WriteToLog("TAG not found");
-					return false; 
-				}
-
-				ParseHeader();
-
-				Logger.Logger.WriteToLog(String.Format("TAG found: (Title:{0}, Artist:{1}, ...)",Title,Artist));
-
-				Loaded = true;
-				Changed = false;
-				*/
+	
 				return true;
 
 			} catch (Exception ex)
