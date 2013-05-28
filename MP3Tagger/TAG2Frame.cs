@@ -191,89 +191,207 @@ namespace MP3Tagger
 			}			
 		}
 
+		/// <summary>
+		/// Zeros the bytes at position.
+		/// </summary>
+		/// <returns>
+		/// number of zero bytes found
+		/// </returns>
+		/// <param name='position'>
+		/// Position.
+		/// </param>
+		/// <param name='currentEncoding'>
+		/// Current encoding.
+		/// </param>
+		private int ZeroBytesAtPosition(int position,System.Text.Encoding currentEncoding)
+		{
+			if (OriginalData[position] == 0)
+							{
+								// terminating sequence?
+								if (currentEncoding == DefaultEncoding)
+								{									
+									return 1; // single byte encoding
+								}
+								if (currentEncoding == System.Text.Encoding.Unicode &&
+						    		position>1 &&	 // min 2 bytes in OriginalData
+						    		OriginalData[position-1] == 0)
+								{
+									// double byte encoding
+									return 2;
+								}					    	
+							}
+			return 0;
+		}
+
 		private void ParseTextFrameData()
 		{
-			bool firstByteEncodingFlag = false;;
+			var frameEncoding = GetFrameHeaderEncoding();
+			var currentEncoding = frameEncoding == null ? DefaultEncoding : frameEncoding;
+
+			if (frameEncoding == null)
+			{
+				// no encoding byte presents
+				int position = 0;
+				Value = ParseFrameValueFromPosition(ref position,DefaultEncoding);
+			} else
+			{
+				int position = 1;
+				Value = ParseFrameValueFromPosition(ref position,frameEncoding);
+			}
+		}
+
+		private System.Text.Encoding GetFrameHeaderEncoding()
+		{
+			if (Size==0)
+				return null;
+
+			if (_originalData[0]>3)
+			{
+				return null;
+			}
+
 			if (
 					(Name.StartsWith("T")) || 	//  User defined text information frame
 					(Name.StartsWith("W")) ||	//	User defined URL link frame
 					(Name == "USLT") ||			//  Unsynchronised lyrics/text transcription
 					(Name == "SYLT") ||			//  Synchronised lyrics/text
-					(Name == "COMM") ||			//  Comment
 					(Name == "USER") ||			//  Terms of use frame
 					(Name == "OWNE") ||			//  
-					(Name == "COMR") ||			//  
-					(Name == "APIC")  			//  
+					(Name == "COMM") ||			//  
+					(Name == "APIC") ||			//  
+					(Name == "COMR") 			//  
 				)
 			{
-				firstByteEncodingFlag = true;
+				var encodingByte = OriginalData[0];
+				return GetFrameEncoding(encodingByte);
 			}
 
-			var currentEncoding = DefaultEncoding;
+			return null;								
+		}
 
-			List <byte> dataBytes = new List <byte>();
+		private void RemoveBOM(List <byte> byteArrayList,int pos)
+		{
+			if (pos>=0 && byteArrayList.Count>=2 && pos+1<=byteArrayList.Count-1)
+			{
+				if (
+					    (
+					    	byteArrayList[pos] == 255 &&
+					    	byteArrayList[pos+1] == 254
+						) ||
+					    (
+					    	byteArrayList[pos] == 254 &&
+					    	byteArrayList[pos+1] == 255
+						)				    				    
+				    )
+				{
+					// removing unicode BOM 
+					byteArrayList.RemoveRange(pos,2);
+				}
+			}
+		}
 
-				for (var i=0;i<Size;i++)
-					{
-						if ( (i==0) && (firstByteEncodingFlag))
-						{					
+		private void ParseUnsynchronisedLyricsText()
+		{
+			/*
+		     <Header for 'Unsynchronised lyrics/text transcription', ID: "USLT">
 
-							var encodingByte = OriginalData[i];
-							currentEncoding =  GetFrameEncoding(encodingByte);
-							
-							continue;
-						}
+			 Text encoding        $xx
+		     Language             $xx xx xx
+		     Content descriptor   <text string according to encoding> $00 (00)
+		     Lyrics/text          <full text string according to encoding>
+		     
+			 */
 
-						if (i>0)
-						{
-							if (currentEncoding == System.Text.Encoding.Unicode &&
-					    		i >=2 &&
-						    		(
-										(
-								    		OriginalData[i] == 0 &&
-								    		OriginalData[i-1] == 0
-										) 
-									)
-					    		)
-								{
-									dataBytes.RemoveAt( dataBytes.Count-1 );
-									break;
-								}
+			if (OriginalData.Length<5)  // encoding (1) + language (3) + content descrip (min 1)
+			return;
 
-							if (currentEncoding == DefaultEncoding &&
-					    		OriginalData[i] == 0)
-								{
-									break;
-								}
-						}
+			var frameEncoding = GetFrameHeaderEncoding();
+			var currentEncoding = frameEncoding == null ? DefaultEncoding : frameEncoding;
 
-						dataBytes.Add(OriginalData[i]);
-					}
+			// reading 3 bytes Language
+			//OriginalData
+
+			var languageAsByteList = new List<byte>();
+			languageAsByteList.Add(OriginalData[1]);
+			languageAsByteList.Add(OriginalData[2]);
+			languageAsByteList.Add(OriginalData[3]);
+			var language = DefaultEncoding.GetString( languageAsByteList.ToArray() );
+
+			var position = 4;
+			var contentDesc = ParseFrameValueFromPosition(ref position,currentEncoding);		
+
+			Value = ParseFrameValueFromPosition(ref position,currentEncoding);		
+		}
+
+		private string ParseFrameValueFromPosition(ref int position, System.Text.Encoding currentEncoding)
+		{
+			var dataBytes = new List <byte>();
+			int i;
+			for (i=position;i<Size;i++)
+			{
+				position++;
+				int zeroBytes = ZeroBytesAtPosition(i,currentEncoding);
+				if (zeroBytes == 0)
+				{
+					dataBytes.Add(OriginalData[i]);
+				} else
+				if (zeroBytes == 1)
+				{
+					break;
+				}
+				else
+				if (zeroBytes == 2)
+				{
+					dataBytes.RemoveAt( dataBytes.Count-1 );
+					break;
+				}
+			}
 
 			if (dataBytes.Count > 0)
 			{
-				if (currentEncoding == Encoding.Unicode &&
-				    dataBytes.Count>=2 &&
-				    (
-					    (
-					    	dataBytes[dataBytes.Count-1] == 255 &&
-					    	dataBytes[dataBytes.Count-2] == 254
-						) ||
-					    (
-					    	dataBytes[dataBytes.Count-1] == 254 &&
-					    	dataBytes[dataBytes.Count-2] == 255
-						)				    				    
-				    )
-				   )
+				if (currentEncoding == Encoding.Unicode)
 				{
-					// removing unicode BOM 
-					dataBytes.RemoveRange(0,2);
-				}
+					RemoveBOM(dataBytes,0);
+					RemoveBOM(dataBytes,dataBytes.Count-2);
+				}			
 
-				Value = currentEncoding.GetString( dataBytes.ToArray() );
-
-				if (Name.StartsWith("T")) _frameSupported = true;
+				return currentEncoding.GetString( dataBytes.ToArray() );
 			}
+
+			return null;
+		}
+
+		private void ParseCommentData()
+		{
+			/*
+			  <Header for 'Comment', ID: "COMM">
+			  
+		     Text encoding          $xx
+		     Language               $xx xx xx
+		     Short content descrip. <text string according to encoding> $00 (00)
+		     The actual text        <full text string according to encoding>
+		     
+			 */
+
+			if (OriginalData.Length<5)  // encoding (1) + language (3) + Short content descrip (min 1)
+			return;
+
+			var frameEncoding = GetFrameHeaderEncoding();
+			var currentEncoding = frameEncoding == null ? DefaultEncoding : frameEncoding;
+
+			// reading 3 bytes Language
+			//OriginalData
+
+			var languageAsByteList = new List<byte>();
+			languageAsByteList.Add(OriginalData[1]);
+			languageAsByteList.Add(OriginalData[2]);
+			languageAsByteList.Add(OriginalData[3]);
+			var language = DefaultEncoding.GetString( languageAsByteList.ToArray() );
+
+			var position = 4;
+			var shortDesc = ParseFrameValueFromPosition(ref position,currentEncoding);		
+
+			Value = ParseFrameValueFromPosition(ref position,currentEncoding);		
 		}
 
 		private void ParseImageData()
@@ -289,55 +407,29 @@ namespace MP3Tagger
 				Picture data    <binary data>
 			*/
 
-			if (OriginalData.Length==0)
+			if (OriginalData.Length<4)
 				return;
 
-			var encodingByte = OriginalData[0];
-			var apicEncoding =  GetFrameEncoding(encodingByte);
+			var frameEncoding = GetFrameHeaderEncoding();
+			var currentEncoding = frameEncoding == null ? DefaultEncoding : frameEncoding;
 
-			// detect mime bytes
-			var mimeBytes = new List<byte>();
-			var pos = 1;
-			while (pos<OriginalData.Length && OriginalData[pos] != 0)
-			{
-				mimeBytes.Add(OriginalData[pos]);
-				pos++;
-			}
+			var position = 1;
+			var mime = ParseFrameValueFromPosition(ref position,DefaultEncoding);		
 
-			ImageMime = apicEncoding.GetString( mimeBytes.ToArray() );
+			var pictureType = OriginalData[position];
+			ImgType = (ImageType)pictureType;
 
-			if (pos+1>=OriginalData.Length)
-				return;
+			position++;
 
-			pos++;
-
-			var pictureTypeAsByte = OriginalData[pos];
-			ImgType = (ImageType)pictureTypeAsByte;
-
-			pos++;
-
-			// detect dexcription
-			var descBytes = new List<byte>();
-			while (pos<OriginalData.Length && OriginalData[pos] != 0)
-			{
-				descBytes.Add(OriginalData[pos]);
-				pos++;
-			}
-
-			ImageDescription = apicEncoding.GetString( descBytes.ToArray() );
-
-			if (pos+1>=OriginalData.Length)
-			return;
-
-			pos++;
+			ImageDescription =  ParseFrameValueFromPosition(ref position,frameEncoding);	
 
 			// reading image bytes
 
 			var imgBytes = new List<byte>();
-			while (pos<OriginalData.Length)
+			while (position<OriginalData.Length)
 			{
-				imgBytes.Add(OriginalData[pos]);
-				pos++;
+				imgBytes.Add(OriginalData[position]);
+				position++;
 			}
 
 			var ms = new MemoryStream(imgBytes.ToArray());
@@ -360,6 +452,17 @@ namespace MP3Tagger
 				{
 					ParseImageData();
 					return true; 
+				}
+
+				if (Name=="COMM")
+				{
+					ParseCommentData();
+					return true;
+				}
+
+				if (Name == "USLT")
+				{
+					ParseUnsynchronisedLyricsText();
 				}
 
 				ParseTextFrameData();

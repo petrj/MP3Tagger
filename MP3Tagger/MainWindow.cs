@@ -70,7 +70,7 @@ public partial class MainWindow: Gtk.Window
 
 		// creating base TAG columns
 
-		foreach (var colName in TAGBase.AllCollumnNames)
+		foreach (var colName in TAGBase.BaseCollumnNames)
 		{
             if (colName == "Genre")
                 continue;
@@ -146,8 +146,8 @@ public partial class MainWindow: Gtk.Window
 
         foreach (var song in MP3List)
         {
-			var tree1Values = song.ID3v1.ValuesAsOLbjecttList(TAGBase.AllCollumnNames);
-			var tree2Values = song.ID3v2.ValuesAsOLbjecttList(TAGBase.AllCollumnNames);
+			var tree1Values = song.ID3v1.ValuesAsOLbjecttList(TAGBase.BaseCollumnNames);
+			var tree2Values = song.ID3v2.ValuesAsOLbjecttList(TAGBase.BaseCollumnNames);
 
 			// checkbox
 			tree1Values.Add(song.ID3v1.Changed);

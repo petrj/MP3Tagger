@@ -313,7 +313,7 @@
             <property name="WidthRequest">380</property>
             <property name="HeightRequest">400</property>
             <property name="CanFocus">True</property>
-            <property name="CurrentPage">0</property>
+            <property name="CurrentPage">3</property>
             <child>
               <widget class="Gtk.Fixed" id="fixedTAG1">
                 <property name="MemberName" />
@@ -411,6 +411,43 @@
                 <property name="MemberName" />
                 <property name="Xpad">8</property>
                 <property name="LabelProp" translatable="yes">TAG2 - frames</property>
+              </widget>
+              <packing>
+                <property name="type">tab</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.Fixed" id="fixedImages">
+                <property name="MemberName" />
+                <property name="HasWindow">False</property>
+                <child>
+                  <widget class="Gtk.Label" id="labelCoverFront">
+                    <property name="MemberName" />
+                    <property name="LabelProp" translatable="yes">Front Cover</property>
+                  </widget>
+                  <packing>
+                    <property name="X">11</property>
+                    <property name="Y">16</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.Image" id="imageCoverFront">
+                    <property name="MemberName" />
+                  </widget>
+                  <packing>
+                    <property name="X">18</property>
+                    <property name="Y">45</property>
+                  </packing>
+                </child>
+              </widget>
+              <packing>
+                <property name="Position">3</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.Label" id="labelTAG2Image">
+                <property name="MemberName" />
+                <property name="LabelProp" translatable="yes">Images</property>
               </widget>
               <packing>
                 <property name="type">tab</property>

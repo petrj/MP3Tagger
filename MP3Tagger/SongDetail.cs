@@ -76,9 +76,17 @@ namespace MP3Tagger
 
 				FillFrames(CurrentSong.ID3v2);
 
+				var img = CurrentSong.ID3v2.GetImageByType(ImageType.CoverFront);
+				if (img != null)
+				{				
+					// to do show image
+				}
+
 				Show();
 			}
 		}
+
+
 
 		private void FillFrames(TAGID3v2 TAG2)
 		{

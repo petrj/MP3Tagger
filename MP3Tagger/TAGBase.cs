@@ -18,7 +18,7 @@ namespace MP3Tagger
 		public Encoding DefaultEncoding = Encoding.GetEncoding("iso-8859-1");
 		private string _fileName = null;
 
-		public static List<string> AllCollumnNames = new List<string>() {"Title", "Artist", "Album", "Year","Comment", "Track", "Genre"};
+		public static List<string> BaseCollumnNames = new List<string>() {"Title", "Artist", "Album", "Year","Comment", "Track", "Genre"};
 
 		// basic values
 		private string _title;

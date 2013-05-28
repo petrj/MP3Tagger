@@ -26,6 +26,10 @@ namespace MP3Tagger
 		private global::Gtk.ScrolledWindow GtkScrolledWindow2;
 		private global::Gtk.TreeView treeViewFrames;
 		private global::Gtk.Label labelTAG2Frames;
+		private global::Gtk.Fixed fixedImages;
+		private global::Gtk.Label labelCoverFront;
+		private global::Gtk.Image imageCoverFront;
+		private global::Gtk.Label labelTAG2Image;
 		private global::Gtk.CheckButton checkButtonID31Active;
 		private global::Gtk.CheckButton checkButtonID32Active;
 		
@@ -83,7 +87,7 @@ namespace MP3Tagger
 			this.notebook.HeightRequest = 400;
 			this.notebook.CanFocus = true;
 			this.notebook.Name = "notebook";
-			this.notebook.CurrentPage = 0;
+			this.notebook.CurrentPage = 3;
 			// Container child notebook.Gtk.Notebook+NotebookChild
 			this.fixedTAG1 = new global::Gtk.Fixed ();
 			this.fixedTAG1.Name = "fixedTAG1";
@@ -155,10 +159,38 @@ namespace MP3Tagger
 			this.labelTAG2Frames.LabelProp = global::Mono.Unix.Catalog.GetString ("TAG2 - frames");
 			this.notebook.SetTabLabel (this.fixedTAG2Frames, this.labelTAG2Frames);
 			this.labelTAG2Frames.ShowAll ();
+			// Container child notebook.Gtk.Notebook+NotebookChild
+			this.fixedImages = new global::Gtk.Fixed ();
+			this.fixedImages.Name = "fixedImages";
+			this.fixedImages.HasWindow = false;
+			// Container child fixedImages.Gtk.Fixed+FixedChild
+			this.labelCoverFront = new global::Gtk.Label ();
+			this.labelCoverFront.Name = "labelCoverFront";
+			this.labelCoverFront.LabelProp = global::Mono.Unix.Catalog.GetString ("Front Cover");
+			this.fixedImages.Add (this.labelCoverFront);
+			global::Gtk.Fixed.FixedChild w10 = ((global::Gtk.Fixed.FixedChild)(this.fixedImages [this.labelCoverFront]));
+			w10.X = 11;
+			w10.Y = 16;
+			// Container child fixedImages.Gtk.Fixed+FixedChild
+			this.imageCoverFront = new global::Gtk.Image ();
+			this.imageCoverFront.Name = "imageCoverFront";
+			this.fixedImages.Add (this.imageCoverFront);
+			global::Gtk.Fixed.FixedChild w11 = ((global::Gtk.Fixed.FixedChild)(this.fixedImages [this.imageCoverFront]));
+			w11.X = 18;
+			w11.Y = 45;
+			this.notebook.Add (this.fixedImages);
+			global::Gtk.Notebook.NotebookChild w12 = ((global::Gtk.Notebook.NotebookChild)(this.notebook [this.fixedImages]));
+			w12.Position = 3;
+			// Notebook tab
+			this.labelTAG2Image = new global::Gtk.Label ();
+			this.labelTAG2Image.Name = "labelTAG2Image";
+			this.labelTAG2Image.LabelProp = global::Mono.Unix.Catalog.GetString ("Images");
+			this.notebook.SetTabLabel (this.fixedImages, this.labelTAG2Image);
+			this.labelTAG2Image.ShowAll ();
 			this.@fixed.Add (this.notebook);
-			global::Gtk.Fixed.FixedChild w10 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.notebook]));
-			w10.X = 4;
-			w10.Y = 100;
+			global::Gtk.Fixed.FixedChild w13 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.notebook]));
+			w13.X = 4;
+			w13.Y = 100;
 			// Container child fixed.Gtk.Fixed+FixedChild
 			this.checkButtonID31Active = new global::Gtk.CheckButton ();
 			this.checkButtonID31Active.CanFocus = true;
@@ -168,9 +200,9 @@ namespace MP3Tagger
 			this.checkButtonID31Active.DrawIndicator = true;
 			this.checkButtonID31Active.UseUnderline = true;
 			this.@fixed.Add (this.checkButtonID31Active);
-			global::Gtk.Fixed.FixedChild w11 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.checkButtonID31Active]));
-			w11.X = 5;
-			w11.Y = 71;
+			global::Gtk.Fixed.FixedChild w14 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.checkButtonID31Active]));
+			w14.X = 5;
+			w14.Y = 71;
 			// Container child fixed.Gtk.Fixed+FixedChild
 			this.checkButtonID32Active = new global::Gtk.CheckButton ();
 			this.checkButtonID32Active.CanFocus = true;
@@ -179,9 +211,9 @@ namespace MP3Tagger
 			this.checkButtonID32Active.DrawIndicator = true;
 			this.checkButtonID32Active.UseUnderline = true;
 			this.@fixed.Add (this.checkButtonID32Active);
-			global::Gtk.Fixed.FixedChild w12 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.checkButtonID32Active]));
-			w12.X = 70;
-			w12.Y = 70;
+			global::Gtk.Fixed.FixedChild w15 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.checkButtonID32Active]));
+			w15.X = 70;
+			w15.Y = 70;
 			this.Add (this.@fixed);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();

@@ -2,6 +2,7 @@ using System;
 using System.Text;
 using System.IO;
 using System.Collections.Generic;
+using System.Drawing;
 using MP3Tagger;
 
 namespace MP3Tagger
@@ -24,6 +25,18 @@ namespace MP3Tagger
 
 		#region Basic Frames names constants
 
+		public static Dictionary<string,string> FrameNamesDictionary = new Dictionary<string, string>() 
+		{
+			{"Title" , "TIT2"},
+			{"Artist","TPE1"},
+			{"Album","TALB"},
+
+			{"Year" , "TYER"},
+			{"Comment" , "COMM"},
+			{"Genre" ,"TCON"},
+			{"Track" , "TRCK"}
+		};
+		/*
 		public static string frameNameTitle = "TIT2";
 		public static string frameNameArtist = "TPE1";
 		public static string frameNameAlbum = "TALB";
@@ -32,7 +45,7 @@ namespace MP3Tagger
 		public static string frameNameComment = "COMM";
 		public static string frameNameGenre = "TCON";
 		public static string frameNameTrack = "TRCK";
-
+*/
 		#endregion
 
 		public TAGID3v2()
@@ -151,6 +164,24 @@ namespace MP3Tagger
 
 		#endregion
 
+		#region npublic methods
+
+		public Image GetImageByType(ImageType imgType)
+		{
+			foreach (var frame in Frames)
+			{
+				if (frame.ImgType == imgType)
+				{
+					return frame.ImageData;
+				}
+			}			
+
+			return null;
+		}
+
+		#endregion
+
+
 		#region Flags
 
 		public bool FlagUnsynchronisation
@@ -179,25 +210,40 @@ namespace MP3Tagger
 
 		private void SetBaseValues()
 		{
+			foreach (var name in BaseCollumnNames)
+			{
+				var frameName = FrameNamesDictionary[name];
+				if (FrameByName.ContainsKey(frameName))
+                {
+					switch (name)
+					{
+						case "Title": Title = FrameByName[frameName].Value; break;
+						case "Album": Album = FrameByName[frameName].Value; break;
+						case "Artist": Artist = FrameByName[frameName].Value; break;
+						case "Comment": Comment = FrameByName[frameName].Value; break;
+					}
+                }
+			}
+			/*
 			if (FrameByName.ContainsKey(frameNameAlbum)) Album = FrameByName[frameNameAlbum].Value;
 			if (FrameByName.ContainsKey(frameNameTitle)) Title = FrameByName[frameNameTitle].Value;
 			if (FrameByName.ContainsKey(frameNameArtist)) Artist = FrameByName[frameNameArtist].Value;
 			if (FrameByName.ContainsKey(frameNameComment)) Comment = FrameByName[frameNameComment].Value;
-
+*/
 			// parsing track number
-			if (FrameByName.ContainsKey(frameNameTrack))			
+			if (FrameByName.ContainsKey(FrameNamesDictionary["Track"]))			
 			{
 				byte track;
-				if (byte.TryParse(FrameByName[frameNameTrack].Value, out track))
+				if (byte.TryParse(FrameByName[FrameNamesDictionary["Track"]].Value, out track))
 				{
 					TrackNumber = track;
 				}
 			}
 
 			// parsing year
-			if (FrameByName.ContainsKey(frameNameYear))
+			if (FrameByName.ContainsKey(FrameNamesDictionary["Year"]))
 			{
-				var yearAsString = FrameByName[frameNameYear].Value;
+				var yearAsString = FrameByName[FrameNamesDictionary["Year"]].Value;
 					int year;
 					if (int.TryParse(yearAsString,out year))
 					{
@@ -207,9 +253,9 @@ namespace MP3Tagger
 			}
 
 			// parsing genre
-			if (FrameByName.ContainsKey(frameNameGenre))
+			if (FrameByName.ContainsKey(FrameNamesDictionary["Genre"]))
 				{
-					var val = FrameByName[frameNameGenre].Value.Trim();
+					var val = FrameByName[FrameNamesDictionary["Genre"]].Value.Trim();
 					if (val.StartsWith("(") && val.Contains(")"))
 					{
 						var pos1 = val.IndexOf("(");
