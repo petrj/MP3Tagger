@@ -53,6 +53,7 @@ namespace Grid
             cellRenderer.TextColumn = 0;
 		    cellRenderer.HasEntry = false;
             cellRenderer.Model = listStore;
+			cellRenderer.Data["colPosition"] = Columns.Count;
             if (EditedHandler != null) cellRenderer.Edited += EditedHandler;
 
 			var newColumn = new Gtk.TreeViewColumn ();
@@ -96,6 +97,8 @@ namespace Grid
 				 
 			var cellRenderer = new Gtk.CellRendererText ();
 			cellRenderer.Editable = editable;
+			cellRenderer.Data.Add("colName",name);
+			cellRenderer.Data.Add("colPosition",Columns.Count);
 
             if (EditedHandler != null) cellRenderer.Edited += EditedHandler;
 	 

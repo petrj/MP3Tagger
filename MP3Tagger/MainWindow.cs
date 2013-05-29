@@ -68,6 +68,10 @@ public partial class MainWindow: Gtk.Window
 		_treeView1Data.Columns.Clear();
 		_treeView2Data.Columns.Clear();
 
+		// filename
+		_treeView1Data.AppendStringColumn("FileName", null, false);
+        _treeView2Data.AppendStringColumn("FileName", null, false);
+
 		// creating base TAG columns
 
 		foreach (var colName in TAGBase.BaseCollumnNames)
@@ -148,6 +152,9 @@ public partial class MainWindow: Gtk.Window
         {
 			var tree1Values = song.ID3v1.ValuesAsOLbjecttList(TAGBase.BaseCollumnNames);
 			var tree2Values = song.ID3v2.ValuesAsOLbjecttList(TAGBase.BaseCollumnNames);
+
+			tree1Values.Insert(0,System.IO.Path.GetFileName(song.FileName));
+			tree2Values.Insert(0,System.IO.Path.GetFileName(song.FileName));
 
 			// checkbox
 			tree1Values.Add(song.ID3v1.Changed);
@@ -458,12 +465,131 @@ public partial class MainWindow: Gtk.Window
 
     private void OnStringCellEdit(object o, EditedArgs args)
     {
-        
+		try
+		{
+
+			var selectedSongs = GetSelectedSongs();		
+
+				if (
+						(o != null) &&
+						(o is Gtk.Object) &&
+						((o as Gtk.Object).Data != null) &&
+						((o as Gtk.Object).Data.ContainsKey("colName")) &&
+						((o as Gtk.Object).Data["colName"] != null) &&
+						((o as Gtk.Object).Data.ContainsKey("colPosition")) &&
+						((o as Gtk.Object).Data["colPosition"] != null)
+					)
+				{
+					var selectedCol = Convert.ToInt32((o as Gtk.Object).Data["colPosition"]);
+					var selectedRow = Convert.ToInt32(args.Path);
+
+					var editingSong = MP3List[selectedRow];
+					
+
+					TAGBase baseTag = null;
+					if (notebook.CurrentPage  == 0)
+					{
+							baseTag = editingSong.ID3v1 as TAGBase;
+					} else
+					//if (notebook.CurrentPage  == 1)
+					{
+						baseTag = editingSong.ID3v2 as TAGBase;
+					}
+
+
+					switch (selectedCol)
+					{
+						case 1: baseTag.Title = args.NewText; break;
+						case 2: baseTag.Artist = args.NewText; break;
+						case 3: baseTag.Album = args.NewText; break;
+						//case 4: baseTag.Year = args.NewText; break;
+						case 5: baseTag.Comment = args.NewText; break;
+						//case 6: baseTag.Track = args.NewText; break;
+						//case 7: baseTag.Genre = args.NewText; break;
+						
+					}
+
+						if (selectedCol == 4)
+						{
+							// editing year
+
+							int year;
+							if (int.TryParse(args.NewText,out year))
+							{
+								baseTag.Year = year;
+							}
+						}
+
+						if (selectedCol == 6)
+						{
+							// editing track number
+
+							byte trck;
+							if (byte.TryParse(args.NewText,out trck))
+							{
+								baseTag.TrackNumber = trck;
+							}
+						}
+
+				FillTree();
+				SelectSongs(selectedSongs);
+			}
+
+		} catch (Exception ex)
+		{
+				Logger.Logger.WriteToLog("Error editing cell (path:{0})",ex);								
+		}
+
     }
 
     private void OnComboCellEdit(object o, EditedArgs args)
     {
+		try
+		{
 
+		if (
+				(o != null) &&
+				(o is Gtk.Object) &&
+				((o as Gtk.Object).Data != null) &&
+				((o as Gtk.Object).Data.ContainsKey("colPosition")) &&
+				((o as Gtk.Object).Data["colPosition"] != null)
+			)
+		{
+			var selectedCol = Convert.ToInt32((o as Gtk.Object).Data["colPosition"]);
+			var selectedRow = Convert.ToInt32(args.Path);
+
+			var editingSong = MP3List[selectedRow];			
+
+			TAGBase baseTag = null;
+			if (notebook.CurrentPage  == 0)
+			{
+					baseTag = editingSong.ID3v1 as TAGBase;
+			} else
+			//if (notebook.CurrentPage  == 1)
+			{
+				baseTag = editingSong.ID3v2 as TAGBase;
+			}
+
+			if (selectedCol == 7)
+			{
+				// editing genre
+				for (var i=0;i<TAGBase.ID3Genre.Length;i++)
+				{
+					if (args.NewText == TAGBase.ID3Genre[i])
+					{
+							baseTag.Genre = Convert.ToByte(i);
+							break;
+					}
+				}
+			}
+
+			FillTree();
+		}
+
+		} catch (Exception ex)
+		{
+				Logger.Logger.WriteToLog("Error editing cell (path:{0})",ex);								
+		}
     }
 
 	protected void OnDeleteEvent (object sender, DeleteEventArgs a)
@@ -541,9 +667,12 @@ public partial class MainWindow: Gtk.Window
 	protected void OnEditingModeActionActivated (object sender, EventArgs e)
 	{
 		_treeView1Data.ClearTreeView();
+		_treeView2Data.ClearTreeView();
+
 		CreateGridColumns();
-		//ActualSelectionMode = SelectionMode.Single;
+
 		FillTree();
+
 		if (MP3List.Count>0) SelectSong(MP3List[0]);
 	}
 

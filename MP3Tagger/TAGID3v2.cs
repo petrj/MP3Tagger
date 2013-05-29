@@ -164,7 +164,7 @@ namespace MP3Tagger
 
 		#endregion
 
-		#region npublic methods
+		#region public methods
 
 		public Image GetImageByType(ImageType imgType)
 		{

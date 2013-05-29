@@ -59,6 +59,37 @@ namespace MP3Tagger
 
 		#region methods
 
+		// Eric Butler eric@extremeboredom.net
+		// Thu May 12 04:34:38 EDT 2005
+		// http://lists.ximian.com/pipermail/gtk-sharp-list/2005-May/005880.html)
+		private Gdk.Pixbuf ImageToPixbuf (System.Drawing.Image image)
+		{
+			using (System.IO.MemoryStream stream = new System.IO.MemoryStream ()) {
+				image.Save (stream, System.Drawing.Imaging.ImageFormat.Bmp);
+				stream.Position = 0;
+				return new Gdk.Pixbuf (stream);
+			}
+		}
+
+
+		private void FillImage(Gtk.Image image, ImageType imgType, bool throwExceptions = false)
+		{
+			try
+			{
+				var img = CurrentSong.ID3v2.GetImageByType(imgType);
+					if (img != null)
+					{				
+						image.Pixbuf = ImageToPixbuf(img);
+					}
+			}
+			catch (Exception ex)
+			{
+				Logger.Logger.WriteToLog(String.Format("Error while reading image (type {0})",imgType),ex);
+				if (throwExceptions) throw;
+			}
+		}
+
+
 		private void FillAll()
 		{
 			if (CurrentSong != null)
@@ -76,17 +107,11 @@ namespace MP3Tagger
 
 				FillFrames(CurrentSong.ID3v2);
 
-				var img = CurrentSong.ID3v2.GetImageByType(ImageType.CoverFront);
-				if (img != null)
-				{				
-					// to do show image
-				}
+				FillImage(imageCoverFront,ImageType.CoverFront);
 
 				Show();
 			}
 		}
-
-
 
 		private void FillFrames(TAGID3v2 TAG2)
 		{
