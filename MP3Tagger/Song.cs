@@ -67,13 +67,15 @@ namespace MP3Tagger
 					if (ID3v1.Active) dataByteLength = dataByteLength - ID3v1.HeaderByteLength;
 					if (ID3v2.Active) dataByteLength = dataByteLength - ID3v2.TotalByteLength;
 
-					if (ID3v2.Active) frs.Seek(ID3v2.TotalByteLength,0);
+					// reading original pbinary data
 
+					if (ID3v2.Active) frs.Seek(ID3v2.TotalByteLength,0);
 					var data = new byte[dataByteLength];
 					frs.Read(data,0,dataByteLength);
 
 					using (var fs = new FileStream(saveFileName,FileMode.CreateNew))
 					{
+						if (ID3v2.Active) ID3v2.SaveToStream(fs,throwExceptions);
 						fs.Write(data,0,dataByteLength);
 						if (ID3v1.Active) ID3v1.SaveToStream(fs,throwExceptions);
 
@@ -122,3 +124,4 @@ namespace MP3Tagger
 	}
 }
 
+ 

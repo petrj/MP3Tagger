@@ -143,6 +143,29 @@ namespace MP3Tagger
 
 		#region public methods
 
+		public static void AddToByteList(List<byte> byteList, string value,int length, Encoding enc)
+		{
+			byte[] valueAsByteArray;
+			var valueByteLength = 0;
+			do
+			{
+				if (valueByteLength>0) // not first time
+				{
+					value = value.Substring(0,value.Length-1);
+				}
+				valueAsByteArray = enc.GetBytes(value);
+				valueByteLength = valueAsByteArray.Length;
+
+			} while (valueByteLength>length);
+
+			byteList.AddRange(valueAsByteArray);
+
+			for(var i=valueByteLength;i<length;i++)
+			{
+				byteList.Add(0);
+			}
+		}
+
 		public void CopyNonEmptyValuesTo(TAGBase tag)
 		{
 			if (!Active)

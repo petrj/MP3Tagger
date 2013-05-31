@@ -276,9 +276,90 @@ namespace MP3Tagger
 
 		}
 
+		public List<byte> GenerateFrames()
+		{
+			var data = new List<byte>();
+
+
+
+			return data;
+		}
+
 		#endregion
 
 		#region public override methods
+
+		public override bool SaveToStream (FileStream fStream, bool throwExceptions)
+		{
+			/*
+
+				http://id3.org/id3v2.4.0-structure
+
+			 	 +-----------------------------+
+			     |      Header (10 bytes)      |
+			     +-----------------------------+
+			     |       Extended Header       |
+			     | (variable length, OPTIONAL) |
+			     +-----------------------------+
+			     |   Frames (variable length)  |
+			     +-----------------------------+
+			     |           Padding           |
+			     | (variable length, OPTIONAL) |
+			     +-----------------------------+
+			     | Footer (10 bytes, OPTIONAL) |
+			     +-----------------------------+
+
+
+			     ID3v2/file identifier      "ID3"
+			     ID3v2 version              $04 00
+			     ID3v2 flags                %abcd0000
+			     ID3v2 size             4 * %0xxxxxxx
+
+					a - Unsynchronisation
+				   	b - Extended header
+				   	c - Experimental indicator
+				   	d - Footer present		
+			*/
+
+			try
+			{
+				Logger.Logger.WriteToLog(String.Format("Saving TAG v2 ..."));
+		
+				var tag = new List<byte>();
+
+				// generating frames data
+
+				var framesData = GenerateFrames();
+				FramesSize = framesData.Count;
+
+				// header v 4.0
+
+				AddToByteList(tag,"ID3",3,DefaultEncoding);
+
+				tag.Add(4);  // VersionMajor
+				tag.Add(0);  // VersionRevision
+
+				tag.Add(0);  // no flags
+
+				tag.AddRange(TAG2Frame.MakeID3v2SizeAsByteArray(TotalByteLength)); // size
+
+				// writing frames
+
+				tag.AddRange(framesData);
+
+				fStream.Write(tag.ToArray(),0,tag.Count);
+	
+				return true;
+
+			} catch (Exception ex)
+			{
+				Logger.Logger.WriteToLog(String.Format("Error while reading TAG v1"),ex);
+				if (throwExceptions) throw;
+				return false;
+			}
+
+			return false;
+		}
 
 		public override void Clear()
 		{
@@ -347,13 +428,14 @@ namespace MP3Tagger
 
 				var size = new byte[] {0,0,0,0};
 				for (var i=0;i<4;i++) size[i] = OriginalHeader[6+i];
-				FramesSize = TAG2Frame.MakeID3v2Size(size,7);
 
 				if (!IsValid)
 				{
 					Logger.Logger.WriteToLog("TAG v2 not found (or invalid header)");
 					return false;
 				}
+
+				FramesSize = TAG2Frame.MakeID3v2Size(size,7);
 
 				if (FlagUnsynchronisation)
 				{

@@ -81,6 +81,32 @@ namespace MP3Tagger
 			Logger.Logger.WriteToLog("-------------");
 		}
 
+		public List<byte> ToByteList()
+		{
+			/*
+			     Frame ID      $xx xx xx xx  (four characters)
+			     Size      4 * %0xxxxxxx
+			     Flags         %0abc0000 %0h00kmnp
+
+ 					   a - Tag alter preservation
+					   b - File alter preservation
+					   c - Read only
+
+					   h - Grouping identity
+					   
+					   k - Compression
+					   m - Encryption
+					   n - Unsynchronisation
+					   p - Data length indicator
+
+			*/
+
+			var res = new List<byte>();
+
+			return res;
+
+		}
+
 		public bool ReadFromOpenedStream(FileStream fStream, byte versionMajor, bool throwExceptions=false)
 		{
 			try
@@ -97,7 +123,6 @@ namespace MP3Tagger
 
 				fStream.Read(OriginalFrameHeader,0,HeaderByteLength);
 
-					//for (var i=0;i<4;i++) FrameID[i] = System.Text.Encoding.ASCII.GetString( new byte[] {frameHeader[i]}).ToCharArray()[0];
 					var size = new byte[] {0,0,0,0};
 					for (var i=0;i<4;i++) size[i] = OriginalFrameHeader[4+i];
 					Size = MakeID3v2Size(size,8);
@@ -489,7 +514,20 @@ namespace MP3Tagger
 				return arrayAsByteString;
 		}
 
-		public static long MakeID3v2Size(byte[] byteArray, int bitLeftCount=7)
+		public static byte[] MakeID3v2SizeAsByteArray(long num, byte bitRightCount=7)
+		{
+			var size = new byte[4];
+
+			for (var i=3;i>=0;i--)
+			{
+				size[i] = Convert.ToByte(num & 127);
+				num = num >> bitRightCount;
+			}
+
+			return size;
+		}
+
+		public static long MakeID3v2Size(byte[] byteArray, byte bitLeftCount=7)
 		{
 			if (byteArray.Length!=4)
 				return -1;
