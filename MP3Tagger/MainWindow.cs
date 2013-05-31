@@ -52,9 +52,12 @@ public partial class MainWindow: Gtk.Window
 
 		tree.Selection.Changed+=new EventHandler(OnSelectionChanged);
 		tree2.Selection.Changed+=new EventHandler(OnSelectionChanged);
+
+        tree.ButtonPressEvent += tree_ButtonPressEvent;
 			
 		this.Show();
 	}
+    
 
 	#endregion
 
@@ -407,6 +410,11 @@ public partial class MainWindow: Gtk.Window
 				tree2.Selection.SelectIter( _treeView2Data.TreeIters[row]);
 			}
 		}
+
+        if (editWindow.IsActive && rows.Count == 1)
+        {
+            editWindow.CurrentSong = MP3List[rows[0]];
+        }
 	}
 
 	public void SelectNext()
@@ -640,14 +648,14 @@ public partial class MainWindow: Gtk.Window
 		tree2.Selection.Mode = SelectionMode.Single;
 	}
 
-	[GLib.ConnectBefore]
-	protected void OnTreeButtonPressEvent (object o, ButtonPressEventArgs args)
-	{
-		if (args.Event.Type == Gdk.EventType.TwoButtonPress)
-		{
-			EditSelectedSongs();
-		}
-	}
+    [GLib.ConnectBefore]
+    private void tree_ButtonPressEvent(object o, ButtonPressEventArgs args)
+    {
+        if (args.Event.Type == Gdk.EventType.TwoButtonPress)
+        {
+            EditSelectedSongs();
+        }
+    }
 
 	protected void OnGoForwardActionActivated (object sender, EventArgs e)	
 	{
