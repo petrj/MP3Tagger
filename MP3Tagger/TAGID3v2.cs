@@ -23,31 +23,6 @@ namespace MP3Tagger
 
 		#endregion
 
-		#region Basic Frames names constants
-
-		public static Dictionary<string,string> FrameNamesDictionary = new Dictionary<string, string>() 
-		{
-			{"Title" , "TIT2"},
-			{"Artist","TPE1"},
-			{"Album","TALB"},
-
-			{"Year" , "TYER"},
-			{"Comment" , "COMM"},
-			{"Genre" ,"TCON"},
-			{"Track" , "TRCK"}
-		};
-		/*
-		public static string frameNameTitle = "TIT2";
-		public static string frameNameArtist = "TPE1";
-		public static string frameNameAlbum = "TALB";
-
-		public static string frameNameYear = "TYER";
-		public static string frameNameComment = "COMM";
-		public static string frameNameGenre = "TCON";
-		public static string frameNameTrack = "TRCK";
-*/
-		#endregion
-
 		public TAGID3v2()
 		{
 			HeaderByteLength = 10;
@@ -280,7 +255,11 @@ namespace MP3Tagger
 		{
 			var data = new List<byte>();
 
-
+			foreach (var frame in Frames)
+			{
+				var byteList = frame.ToByteList();
+				data.AddRange(byteList);
+			}
 
 			return data;
 		}
@@ -334,7 +313,9 @@ namespace MP3Tagger
 
 				// header v 4.0
 
-				AddToByteList(tag,"ID3",3,DefaultEncoding);
+				tag.Add(73);  // I
+				tag.Add(68);  // D
+				tag.Add(51);  // 3
 
 				tag.Add(4);  // VersionMajor
 				tag.Add(0);  // VersionRevision
@@ -345,7 +326,7 @@ namespace MP3Tagger
 
 				// writing frames
 
-				tag.AddRange(framesData);
+				tag.AddRange(framesData); 
 
 				fStream.Write(tag.ToArray(),0,tag.Count);
 	

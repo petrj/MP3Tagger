@@ -32,6 +32,16 @@ namespace MP3Tagger
 		Publisher = 20
 	}
 
+	public enum FrameTypeEnum
+	{
+		Unsupported = 0,
+		BaseTag = 1,
+		Picture = 2,
+		Lyrics = 3,
+		Comment = 4,
+		Genre = 5
+	}
+
 	public class TAG2Frame
 	{
 		public static byte HeaderByteLength = 10;
@@ -39,8 +49,6 @@ namespace MP3Tagger
 		#region private fields
 
 		private Encoding _defaultEncoding = Encoding.GetEncoding("iso-8859-1");
-
-		private bool _frameSupported = false;
 
 		private byte[] _originalFrameHeader;			
 		private byte _versionMajor;			
@@ -103,8 +111,31 @@ namespace MP3Tagger
 
 			var res = new List<byte>();
 
-			return res;
+			while (Name.Length<4) Name+=" ";
+			if (Name.Length>4) Name = Name.Substring(0,4);
 
+			// header
+			var id3 = _defaultEncoding.GetBytes(Name);
+			res.AddRange(id3);
+
+			var valueData = new List<byte>();
+			switch (FrameType)
+			{
+				case FrameTypeEnum.BaseTag: valueData = SaveCommonTextData(); break;
+				default: break;
+			}
+
+			var size = MakeID3v2SizeAsByteArray(valueData.Count+HeaderByteLength,7);
+			res.AddRange(size);
+
+			// flags 
+			res.Add (0);
+			res.Add (0);
+
+			// value 
+			res.AddRange(valueData);
+
+			return res;
 		}
 
 		public bool ReadFromOpenedStream(FileStream fStream, byte versionMajor, bool throwExceptions=false)
@@ -196,6 +227,20 @@ namespace MP3Tagger
 		#endregion
 
 		#region private methods
+
+		private List<byte> SaveCommonTextData()
+		{
+			var res = new List<byte>();
+
+			res.Add(0); // default encoding
+
+			var bytes = DefaultEncoding.GetBytes(Value);
+			res.AddRange(bytes);
+
+			res.Add(0); // zero byte;
+
+			return res;
+		}
 
 		private Encoding GetFrameEncoding(byte encodingByte)
 		{
@@ -466,33 +511,19 @@ namespace MP3Tagger
 			try
 			{
 				Value = String.Empty;
-				_frameSupported = false;
 
 				if (Size<1)
 				{
 					return false;
 				}
 
-				if (Name=="APIC")
+				switch (FrameType)
 				{
-					ParseImageData();
-					return true; 
-				}
-
-				if (Name=="COMM")
-				{
-					ParseCommentData();
-					return true;
-				}
-
-				if (Name == "USLT")
-				{
-					ParseUnsynchronisedLyricsText();
-				}
-
-				ParseTextFrameData();
-
-				return true;
+					case FrameTypeEnum.Picture: ParseImageData(); return true; 
+					case FrameTypeEnum.Comment: ParseCommentData(); return true; 
+					case FrameTypeEnum.Lyrics: ParseUnsynchronisedLyricsText(); return true; 
+					default: ParseTextFrameData(); return true;
+				}							
 
 			} catch (Exception ex)
 			{
@@ -652,11 +683,31 @@ namespace MP3Tagger
 		}
 		#endregion
 
-		public bool FrameSupported 
+		public FrameTypeEnum FrameType
 		{
 			get 
 			{
-				return _frameSupported;
+				if (Name=="APIC")
+				{
+					return FrameTypeEnum.Picture;
+				}
+
+				if (Name=="COMM")
+				{
+					return FrameTypeEnum.Comment;
+				}
+
+				if (Name == "USLT")
+				{
+					return FrameTypeEnum.Lyrics;
+				}
+
+				if (TAGBase.FrameNamesDictionary.ContainsValue(Name))
+				{
+					return FrameTypeEnum.BaseTag;
+				}
+
+				return FrameTypeEnum.Unsupported;
 			}
 		}
 

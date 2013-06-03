@@ -9,6 +9,22 @@ namespace MP3Tagger
 {
 	public class TAGBase
 	{
+		#region Basic Frames names constants
+
+		public static Dictionary<string,string> FrameNamesDictionary = new Dictionary<string, string>() 
+		{
+			{"Title" , "TIT2"},
+			{"Artist","TPE1"},
+			{"Album","TALB"},
+
+			{"Year" , "TYER"},
+			{"Comment" , "COMM"},
+			{"Genre" ,"TCON"},
+			{"Track" , "TRCK"}
+		};
+
+		#endregion
+
 		#region public fields
 
 		public bool Active { get; set; }

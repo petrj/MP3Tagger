@@ -1,17 +1,17 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="MP3Tagger/TAGID3v2.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MP3Tagger/TAG2Frame.cs">
     <Files>
       <File FileName="MP3Tagger/MainWindow.cs" Line="545" Column="1" />
       <File FileName="MP3Tagger/SongDetail.cs" Line="79" Column="47" />
       <File FileName="MP3Tagger/TreeViewData.cs" Line="45" Column="52" />
-      <File FileName="MP3Tagger/TAGBase.cs" Line="252" Column="27" />
+      <File FileName="MP3Tagger/TAGBase.cs" Line="146" Column="3" />
       <File FileName="MP3Tagger/SongList.cs" Line="28" Column="20" />
-      <File FileName="MP3Tagger/TAGID3v2.cs" Line="344" Column="61" />
-      <File FileName="MP3Tagger/Song.cs" Line="75" Column="6" />
+      <File FileName="MP3Tagger/TAGID3v2.cs" Line="349" Column="1" />
+      <File FileName="MP3Tagger/Song.cs" Line="82" Column="18" />
       <File FileName="MP3Tagger/TagWidget.cs" Line="76" Column="5" />
-      <File FileName="MP3Tagger/TAG2Frame.cs" Line="521" Column="7" />
-      <File FileName="MP3Tagger/TAGID3v1.cs" Line="237" Column="4" />
+      <File FileName="MP3Tagger/TAG2Frame.cs" Line="87" Column="34" />
+      <File FileName="MP3Tagger/TAGID3v1.cs" Line="231" Column="5" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -20,7 +20,6 @@
       <Breakpoint file="/mnt/data/Develop/Source/mono/MP3Tagger/MP3Tagger/TAG2Frame.cs" line="89" />
       <Breakpoint file="/mnt/data/Develop/Source/mono/MP3Tagger/MP3Tagger/TAG2Frame.cs" line="98" />
       <Breakpoint file="/mnt/data/Develop/Source/mono/MP3Tagger/MP3Tagger/TAGBase.cs" line="109" />
-      <Breakpoint file="/mnt/data/Develop/git/MP3Tagger/MP3Tagger/TAG2Frame.cs" line="526" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
