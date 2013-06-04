@@ -21,11 +21,14 @@ namespace MP3Tagger
 		private byte _versionRevision  = 0;							// 1
 		private long _framesSize = 0;
 
+		private int _totalByteLength = 0;
+
 		#endregion
 
 		public TAGID3v2()
 		{
 			HeaderByteLength = 10;
+			TotalByteLength = HeaderByteLength;
 			Active = false;
 		}
 
@@ -35,7 +38,11 @@ namespace MP3Tagger
 		{
 			get
 			{
-				return HeaderByteLength + Convert.ToInt32(FramesSize);
+				return _totalByteLength;
+			}
+			set
+			{
+				_totalByteLength = value;
 			}
 		}
 
@@ -91,17 +98,6 @@ namespace MP3Tagger
 			}
 		}
 
-		public long FramesSize
-		{
-			get
-			{
-				return _framesSize;
-			}
-			set
-			{
-				_framesSize = value;
-			}
-		}
 
 		public bool IsValid
 		{
@@ -251,7 +247,7 @@ namespace MP3Tagger
 
 		}
 
-		public List<byte> GenerateFrames()
+		public List<byte> ToByteList()
 		{
 			var data = new List<byte>();
 
@@ -262,6 +258,45 @@ namespace MP3Tagger
 			}
 
 			return data;
+		}
+
+		public void TransferBaseValuesToFrames()
+		{
+			foreach (var name in BaseCollumnNames)
+				{
+					var frameName = FrameNamesDictionary[name];
+					if (FrameByName.ContainsKey(frameName))
+	                {
+						switch (name)
+						{
+							case "Title": FrameByName[frameName].Value = Title; break;
+							case "Album": FrameByName[frameName].Value = Album; break;
+							case "Artist": FrameByName[frameName].Value = Artist; break;
+							case "Comment": FrameByName[frameName].Value = Comment; break;
+						}
+	                }
+				}
+
+			//  track number
+			if (FrameByName.ContainsKey(FrameNamesDictionary["Track"]))			
+			{
+					FrameByName[FrameNamesDictionary["Track"]].Value = TrackNumber.ToString();
+			}
+
+			// year
+			if (FrameByName.ContainsKey(FrameNamesDictionary["Year"]))
+			{
+				FrameByName[FrameNamesDictionary["Year"]].Value = Year.ToString();
+			}
+
+			// genre
+			if (FrameByName.ContainsKey(FrameNamesDictionary["Genre"]))
+				{
+					if (Genre>=0 && Genre<ID3Genre.Length)
+					{
+						FrameByName[FrameNamesDictionary["Genre"]].Value = GenreText + "("+Genre+")";
+					}					
+				}			
 		}
 
 		#endregion
@@ -306,10 +341,12 @@ namespace MP3Tagger
 		
 				var tag = new List<byte>();
 
+				TransferBaseValuesToFrames();
+
 				// generating frames data
 
-				var framesData = GenerateFrames();
-				FramesSize = framesData.Count;
+				var framesData = ToByteList();
+				TotalByteLength = framesData.Count+HeaderByteLength;
 
 				// header v 4.0
 
@@ -329,12 +366,15 @@ namespace MP3Tagger
 				tag.AddRange(framesData); 
 
 				fStream.Write(tag.ToArray(),0,tag.Count);
-	
+
+				Logger.Logger.WriteToLog(String.Format("TAG saved: (Title:{0}, Artist:{1}, ...)",Title,Artist));
+
+				Changed = false;	
 				return true;
 
 			} catch (Exception ex)
 			{
-				Logger.Logger.WriteToLog(String.Format("Error while reading TAG v1"),ex);
+				Logger.Logger.WriteToLog(String.Format("Error while saving TAG v2"),ex);
 				if (throwExceptions) throw;
 				return false;
 			}
@@ -407,8 +447,8 @@ namespace MP3Tagger
 				VersionMajor = OriginalHeader[3];
 				VersionRevision = OriginalHeader[4];
 
-				var size = new byte[] {0,0,0,0};
-				for (var i=0;i<4;i++) size[i] = OriginalHeader[6+i];
+				var totalTagSize = new byte[] {0,0,0,0};
+				for (var i=0;i<4;i++) totalTagSize[i] = OriginalHeader[6+i];
 
 				if (!IsValid)
 				{
@@ -416,7 +456,7 @@ namespace MP3Tagger
 					return false;
 				}
 
-				FramesSize = TAG2Frame.MakeID3v2Size(size,7);
+				TotalByteLength =  Convert.ToInt32(TAG2Frame.MakeID3v2Size(totalTagSize,7));
 
 				if (FlagUnsynchronisation)
 				{
@@ -433,10 +473,8 @@ namespace MP3Tagger
 					throw new Exception("Usage of footer - not supported yet");
 				}
 
-					var framesTotalSize = FramesSize;
-
 					long actSize = 0;
-					while(actSize<framesTotalSize)
+					while(actSize<TotalByteLength-HeaderByteLength)
 					{
 						var frame = new TAG2Frame();
 						var ok = frame.ReadFromOpenedStream(fStream,VersionMajor,false);													

@@ -1,16 +1,16 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="MP3Tagger/TAG2Frame.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MP3Tagger/TAGID3v2.cs">
     <Files>
-      <File FileName="MP3Tagger/MainWindow.cs" Line="545" Column="1" />
+      <File FileName="MP3Tagger/MainWindow.cs" Line="157" Column="62" />
       <File FileName="MP3Tagger/SongDetail.cs" Line="79" Column="47" />
       <File FileName="MP3Tagger/TreeViewData.cs" Line="45" Column="52" />
-      <File FileName="MP3Tagger/TAGBase.cs" Line="146" Column="3" />
-      <File FileName="MP3Tagger/SongList.cs" Line="28" Column="20" />
-      <File FileName="MP3Tagger/TAGID3v2.cs" Line="349" Column="1" />
-      <File FileName="MP3Tagger/Song.cs" Line="82" Column="18" />
+      <File FileName="MP3Tagger/TAGBase.cs" Line="37" Column="3" />
+      <File FileName="MP3Tagger/SongList.cs" Line="13" Column="69" />
+      <File FileName="MP3Tagger/TAGID3v2.cs" Line="229" Column="4" />
+      <File FileName="MP3Tagger/Song.cs" Line="78" Column="38" />
       <File FileName="MP3Tagger/TagWidget.cs" Line="76" Column="5" />
-      <File FileName="MP3Tagger/TAG2Frame.cs" Line="87" Column="34" />
+      <File FileName="MP3Tagger/TAG2Frame.cs" Line="238" Column="20" />
       <File FileName="MP3Tagger/TAGID3v1.cs" Line="231" Column="5" />
     </Files>
   </MonoDevelop.Ide.Workbench>
@@ -27,5 +27,6 @@
     <Watch file="MP3Tagger/MainWindow.cs" line="61" offsetX="460" offsetY="1140" expression="MP3List" liveUpdate="False" />
     <Watch file="MP3Tagger/TreeViewData.cs" line="63" offsetX="474" offsetY="900" expression="values" liveUpdate="False" />
     <Watch file="MP3Tagger/MainWindow.cs" line="486" offsetX="482" offsetY="7275" expression="editingSong" liveUpdate="False" />
+    <Watch file="MP3Tagger/TAGID3v2.cs" line="327" offsetX="412" offsetY="4544" expression="framesData" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
 </Properties>

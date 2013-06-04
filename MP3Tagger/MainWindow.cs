@@ -702,7 +702,7 @@ public partial class MainWindow: Gtk.Window
 			InfoDialog("No changes");
 		} else
 		{
-			if (QuestionDialog(String.Format("Save all changhes ({0})?",changedSongs.Count))!= ResponseType.Ok)
+			if (QuestionDialog(String.Format("Save all changes ({0})?",changedSongs.Count))!= ResponseType.Ok)
 			return;			
 
 			foreach (var song in changedSongs)

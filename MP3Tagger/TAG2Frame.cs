@@ -125,8 +125,10 @@ namespace MP3Tagger
 				default: break;
 			}
 
-			var size = MakeID3v2SizeAsByteArray(valueData.Count+HeaderByteLength,7);
-			res.AddRange(size);
+
+			var size = valueData.Count+ 1; // zero byte
+			var sizeAsByteArray = MakeID3v2SizeAsByteArray(size,7);
+			res.AddRange(sizeAsByteArray);
 
 			// flags 
 			res.Add (0);
@@ -134,6 +136,9 @@ namespace MP3Tagger
 
 			// value 
 			res.AddRange(valueData);
+
+			// zero byte
+			res.Add (0);  
 
 			return res;
 		}
@@ -758,16 +763,10 @@ namespace MP3Tagger
 					{
 						valid++;
 					}
-
 				}
 
 				if ( (Flags[0] & 31) == 0) valid++;
 				if ( (Flags[1] & 31) == 0) valid++;
-
-				if (valid != 6)
-				{
-					var  t= 0;
-				}
 
 				return valid == 6;
 			}
