@@ -35,7 +35,7 @@ namespace MP3Tagger
 	public enum FrameTypeEnum
 	{
 		Unsupported = 0,
-		BaseTag = 1,
+		CommonText = 1,
 		Picture = 2,
 		Lyrics = 3,
 		Comment = 4,
@@ -121,10 +121,15 @@ namespace MP3Tagger
 			var valueData = new List<byte>();
 			switch (FrameType)
 			{
-				case FrameTypeEnum.BaseTag: valueData = SaveCommonTextData(); break;
+				case FrameTypeEnum.CommonText:
+				case FrameTypeEnum.Genre: valueData = SaveCommonTextData(); break;
+				case FrameTypeEnum.Comment:valueData = SaveComment(); break;
+				case FrameTypeEnum.Lyrics:valueData = SaveLyrics(); break;
+				case FrameTypeEnum.Picture: valueData = SaveImageData(); break;
+				case FrameTypeEnum.Unsupported: valueData = new List<byte>(OriginalData); break;
+
 				default: break;
 			}
-
 
 			var size = valueData.Count+ 1; // zero byte
 			var sizeAsByteArray = MakeID3v2SizeAsByteArray(size,7);
@@ -232,6 +237,73 @@ namespace MP3Tagger
 		#endregion
 
 		#region private methods
+
+		private List<byte> SaveImageData()
+		{
+			var res = new List<byte>();
+
+			res.Add(0); // default encoding
+
+			// mime
+			res.AddRange(DefaultEncoding.GetBytes(ImgMime));
+			res.Add(0); // zero byte;
+
+			// image type
+			res.Add (Convert.ToByte(ImgType));
+
+			// description
+			res.AddRange(DefaultEncoding.GetBytes(ImgDescription));
+			res.Add(0);  // zero byte;
+
+			// binary data
+			using (var  ms = new MemoryStream())
+			{
+ 				ImageData.Save(ms,ImageData.RawFormat);
+				res.AddRange(ms.ToArray());
+			} 
+
+			return res;
+		}
+
+		private List<byte> SaveComment()
+		{
+			var res = new List<byte>();
+
+			res.Add(0); // default encoding
+
+			res.Add(101); // e
+			res.Add(110); // n
+			res.Add(103); // g
+
+			res.Add(0); // content description
+
+			var bytes = DefaultEncoding.GetBytes(Value);
+			res.AddRange(bytes);
+
+			res.Add(0); // zero byte;
+
+			return res;
+		}
+
+		private List<byte> SaveLyrics()
+		{
+			var res = new List<byte>();
+
+			res.Add(0); // default encoding
+
+			res.Add(101); // e
+			res.Add(110); // n
+			res.Add(103); // g
+
+			res.Add(0); // content description
+
+			var bytes = DefaultEncoding.GetBytes(Value);
+			res.AddRange(bytes);
+
+			res.Add(0); // zero byte;
+
+			return res;
+		}
 
 		private List<byte> SaveCommonTextData()
 		{
@@ -489,14 +561,14 @@ namespace MP3Tagger
 			var currentEncoding = frameEncoding == null ? DefaultEncoding : frameEncoding;
 
 			var position = 1;
-			var mime = ParseFrameValueFromPosition(ref position,DefaultEncoding);		
+			ImgMime = ParseFrameValueFromPosition(ref position,DefaultEncoding);		
 
 			var pictureType = OriginalData[position];
 			ImgType = (ImageType)pictureType;
 
 			position++;
 
-			ImageDescription =  ParseFrameValueFromPosition(ref position,frameEncoding);	
+			ImgDescription =  ParseFrameValueFromPosition(ref position,frameEncoding);	
 
 			// reading image bytes
 
@@ -669,13 +741,13 @@ namespace MP3Tagger
 			set { _img = value; }
 		}
 
-		public string ImageDescription 
+		public string ImgDescription 
 		{
 			get { return _imgDescription;	}
 			set { _imgDescription = value; }
 		}
 
-		public string ImageMime 
+		public string ImgMime 
 		{
 			get { return _imgMime; }
 			set { _imgMime = value; }
@@ -709,7 +781,7 @@ namespace MP3Tagger
 
 				if (TAGBase.FrameNamesDictionary.ContainsValue(Name))
 				{
-					return FrameTypeEnum.BaseTag;
+					return FrameTypeEnum.CommonText;
 				}
 
 				return FrameTypeEnum.Unsupported;

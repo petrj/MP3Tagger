@@ -1,17 +1,16 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="MP3Tagger/TAGID3v2.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MP3Tagger/Main.cs">
     <Files>
-      <File FileName="MP3Tagger/MainWindow.cs" Line="157" Column="62" />
-      <File FileName="MP3Tagger/SongDetail.cs" Line="79" Column="47" />
-      <File FileName="MP3Tagger/TreeViewData.cs" Line="45" Column="52" />
-      <File FileName="MP3Tagger/TAGBase.cs" Line="37" Column="3" />
+      <File FileName="MP3Tagger/MainWindow.cs" Line="719" Column="1" />
+      <File FileName="MP3Tagger/SongDetail.cs" Line="169" Column="21" />
+      <File FileName="MP3Tagger/TAGBase.cs" Line="16" Column="23" />
       <File FileName="MP3Tagger/SongList.cs" Line="13" Column="69" />
-      <File FileName="MP3Tagger/TAGID3v2.cs" Line="229" Column="4" />
-      <File FileName="MP3Tagger/Song.cs" Line="78" Column="38" />
-      <File FileName="MP3Tagger/TagWidget.cs" Line="76" Column="5" />
-      <File FileName="MP3Tagger/TAG2Frame.cs" Line="238" Column="20" />
-      <File FileName="MP3Tagger/TAGID3v1.cs" Line="231" Column="5" />
+      <File FileName="MP3Tagger/TAGID3v2.cs" Line="267" Column="34" />
+      <File FileName="MP3Tagger/Song.cs" Line="110" Column="1" />
+      <File FileName="MP3Tagger/TagWidget.cs" Line="41" Column="3" />
+      <File FileName="MP3Tagger/TAG2Frame.cs" Line="247" Column="11" />
+      <File FileName="MP3Tagger/Main.cs" Line="19" Column="36" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -20,6 +19,7 @@
       <Breakpoint file="/mnt/data/Develop/Source/mono/MP3Tagger/MP3Tagger/TAG2Frame.cs" line="89" />
       <Breakpoint file="/mnt/data/Develop/Source/mono/MP3Tagger/MP3Tagger/TAG2Frame.cs" line="98" />
       <Breakpoint file="/mnt/data/Develop/Source/mono/MP3Tagger/MP3Tagger/TAGBase.cs" line="109" />
+      <Breakpoint file="/mnt/data/Develop/git/MP3Tagger/MP3Tagger/TAG2Frame.cs" line="217" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>

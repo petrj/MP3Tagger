@@ -14,13 +14,13 @@ namespace MP3Tagger
 		public static Dictionary<string,string> FrameNamesDictionary = new Dictionary<string, string>() 
 		{
 			{"Title" , "TIT2"},
-			{"Artist","TPE1"},
-			{"Album","TALB"},
+			{"Artist", "TPE1"},
+			{"Album",  "TALB"},
 
-			{"Year" , "TYER"},
-			{"Comment" , "COMM"},
-			{"Genre" ,"TCON"},
-			{"Track" , "TRCK"}
+			{"Year" ,  "TYER"},
+			{"Comment","COMM"},
+			{"Genre",  "TCON"},
+			{"Track",  "TRCK"}
 		};
 
 		#endregion
