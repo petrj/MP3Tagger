@@ -102,28 +102,6 @@ public partial class MainWindow: Gtk.Window
 	}
 
 
-	private static ResponseType QuestionDialog(string message)
-	{
-		MessageDialog md = new MessageDialog (null, 
-                                  DialogFlags.DestroyWithParent,
-                              	  MessageType.Question, 
-                                  ButtonsType.OkCancel, message);
-
-		var result = (ResponseType)md.Run ();
-		md.Destroy();
-
-		return result;
-	}
-
-	private static void InfoDialog(string message,MessageType msgType = MessageType.Info )
-	{
-		MessageDialog md = new MessageDialog (null, 
-                                  DialogFlags.DestroyWithParent,
-                              	  msgType, 
-                                  ButtonsType.Close, message);
-			md.Run();
-			md.Destroy();
-	}
 
 	public void AddFolder(string dir,bool recursive)
 	{
@@ -608,17 +586,9 @@ public partial class MainWindow: Gtk.Window
 
 	protected void OnOpenActionActivated (object sender, EventArgs e)
 	{
-		 var fc = new Gtk.FileChooserDialog("Choose the directory to open",
-                    this,
-                    FileChooserAction.SelectFolder,
-                    "Cancel", ResponseType.Cancel,
-                    "Open", ResponseType.Accept);
-
-        if (fc.Run() == (int)ResponseType.Accept)
-        {
-			this.AddFolder(fc.Filename,false);
-        }
-        fc.Destroy();
+		var dir = Dialogs.OpenDirectoryDialog("Choose the directory to open");
+		if (dir != null)
+			AddFolder(dir,false);
 	}
 
 	protected void OnEditActionActivated (object sender, EventArgs e)
@@ -699,10 +669,10 @@ public partial class MainWindow: Gtk.Window
 		var changedSongs = MP3List.ChangedSongs;
 		if (changedSongs.Count==0)
 		{
-			InfoDialog("No changes");
+			Dialogs.InfoDialog("No changes");
 		} else
 		{
-			if (QuestionDialog(String.Format("Save all changes ({0})?",changedSongs.Count))!= ResponseType.Ok)
+			if (Dialogs.QuestionDialog(String.Format("Save all changes ({0})?",changedSongs.Count))!= ResponseType.Ok)
 			return;			
 
 			foreach (var song in changedSongs)

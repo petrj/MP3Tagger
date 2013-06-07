@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Grid;
+using Gtk;
 
 namespace MP3Tagger
 {
@@ -188,8 +189,13 @@ namespace MP3Tagger
 		{
 			this.Hide();
 		}
-		#endregion
 
+		protected void OnButtonSetFrontCoverImageClicked (object sender, EventArgs e)
+		{
+			var fileName = Dialogs.OpenFileDialog("Choose image");
+		}
+
+		#endregion
 	}
 }
 

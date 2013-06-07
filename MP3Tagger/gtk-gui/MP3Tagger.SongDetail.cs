@@ -29,6 +29,7 @@ namespace MP3Tagger
 		private global::Gtk.Fixed fixedImages;
 		private global::Gtk.Label labelCoverFront;
 		private global::Gtk.Image imageCoverFront;
+		private global::Gtk.Button buttonSetFrontCoverImage;
 		private global::Gtk.Label labelTAG2Image;
 		private global::Gtk.CheckButton checkButtonID31Active;
 		private global::Gtk.CheckButton checkButtonID32Active;
@@ -178,9 +179,19 @@ namespace MP3Tagger
 			global::Gtk.Fixed.FixedChild w11 = ((global::Gtk.Fixed.FixedChild)(this.fixedImages [this.imageCoverFront]));
 			w11.X = 18;
 			w11.Y = 45;
+			// Container child fixedImages.Gtk.Fixed+FixedChild
+			this.buttonSetFrontCoverImage = new global::Gtk.Button ();
+			this.buttonSetFrontCoverImage.CanFocus = true;
+			this.buttonSetFrontCoverImage.Name = "buttonSetFrontCoverImage";
+			this.buttonSetFrontCoverImage.UseUnderline = true;
+			this.buttonSetFrontCoverImage.Label = global::Mono.Unix.Catalog.GetString ("Browse ...");
+			this.fixedImages.Add (this.buttonSetFrontCoverImage);
+			global::Gtk.Fixed.FixedChild w12 = ((global::Gtk.Fixed.FixedChild)(this.fixedImages [this.buttonSetFrontCoverImage]));
+			w12.X = 271;
+			w12.Y = 11;
 			this.notebook.Add (this.fixedImages);
-			global::Gtk.Notebook.NotebookChild w12 = ((global::Gtk.Notebook.NotebookChild)(this.notebook [this.fixedImages]));
-			w12.Position = 3;
+			global::Gtk.Notebook.NotebookChild w13 = ((global::Gtk.Notebook.NotebookChild)(this.notebook [this.fixedImages]));
+			w13.Position = 3;
 			// Notebook tab
 			this.labelTAG2Image = new global::Gtk.Label ();
 			this.labelTAG2Image.Name = "labelTAG2Image";
@@ -188,9 +199,9 @@ namespace MP3Tagger
 			this.notebook.SetTabLabel (this.fixedImages, this.labelTAG2Image);
 			this.labelTAG2Image.ShowAll ();
 			this.@fixed.Add (this.notebook);
-			global::Gtk.Fixed.FixedChild w13 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.notebook]));
-			w13.X = 4;
-			w13.Y = 100;
+			global::Gtk.Fixed.FixedChild w14 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.notebook]));
+			w14.X = 4;
+			w14.Y = 100;
 			// Container child fixed.Gtk.Fixed+FixedChild
 			this.checkButtonID31Active = new global::Gtk.CheckButton ();
 			this.checkButtonID31Active.CanFocus = true;
@@ -200,9 +211,9 @@ namespace MP3Tagger
 			this.checkButtonID31Active.DrawIndicator = true;
 			this.checkButtonID31Active.UseUnderline = true;
 			this.@fixed.Add (this.checkButtonID31Active);
-			global::Gtk.Fixed.FixedChild w14 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.checkButtonID31Active]));
-			w14.X = 5;
-			w14.Y = 71;
+			global::Gtk.Fixed.FixedChild w15 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.checkButtonID31Active]));
+			w15.X = 5;
+			w15.Y = 71;
 			// Container child fixed.Gtk.Fixed+FixedChild
 			this.checkButtonID32Active = new global::Gtk.CheckButton ();
 			this.checkButtonID32Active.CanFocus = true;
@@ -211,9 +222,9 @@ namespace MP3Tagger
 			this.checkButtonID32Active.DrawIndicator = true;
 			this.checkButtonID32Active.UseUnderline = true;
 			this.@fixed.Add (this.checkButtonID32Active);
-			global::Gtk.Fixed.FixedChild w15 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.checkButtonID32Active]));
-			w15.X = 70;
-			w15.Y = 70;
+			global::Gtk.Fixed.FixedChild w16 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.checkButtonID32Active]));
+			w16.X = 70;
+			w16.Y = 70;
 			this.Add (this.@fixed);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
@@ -228,6 +239,7 @@ namespace MP3Tagger
 			this.applyAction.Activated += new global::System.EventHandler (this.OnApplyActionActivated);
 			this.cancelAction.Activated += new global::System.EventHandler (this.OnCancelActionActivated);
 			this.closeAction1.Activated += new global::System.EventHandler (this.OnCloseAction1Activated);
+			this.buttonSetFrontCoverImage.Clicked += new global::System.EventHandler (this.OnButtonSetFrontCoverImageClicked);
 		}
 	}
 }

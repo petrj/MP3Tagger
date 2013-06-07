@@ -439,6 +439,20 @@
                     <property name="Y">45</property>
                   </packing>
                 </child>
+                <child>
+                  <widget class="Gtk.Button" id="buttonSetFrontCoverImage">
+                    <property name="MemberName" />
+                    <property name="CanFocus">True</property>
+                    <property name="Type">TextOnly</property>
+                    <property name="Label" translatable="yes">Browse ...</property>
+                    <property name="UseUnderline">True</property>
+                    <signal name="Clicked" handler="OnButtonSetFrontCoverImageClicked" />
+                  </widget>
+                  <packing>
+                    <property name="X">271</property>
+                    <property name="Y">11</property>
+                  </packing>
+                </child>
               </widget>
               <packing>
                 <property name="Position">3</property>

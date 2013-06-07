@@ -137,6 +137,11 @@ namespace MP3Tagger
 
 		#region public methods
 
+		public bool LoadImageFromFile(string fileName)
+		{
+			return false;
+		}
+
 		public Image GetImageByType(ImageType imgType)
 		{
 			foreach (var frame in Frames)
