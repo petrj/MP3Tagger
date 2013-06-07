@@ -373,7 +373,6 @@ namespace MP3Tagger
 		private void ParseTextFrameData()
 		{
 			var frameEncoding = GetFrameHeaderEncoding();
-			var currentEncoding = frameEncoding == null ? DefaultEncoding : frameEncoding;
 
 			if (frameEncoding == null)
 			{
@@ -456,7 +455,6 @@ namespace MP3Tagger
 			var currentEncoding = frameEncoding == null ? DefaultEncoding : frameEncoding;
 
 			// reading 3 bytes Language
-			//OriginalData
 
 			var languageAsByteList = new List<byte>();
 			languageAsByteList.Add(OriginalData[1]);
@@ -473,30 +471,48 @@ namespace MP3Tagger
 		private string ParseFrameValueFromPosition(ref int position, System.Text.Encoding currentEncoding)
 		{
 			var dataBytes = new List <byte>();
+		    var bytesCount = currentEncoding.Equals(DefaultEncoding) ? 1 : 2;
+
 			int i;
+		    bool firstByte = false;
 			for (i=position;i<Size;i++)
 			{
+			    firstByte = !firstByte;
 				position++;
-				int zeroBytes = ZeroBytesAtPosition(i,currentEncoding);
-				if (zeroBytes == 0)
-				{
-					dataBytes.Add(OriginalData[i]);
-				} else
-				if (zeroBytes == 1)
-				{
-					break;
-				}
-				else
-				if (zeroBytes == 2)
-				{
-					dataBytes.RemoveAt( dataBytes.Count-1 );
-					break;
-				}
+
+                if (bytesCount == 1)
+                {
+                    // single file encoding
+                    if (OriginalData[i] == 0)
+                        break;
+                   
+                    dataBytes.Add(OriginalData[i]);
+                }
+
+                if (bytesCount == 2)
+                {
+                    if (firstByte)
+                    {
+                        dataBytes.Add(OriginalData[i]);  // always add first byte
+                    }
+                    else
+                    {
+                        if (ZeroBytesAtPosition(i, currentEncoding) == 2)
+                        {
+                            // 2 zero bytes 
+                            dataBytes.RemoveAt(dataBytes.Count-1 ); // adding first zero byte
+                        }
+                        else
+                        {
+                            dataBytes.Add(OriginalData[i]);  // second byte
+                        }
+                    }
+                }
 			}
 
 			if (dataBytes.Count > 0)
 			{
-				if (currentEncoding == Encoding.Unicode)
+                if (!currentEncoding.Equals(DefaultEncoding)) // 2 bytes encoding 
 				{
 					RemoveBOM(dataBytes,0);
 					RemoveBOM(dataBytes,dataBytes.Count-2);

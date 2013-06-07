@@ -195,12 +195,7 @@ namespace MP3Tagger
 					}
                 }
 			}
-			/*
-			if (FrameByName.ContainsKey(frameNameAlbum)) Album = FrameByName[frameNameAlbum].Value;
-			if (FrameByName.ContainsKey(frameNameTitle)) Title = FrameByName[frameNameTitle].Value;
-			if (FrameByName.ContainsKey(frameNameArtist)) Artist = FrameByName[frameNameArtist].Value;
-			if (FrameByName.ContainsKey(frameNameComment)) Comment = FrameByName[frameNameComment].Value;
-*/
+
 			// parsing track number
 			if (FrameByName.ContainsKey(FrameNamesDictionary["Track"]))			
 			{
@@ -227,22 +222,38 @@ namespace MP3Tagger
 			if (FrameByName.ContainsKey(FrameNamesDictionary["Genre"]))
 				{
 					var val = FrameByName[FrameNamesDictionary["Genre"]].Value.Trim();
-					if (val.StartsWith("(") && val.Contains(")"))
-					{
-						var pos1 = val.IndexOf("(");
-						var pos2 = val.IndexOf(")");
-						if (pos1 >-1 && pos2>pos1)
-						{
-							var genreAsString = val.Substring(pos1+1,pos2-pos1-1);
-							byte g;
-							if (byte.TryParse(genreAsString,out g))
-						    {
-								if (g>=0 && g<ID3Genre.Length)
-								Genre = g;
-							}
-						}
-						
-					}
+                    
+                    if (val != String.Empty)
+                    {
+                        if (val.StartsWith("(") && val.Contains(")")) // like "Metal (9)" or  "(9) Metal" 
+                        {
+                            var pos1 = val.IndexOf("(");
+                            var pos2 = val.IndexOf(")");
+                            if (pos1 > -1 && pos2 > pos1)
+                            {
+                                var genreAsString = val.Substring(pos1 + 1, pos2 - pos1 - 1);
+                                byte g;
+                                if (byte.TryParse(genreAsString, out g))
+                                {
+                                    if (g >= 0 && g < ID3Genre.Length)
+                                        Genre = g;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            // looking for genre only by its name ...
+                            for (byte i=0; i<TAGBase.ID3Genre.Length;i++)
+                            {
+                                var genreString = TAGBase.ID3Genre[i].ToLower();
+                                if (genreString== val.ToLower())
+                                {
+                                    Genre = i;
+                                    break;
+                                }
+                            }
+                        }
+                    }
 				}					
 
 		}
