@@ -43,7 +43,7 @@ namespace MP3Tagger
 				_tag.Title = entryTitle.Text;
 				_tag.Artist = entryArtist.Text;
 				_tag.Album = entryAlbum.Text;
-				if (comboBoxGenre.Active>=0 && comboBoxGenre.Active<TAGBase.ID3Genre.Length && TAGBase.ID3Genre.Length<=255)
+				if (comboBoxGenre.Active>=0 && comboBoxGenre.Active<TAGBase.ID3Genre.Length)
 				{
 						_tag.Genre = (byte)comboBoxGenre.Active;
 				}

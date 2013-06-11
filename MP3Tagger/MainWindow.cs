@@ -101,7 +101,27 @@ public partial class MainWindow: Gtk.Window
 		_treeView2Data.CreateTreeViewColumns();
 	}
 
+	public bool SaveChanges()
+	{
+		var changedSongs = MP3List.ChangedSongs;
+		if (changedSongs.Count==0)
+		{
+			Dialogs.InfoDialog("No changes");
+		} else
+		{
+			if (Dialogs.QuestionDialog(String.Format("Save all changes ({0})?",changedSongs.Count))!= ResponseType.Ok)
+			return false;			
 
+			foreach (var song in changedSongs)
+			{
+				song.SaveChanges(false);
+			}
+
+			FillTree();
+		}
+
+		return true;
+	}
 
 	public void AddFolder(string dir,bool recursive)
 	{
@@ -583,6 +603,35 @@ public partial class MainWindow: Gtk.Window
 		Application.Quit ();
 		a.RetVal = true;
 	}
+		protected void OnTreeSelectCursorRow (object o, SelectCursorRowArgs args)
+	{
+
+	}
+
+    [GLib.ConnectBefore]
+    private void tree_ButtonPressEvent(object o, ButtonPressEventArgs args)
+    {
+        if (args.Event.Type == Gdk.EventType.TwoButtonPress)
+        {
+            EditSelectedSongs();
+        }
+    }
+
+	protected void OnSelectionChanged (object sender, EventArgs e)
+	{
+	}
+
+	protected void OnTreeRowActivated (object o, RowActivatedArgs args)
+	{
+		EditSelectedSongs();
+	}
+
+	protected void OnTreeToggleCursorRow (object o, ToggleCursorRowArgs args)
+	{
+
+	}
+
+	#region toolbar action events
 
 	protected void OnOpenActionActivated (object sender, EventArgs e)
 	{
@@ -601,10 +650,6 @@ public partial class MainWindow: Gtk.Window
 		Gtk.Application.Quit();
 	}
 
-	protected void OnTreeSelectCursorRow (object o, SelectCursorRowArgs args)
-	{
-
-	}
 
 	protected void OnDndMultipleActionActivated (object sender, EventArgs e)
 	{
@@ -612,20 +657,11 @@ public partial class MainWindow: Gtk.Window
 		tree2.Selection.Mode = SelectionMode.Multiple;
 	}
 
-	protected void OnDndActionActivated (object sender, EventArgs e)
+	protected void OnSelectSingleActionActivated (object sender, EventArgs e)
 	{
 		tree.Selection.Mode = SelectionMode.Single;
 		tree2.Selection.Mode = SelectionMode.Single;
 	}
-
-    [GLib.ConnectBefore]
-    private void tree_ButtonPressEvent(object o, ButtonPressEventArgs args)
-    {
-        if (args.Event.Type == Gdk.EventType.TwoButtonPress)
-        {
-            EditSelectedSongs();
-        }
-    }
 
 	protected void OnGoForwardActionActivated (object sender, EventArgs e)	
 	{
@@ -635,11 +671,6 @@ public partial class MainWindow: Gtk.Window
 	protected void OnGoBackActionActivated (object sender, EventArgs e)
 	{
 		SelectPrev();
-	}
-
-	protected void OnSelectionChanged (object sender, EventArgs e)
-	{
-
 	}
 
 	protected void OnEditingModeActionActivated (object sender, EventArgs e)
@@ -654,35 +685,13 @@ public partial class MainWindow: Gtk.Window
 		if (MP3List.Count>0) SelectSong(MP3List[0]);
 	}
 
-	protected void OnTreeRowActivated (object o, RowActivatedArgs args)
-	{
-		EditSelectedSongs();
-	}
-
-	protected void OnTreeToggleCursorRow (object o, ToggleCursorRowArgs args)
-	{
-
-	}
-
 	protected void OnSaveActionActivated (object sender, EventArgs e)
 	{
-		var changedSongs = MP3List.ChangedSongs;
-		if (changedSongs.Count==0)
-		{
-			Dialogs.InfoDialog("No changes");
-		} else
-		{
-			if (Dialogs.QuestionDialog(String.Format("Save all changes ({0})?",changedSongs.Count))!= ResponseType.Ok)
-			return;			
-
-			foreach (var song in changedSongs)
-			{
-				song.SaveChanges(false);
-			}
-
-			FillTree();
-		}
+		SaveChanges();
 	}
+
+	#endregion
+
     #endregion
 
 }

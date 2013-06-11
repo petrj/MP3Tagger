@@ -11,8 +11,9 @@ namespace MP3Tagger
 		private global::Gtk.Action closeAction;
 		private global::Gtk.Action saveAction;
 		private global::Gtk.Action applyAction;
-		private global::Gtk.Action cancelAction;
+		private global::Gtk.Action undoAction;
 		private global::Gtk.Action closeAction1;
+		private global::Gtk.Action saveAction1;
 		private global::Gtk.Fixed @fixed;
 		private global::Gtk.Toolbar toolbar;
 		private global::Gtk.Notebook notebook;
@@ -58,12 +59,15 @@ namespace MP3Tagger
 			this.applyAction = new global::Gtk.Action ("applyAction", global::Mono.Unix.Catalog.GetString ("klk"), null, "gtk-apply");
 			this.applyAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("OK");
 			w1.Add (this.applyAction, null);
-			this.cancelAction = new global::Gtk.Action ("cancelAction", global::Mono.Unix.Catalog.GetString ("Cancel"), null, "gtk-cancel");
-			this.cancelAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Cancel");
-			w1.Add (this.cancelAction, null);
+			this.undoAction = new global::Gtk.Action ("undoAction", global::Mono.Unix.Catalog.GetString ("Undo"), null, "gtk-undo");
+			this.undoAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Undo");
+			w1.Add (this.undoAction, null);
 			this.closeAction1 = new global::Gtk.Action ("closeAction1", global::Mono.Unix.Catalog.GetString ("Close"), null, "gtk-close");
 			this.closeAction1.ShortLabel = global::Mono.Unix.Catalog.GetString ("Close");
 			w1.Add (this.closeAction1, null);
+			this.saveAction1 = new global::Gtk.Action ("saveAction1", global::Mono.Unix.Catalog.GetString ("Save"), null, "gtk-save");
+			this.saveAction1.ShortLabel = global::Mono.Unix.Catalog.GetString ("Save");
+			w1.Add (this.saveAction1, null);
 			this.UIManager.InsertActionGroup (w1, 0);
 			this.AddAccelGroup (this.UIManager.AccelGroup);
 			this.Name = "MP3Tagger.SongDetail";
@@ -74,7 +78,7 @@ namespace MP3Tagger
 			this.@fixed.Name = "fixed";
 			this.@fixed.HasWindow = false;
 			// Container child fixed.Gtk.Fixed+FixedChild
-			this.UIManager.AddUiFromString ("<ui><toolbar name='toolbar'><toolitem name='applyAction' action='applyAction'/><separator/><toolitem name='goBackAction' action='goBackAction'/><toolitem name='goForwardAction' action='goForwardAction'/><separator/><toolitem name='cancelAction' action='cancelAction'/><separator/><toolitem name='closeAction1' action='closeAction1'/></toolbar></ui>");
+			this.UIManager.AddUiFromString ("<ui><toolbar name='toolbar'><toolitem name='applyAction' action='applyAction'/><separator/><toolitem name='goBackAction' action='goBackAction'/><toolitem name='goForwardAction' action='goForwardAction'/><separator/><toolitem name='undoAction' action='undoAction'/><separator/><toolitem name='saveAction1' action='saveAction1'/><separator/><toolitem name='closeAction1' action='closeAction1'/></toolbar></ui>");
 			this.toolbar = ((global::Gtk.Toolbar)(this.UIManager.GetWidget ("/toolbar")));
 			this.toolbar.Name = "toolbar";
 			this.toolbar.ShowArrow = false;
@@ -84,7 +88,6 @@ namespace MP3Tagger
 			w2.Y = 6;
 			// Container child fixed.Gtk.Fixed+FixedChild
 			this.notebook = new global::Gtk.Notebook ();
-			this.notebook.WidthRequest = 380;
 			this.notebook.HeightRequest = 400;
 			this.notebook.CanFocus = true;
 			this.notebook.Name = "notebook";
@@ -187,11 +190,12 @@ namespace MP3Tagger
 			this.buttonSetFrontCoverImage.Label = global::Mono.Unix.Catalog.GetString ("Browse ...");
 			this.fixedImages.Add (this.buttonSetFrontCoverImage);
 			global::Gtk.Fixed.FixedChild w12 = ((global::Gtk.Fixed.FixedChild)(this.fixedImages [this.buttonSetFrontCoverImage]));
-			w12.X = 271;
-			w12.Y = 11;
+			w12.X = 97;
+			w12.Y = 10;
 			this.notebook.Add (this.fixedImages);
 			global::Gtk.Notebook.NotebookChild w13 = ((global::Gtk.Notebook.NotebookChild)(this.notebook [this.fixedImages]));
 			w13.Position = 3;
+			w13.TabExpand = true;
 			// Notebook tab
 			this.labelTAG2Image = new global::Gtk.Label ();
 			this.labelTAG2Image.Name = "labelTAG2Image";
@@ -229,7 +233,7 @@ namespace MP3Tagger
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
-			this.DefaultWidth = 482;
+			this.DefaultWidth = 526;
 			this.DefaultHeight = 529;
 			this.Show ();
 			this.Shown += new global::System.EventHandler (this.OnShown);
@@ -237,9 +241,11 @@ namespace MP3Tagger
 			this.goBackAction.Activated += new global::System.EventHandler (this.OnGoBackActionActivated);
 			this.closeAction.Activated += new global::System.EventHandler (this.OnCloseActionActivated);
 			this.applyAction.Activated += new global::System.EventHandler (this.OnApplyActionActivated);
-			this.cancelAction.Activated += new global::System.EventHandler (this.OnCancelActionActivated);
+			this.undoAction.Activated += new global::System.EventHandler (this.OnCancelActionActivated);
 			this.closeAction1.Activated += new global::System.EventHandler (this.OnCloseAction1Activated);
+			this.saveAction1.Activated += new global::System.EventHandler (this.OnSaveAction1Activated);
 			this.buttonSetFrontCoverImage.Clicked += new global::System.EventHandler (this.OnButtonSetFrontCoverImageClicked);
+			this.checkButtonID32Active.Clicked += new global::System.EventHandler (this.OnCheckButtonID32ActiveClicked);
 		}
 	}
 }

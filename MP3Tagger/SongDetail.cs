@@ -77,10 +77,10 @@ namespace MP3Tagger
 		{
 			try
 			{
-				var img = CurrentSong.ID3v2.GetImageByType(imgType);
-					if (img != null)
+				var imgFrame = CurrentSong.ID3v2.GetFrameByImageType(imgType);
+					if (imgFrame != null)
 					{				
-						image.Pixbuf = ImageToPixbuf(img);
+						image.Pixbuf = ImageToPixbuf(imgFrame.ImageData);
 					}
 			}
 			catch (Exception ex)
@@ -193,8 +193,27 @@ namespace MP3Tagger
 		protected void OnButtonSetFrontCoverImageClicked (object sender, EventArgs e)
 		{
 			var fileName = Dialogs.OpenFileDialog("Choose image");
+			if (fileName != null)
+			{
+				CurrentSong.ID3v2.LoadImageFromFile(fileName,ImageType.CoverFront,false);
+				FillImage(imageCoverFront,ImageType.CoverFront);
+			}
+		}		
+
+		protected void OnSaveAction1Activated (object sender, EventArgs e)
+		{
+			MainWin.SaveChanges();
 		}
 
+
+		protected void OnCheckButtonID32ActiveClicked (object sender, EventArgs e)
+		{
+			if (CurrentSong != null)
+			{			 
+				CurrentSong.ID3v2.Active = checkButtonID32Active.Active;
+
+			}
+		}
 		#endregion
 	}
 }

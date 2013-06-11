@@ -60,7 +60,7 @@
         <property name="Active">False</property>
         <property name="Value">0</property>
         <property name="Group">group1</property>
-        <signal name="Activated" handler="OnDndActionActivated" />
+        <signal name="Activated" handler="OnSelectSingleActionActivated" />
       </action>
       <action id="goForwardAction">
         <property name="Type">Action</property>
@@ -222,7 +222,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Window" id="MP3Tagger.SongDetail" design-size="482 529">
+  <widget class="Gtk.Window" id="MP3Tagger.SongDetail" design-size="526 529">
     <action-group name="Default">
       <action id="goForwardAction">
         <property name="Type">Action</property>
@@ -264,11 +264,11 @@
         <property name="StockId">gtk-apply</property>
         <signal name="Activated" handler="OnApplyActionActivated" />
       </action>
-      <action id="cancelAction">
+      <action id="undoAction">
         <property name="Type">Action</property>
-        <property name="Label" translatable="yes">Cancel</property>
-        <property name="ShortLabel" translatable="yes">Cancel</property>
-        <property name="StockId">gtk-cancel</property>
+        <property name="Label" translatable="yes">Undo</property>
+        <property name="ShortLabel" translatable="yes">Undo</property>
+        <property name="StockId">gtk-undo</property>
         <signal name="Activated" handler="OnCancelActionActivated" />
       </action>
       <action id="closeAction1">
@@ -277,6 +277,13 @@
         <property name="ShortLabel" translatable="yes">Close</property>
         <property name="StockId">gtk-close</property>
         <signal name="Activated" handler="OnCloseAction1Activated" />
+      </action>
+      <action id="saveAction1">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Save</property>
+        <property name="ShortLabel" translatable="yes">Save</property>
+        <property name="StockId">gtk-save</property>
+        <signal name="Activated" handler="OnSaveAction1Activated" />
       </action>
     </action-group>
     <property name="MemberName" />
@@ -297,7 +304,9 @@
               <node type="Toolitem" action="goBackAction" />
               <node type="Toolitem" action="goForwardAction" />
               <node type="Separator" />
-              <node type="Toolitem" action="cancelAction" />
+              <node type="Toolitem" action="undoAction" />
+              <node type="Separator" />
+              <node type="Toolitem" action="saveAction1" />
               <node type="Separator" />
               <node type="Toolitem" action="closeAction1" />
             </node>
@@ -310,7 +319,6 @@
         <child>
           <widget class="Gtk.Notebook" id="notebook">
             <property name="MemberName" />
-            <property name="WidthRequest">380</property>
             <property name="HeightRequest">400</property>
             <property name="CanFocus">True</property>
             <property name="CurrentPage">3</property>
@@ -449,13 +457,14 @@
                     <signal name="Clicked" handler="OnButtonSetFrontCoverImageClicked" />
                   </widget>
                   <packing>
-                    <property name="X">271</property>
-                    <property name="Y">11</property>
+                    <property name="X">97</property>
+                    <property name="Y">10</property>
                   </packing>
                 </child>
               </widget>
               <packing>
                 <property name="Position">3</property>
+                <property name="TabExpand">True</property>
               </packing>
             </child>
             <child>
@@ -496,6 +505,7 @@
             <property name="DrawIndicator">True</property>
             <property name="HasLabel">True</property>
             <property name="UseUnderline">True</property>
+            <signal name="Clicked" handler="OnCheckButtonID32ActiveClicked" />
           </widget>
           <packing>
             <property name="X">70</property>

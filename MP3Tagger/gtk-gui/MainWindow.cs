@@ -139,7 +139,7 @@ public partial class MainWindow
 		this.editAction.Activated += new global::System.EventHandler (this.OnEditActionActivated);
 		this.closeAction.Activated += new global::System.EventHandler (this.OnCloseActionActivated);
 		this.selectMultipleAction.Activated += new global::System.EventHandler (this.OnDndMultipleActionActivated);
-		this.selectSingleAction.Activated += new global::System.EventHandler (this.OnDndActionActivated);
+		this.selectSingleAction.Activated += new global::System.EventHandler (this.OnSelectSingleActionActivated);
 		this.goForwardAction.Activated += new global::System.EventHandler (this.OnGoForwardActionActivated);
 		this.goBackAction.Activated += new global::System.EventHandler (this.OnGoBackActionActivated);
 		this.editingModeAction.Activated += new global::System.EventHandler (this.OnEditingModeActionActivated);

@@ -27,7 +27,7 @@ namespace MP3Tagger
 
 		#region public fields
 
-		public bool Active { get; set; }
+		private bool _active = false;
 		public bool Loaded { get; set; }
 		public bool Changed { get; set; }
 
@@ -59,7 +59,7 @@ namespace MP3Tagger
 			Clear();
 		}
 
-		#region vasic values properties
+		#region basic values properties
 
 		public string Comment 
 		{
@@ -136,6 +136,19 @@ namespace MP3Tagger
 		#endregion
 
 		#region properties
+
+		public bool Active
+		{
+			get
+			{
+				return _active;
+			}
+			set 
+			{
+				_active = value;
+				Changed = true;
+			}
+		}
 
 		public string FileName 
 		{

@@ -30,6 +30,9 @@ namespace MP3Tagger
 			HeaderByteLength = 10;
 			TotalByteLength = HeaderByteLength;
 			Active = false;
+
+			VersionMajor = 3;
+			VersionRevision = 0;
 		}
 
 		#region properties
@@ -57,28 +60,6 @@ namespace MP3Tagger
 			get {return _versionRevision;}
 			set {_versionRevision = value;}
 		}
-		/*
-		public override string GenreText
-		{
-			get
-			{
-				if (FrameByName.ContainsKey(frameNameGenre))
-				{
-					var val = FrameByName[frameNameGenre].Value;
-					if (val.StartsWith("(") && val.Contains(")"))
-					{
-						var x = val.Split(')',2);
-						if (x.Length == 2)
-						{
-							return x[1];
-						}					
-					}
-				}					
-
-				return null;
-			}
-		}
-*/
 
 		public Dictionary<string, TAG2Frame> FrameByName 
 		{
@@ -97,7 +78,6 @@ namespace MP3Tagger
 				_frames = value;
 			}
 		}
-
 
 		public bool IsValid
 		{
@@ -135,20 +115,59 @@ namespace MP3Tagger
 
 		#endregion
 
-		#region public methods
+		#region public methods	
 
-		public bool LoadImageFromFile(string fileName)
+		// http://programcsharp.com/blog/archive/2008/01/17/Get-the-MIME-type-of-a-System.Drawing-Image.aspx
+
+	    public static string GetMimeType(Image i)
+	    {
+	        foreach (System.Drawing.Imaging.ImageCodecInfo codec in System.Drawing.Imaging.ImageCodecInfo.GetImageDecoders())
+	        {
+	            if (codec.FormatID == i.RawFormat.Guid)
+	                return codec.MimeType;
+	        }
+
+	        return "image/unknown";
+	    }
+
+		public bool LoadImageFromFile(string fileName,ImageType imgType, bool throwExceptions)
 		{
-			return false;
+			try
+			{
+				var imageFrame = GetFrameByImageType(ImageType.CoverFront);
+				if (imageFrame== null)
+				{
+					// no front image frame found, creating new
+					imageFrame = new TAG2Frame();
+					imageFrame.Name = "APIC";
+					imageFrame.ImgType = ImageType.CoverFront;
+					imageFrame.ImgDescription = "";
+					imageFrame.ImgMime = "";
+
+					AddFrame(imageFrame);
+				}
+
+				imageFrame.ImageData = Image.FromFile(fileName);
+				imageFrame.ImgMime = GetMimeType(imageFrame.ImageData);
+				Changed = true;
+			}
+			catch (Exception ex)
+			{
+				Logger.Logger.WriteToLog(String.Format("Error while loading image (type {0})",imgType),ex);
+				if (throwExceptions) throw;
+				return false;
+			}
+
+			return true;
 		}
 
-		public Image GetImageByType(ImageType imgType)
+		public TAG2Frame GetFrameByImageType(ImageType imgType)
 		{
 			foreach (var frame in Frames)
 			{
 				if (frame.ImgType == imgType)
 				{
-					return frame.ImageData;
+					return frame;
 				}
 			}			
 
@@ -156,7 +175,6 @@ namespace MP3Tagger
 		}
 
 		#endregion
-
 
 		#region Flags
 
@@ -276,6 +294,22 @@ namespace MP3Tagger
 			return data;
 		}
 
+		public void AddFrame(TAG2Frame frame)
+		{
+			Frames.Add(frame);
+			if (!FrameByName.ContainsKey(frame.Name)) FrameByName.Add(frame.Name,frame);
+		}
+
+		public void AddFrame(string name,string value)
+		{
+			var newFrame = new TAG2Frame();
+			newFrame.Name = name;		
+			newFrame.Value = value;
+
+			AddFrame(newFrame);
+		}
+
+
 		public void TransferBaseValuesToFrames()
 		{
 			foreach (var name in BaseCollumnNames)
@@ -290,29 +324,47 @@ namespace MP3Tagger
 							case "Artist": FrameByName[frameName].Value = Artist; break;
 							case "Comment": FrameByName[frameName].Value = Comment; break;
 						}
-	                }
+	                } else
+					{
+						// frame does not exist
+						var newFrame = new TAG2Frame();
+						newFrame.Name = frameName;						
+						switch (name)
+						{
+							case "Title": newFrame.Value = Title; break;
+							case "Album": newFrame.Value =  Album; break;
+							case "Artist": newFrame.Value = Artist; break;
+							case "Comment": newFrame.Value = Comment; break;
+						}
+
+						AddFrame(newFrame);
+					}
 				}
 
 			//  track number
-			if (FrameByName.ContainsKey(FrameNamesDictionary["Track"]))			
+			var trackFrameName = FrameNamesDictionary["Track"];
+			if (!FrameByName.ContainsKey(trackFrameName))			
 			{
-					FrameByName[FrameNamesDictionary["Track"]].Value = TrackNumber.ToString();
+					AddFrame(trackFrameName,"");
 			}
+			FrameByName[trackFrameName].Value = TrackNumber.ToString();
 
 			// year
-			if (FrameByName.ContainsKey(FrameNamesDictionary["Year"]))
+			var yearFrameName = FrameNamesDictionary["Year"];
+			if (!FrameByName.ContainsKey(yearFrameName))
 			{
-				FrameByName[FrameNamesDictionary["Year"]].Value = Year.ToString();
+				AddFrame(yearFrameName,"");
 			}
+			FrameByName[yearFrameName].Value = Year.ToString();
+
 
 			// genre
-			if (FrameByName.ContainsKey(FrameNamesDictionary["Genre"]))
-				{
-					if (Genre>=0 && Genre<ID3Genre.Length)
-					{
-						FrameByName[FrameNamesDictionary["Genre"]].Value = GenreText + "("+Genre+")";
-					}					
-				}			
+			var genreFrameName = FrameNamesDictionary["Genre"];
+			if (!FrameByName.ContainsKey(genreFrameName))
+			{
+				AddFrame(genreFrameName,"");
+			}
+			FrameByName[genreFrameName].Value = GenreText + "("+Genre+")";
 		}
 
 		#endregion
@@ -513,9 +565,7 @@ namespace MP3Tagger
 						Logger.Logger.WriteToLog("-------------");
 						*/
 
-						Frames.Add(frame);
-
-						if (!FrameByName.ContainsKey(frame.Name)) FrameByName.Add(frame.Name,frame);
+						AddFrame(frame);						
 					}
 
 				SetBaseValues();
