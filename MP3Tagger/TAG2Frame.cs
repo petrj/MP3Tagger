@@ -7,30 +7,6 @@ using Logger;
 
 namespace MP3Tagger
 {
-	public enum ImageType
-	{
-	 	Other = 0,
-	 	Icon = 1,
-		OtherIcon = 2,
-		CoverFront = 3,
-		CoverBack = 4,
-		LeafletPage = 5,
-		Media = 6,
-		LeadArtist = 7,
-		Artist = 8,
-		Conductor = 9,
-		Band = 10,
-		Composer = 11,
-		Lyricist = 12,
-		RecordingLocation = 13,
-		DuringRecording = 14,
-		DuringPerformance = 15,
-		MovieCapture = 16,
-		ABrightColouredFish = 17,
-		Illustration = 18,
-		BandLogotype = 19,
-		Publisher = 20
-	}
 
 	public enum FrameTypeEnum
 	{
@@ -60,15 +36,12 @@ namespace MP3Tagger
 		private string _value;
 		private string _name;
 
+		private TAG2Image _frameImage;
 
-		#region image fields
-
-		private string _imgMime;
-		private string _imgDescription;
-		private Image _img;
-		private ImageType _imgType;
-
-		#endregion
+		public TAG2Frame()
+		{
+			_frameImage = new TAG2Image();
+		}
 
 		#endregion
 
@@ -245,20 +218,20 @@ namespace MP3Tagger
 			res.Add(0); // default encoding
 
 			// mime
-			res.AddRange(DefaultEncoding.GetBytes(ImgMime));
+			res.AddRange(DefaultEncoding.GetBytes(FrameImage.ImgMime));
 			res.Add(0); // zero byte;
 
 			// image type
-			res.Add (Convert.ToByte(ImgType));
+			res.Add (Convert.ToByte(FrameImage.ImgType));
 
 			// description
-			res.AddRange(DefaultEncoding.GetBytes(ImgDescription));
+			res.AddRange(DefaultEncoding.GetBytes(FrameImage.ImgDescription));
 			res.Add(0);  // zero byte;
 
 			// binary data
 			using (var  ms = new MemoryStream())
 			{
- 				ImageData.Save(ms,ImageData.RawFormat);
+ 				FrameImage.ImageData.Save(ms,FrameImage.ImageData.RawFormat);
 				res.AddRange(ms.ToArray());
 			} 
 
@@ -577,14 +550,14 @@ namespace MP3Tagger
 			var currentEncoding = frameEncoding == null ? DefaultEncoding : frameEncoding;
 
 			var position = 1;
-			ImgMime = ParseFrameValueFromPosition(ref position,DefaultEncoding);		
+			FrameImage.ImgMime = ParseFrameValueFromPosition(ref position,DefaultEncoding);		
 
 			var pictureType = OriginalData[position];
-			ImgType = (ImageType)pictureType;
+			FrameImage.ImgType = (ImageType)pictureType;
 
 			position++;
 
-			ImgDescription =  ParseFrameValueFromPosition(ref position,frameEncoding);	
+			FrameImage.ImgDescription =  ParseFrameValueFromPosition(ref position,frameEncoding);	
 
 			// reading image bytes
 
@@ -596,7 +569,7 @@ namespace MP3Tagger
 			}
 
 			var ms = new MemoryStream(imgBytes.ToArray());
-        	ImageData = System.Drawing.Image.FromStream(ms);
+        	FrameImage.ImageData = System.Drawing.Image.FromStream(ms);
 		}		
 
 		private bool ParseDataToValue(bool throwExceptions = false)
@@ -749,32 +722,11 @@ namespace MP3Tagger
 
 		#region properties
 
-		#region image
-
-		public Image ImageData 
+		public TAG2Image FrameImage
 		{
-			get { return _img; }
-			set { _img = value; }
-		}
-
-		public string ImgDescription 
-		{
-			get { return _imgDescription;	}
-			set { _imgDescription = value; }
-		}
-
-		public string ImgMime 
-		{
-			get { return _imgMime; }
-			set { _imgMime = value; }
-		}
-
-		public ImageType ImgType 
-		{
-			get { return _imgType; }
-			set { _imgType = value;}
-		}
-		#endregion
+			get { return _frameImage; }
+			set { _frameImage = value; }
+		}	
 
 		public FrameTypeEnum FrameType
 		{

@@ -72,7 +72,6 @@ namespace MP3Tagger
 			}
 		}
 
-
 		private void FillImage(Gtk.Image image, ImageType imgType, bool throwExceptions = false)
 		{
 			try
@@ -80,7 +79,7 @@ namespace MP3Tagger
 				var imgFrame = CurrentSong.ID3v2.GetFrameByImageType(imgType);
 					if (imgFrame != null)
 					{				
-						image.Pixbuf = ImageToPixbuf(imgFrame.ImageData);
+						image.Pixbuf = ImageToPixbuf(imgFrame.FrameImage.ImageData);
 					}
 			}
 			catch (Exception ex)
@@ -89,7 +88,6 @@ namespace MP3Tagger
 				if (throwExceptions) throw;
 			}
 		}
-
 
 		private void FillAll()
 		{
@@ -109,6 +107,12 @@ namespace MP3Tagger
 				FillFrames(CurrentSong.ID3v2);
 
 				FillImage(imageCoverFront,ImageType.CoverFront);
+
+				fixedTAG1.Sensitive = labelTAG1.Sensitive = (CurrentSong.ID3v1 as TAGBase).Active;
+
+				fixedTAG2.Sensitive =  fixedTAG2Frames.Sensitive =  fixedImages.Sensitive =
+				labelTAG2.Sensitive = labelTAG2Frames.Sensitive = labelTAG2Image.Sensitive = 
+					(CurrentSong.ID3v2 as TAGBase).Active;
 
 				Show();
 			}
@@ -153,6 +157,17 @@ namespace MP3Tagger
 			*/
 		}
 
+		protected void OnCheckButtonID32ActiveClicked (object sender, EventArgs e)
+		{
+			if (CurrentSong != null)
+			{			 
+				CurrentSong.ID3v2.Active = checkButtonID32Active.Active;
+				FillAll();
+			}
+		}
+
+		#region toolbar action events
+
 		protected void OnCancelActionActivated (object sender, EventArgs e)
 		{
 			MainWin.FillTree();
@@ -195,25 +210,19 @@ namespace MP3Tagger
 			var fileName = Dialogs.OpenFileDialog("Choose image");
 			if (fileName != null)
 			{
-				CurrentSong.ID3v2.LoadImageFromFile(fileName,ImageType.CoverFront,false);
+				CurrentSong.ID3v2.LoadImageFrameFromFile(fileName,ImageType.CoverFront,false);
 				FillImage(imageCoverFront,ImageType.CoverFront);
 			}
 		}		
 
 		protected void OnSaveAction1Activated (object sender, EventArgs e)
 		{
+			OnApplyActionActivated(this,null);
 			MainWin.SaveChanges();
 		}
 
+		#endregion
 
-		protected void OnCheckButtonID32ActiveClicked (object sender, EventArgs e)
-		{
-			if (CurrentSong != null)
-			{			 
-				CurrentSong.ID3v2.Active = checkButtonID32Active.Active;
-
-			}
-		}
 		#endregion
 	}
 }

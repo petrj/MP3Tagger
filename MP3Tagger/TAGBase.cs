@@ -243,7 +243,7 @@ namespace MP3Tagger
                     case "Comment": result.Add(Comment); break;
                     case "Title": result.Add(Title); break;
                     case "Genre": result.Add(GenreText); break;
-					case "Track": result.Add(TrackNumber.ToString()); break;
+					case "Track": result.Add(TrackNumber == 0 ? String.Empty : TrackNumber.ToString()); break;
 
 				default: result.Add("Unknown column "+col); break;
                 }

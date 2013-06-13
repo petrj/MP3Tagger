@@ -321,7 +321,7 @@
             <property name="MemberName" />
             <property name="HeightRequest">400</property>
             <property name="CanFocus">True</property>
-            <property name="CurrentPage">3</property>
+            <property name="CurrentPage">0</property>
             <child>
               <widget class="Gtk.Fixed" id="fixedTAG1">
                 <property name="MemberName" />

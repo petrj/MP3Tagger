@@ -240,15 +240,26 @@ public partial class MainWindow: Gtk.Window
 		if (selectedSongs.Count > 1)
 		{
 			// multi selection
-			if (MultiSelectSong.ID3v1.Active)
+			foreach (var song in selectedSongs)
 			{
-				foreach (var song in selectedSongs)
+				song.ID3v1.Active = MultiSelectSong.ID3v1.Active;
+				song.ID3v1.Active = MultiSelectSong.ID3v2.Active;
+
+				if (MultiSelectSong.ID3v1.Active) MultiSelectSong.ID3v1.CopyNonEmptyValuesTo(song.ID3v1);
+				if (MultiSelectSong.ID3v2.Active) 
 				{
-					MultiSelectSong.ID3v1.CopyNonEmptyValuesTo(song.ID3v1);
 					MultiSelectSong.ID3v2.CopyNonEmptyValuesTo(song.ID3v2);
+
+					// image ?
+					var multiSelectImgFrame = MultiSelectSong.ID3v2.GetFrameByImageType(MP3Tagger.ImageType.CoverFront);
+					if (multiSelectImgFrame != null)
+					{
+						var imgFrame = song.ID3v2.GetOrCreateImageFrame(MP3Tagger.ImageType.CoverFront);
+						multiSelectImgFrame.FrameImage.CopyTo(imgFrame.FrameImage);
+					}
 				}
 			}
-		}	
+		}
 
 		FillTree();
 		SelectSongs(selectedSongs);
@@ -603,7 +614,8 @@ public partial class MainWindow: Gtk.Window
 		Application.Quit ();
 		a.RetVal = true;
 	}
-		protected void OnTreeSelectCursorRow (object o, SelectCursorRowArgs args)
+
+	protected void OnTreeSelectCursorRow (object o, SelectCursorRowArgs args)
 	{
 
 	}

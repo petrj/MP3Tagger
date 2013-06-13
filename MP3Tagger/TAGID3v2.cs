@@ -30,6 +30,7 @@ namespace MP3Tagger
 			HeaderByteLength = 10;
 			TotalByteLength = HeaderByteLength;
 			Active = false;
+			Changed = false;
 
 			VersionMajor = 3;
 			VersionRevision = 0;
@@ -117,38 +118,32 @@ namespace MP3Tagger
 
 		#region public methods	
 
-		// http://programcsharp.com/blog/archive/2008/01/17/Get-the-MIME-type-of-a-System.Drawing-Image.aspx
-
-	    public static string GetMimeType(Image i)
-	    {
-	        foreach (System.Drawing.Imaging.ImageCodecInfo codec in System.Drawing.Imaging.ImageCodecInfo.GetImageDecoders())
-	        {
-	            if (codec.FormatID == i.RawFormat.Guid)
-	                return codec.MimeType;
-	        }
-
-	        return "image/unknown";
-	    }
-
-		public bool LoadImageFromFile(string fileName,ImageType imgType, bool throwExceptions)
+		public TAG2Frame GetOrCreateImageFrame(ImageType imgType)
 		{
-			try
-			{
-				var imageFrame = GetFrameByImageType(ImageType.CoverFront);
+			var imageFrame = GetFrameByImageType(imgType);
 				if (imageFrame== null)
 				{
-					// no front image frame found, creating new
+					// no frame found, creating new
+
 					imageFrame = new TAG2Frame();
 					imageFrame.Name = "APIC";
-					imageFrame.ImgType = ImageType.CoverFront;
-					imageFrame.ImgDescription = "";
-					imageFrame.ImgMime = "";
+					imageFrame.FrameImage.ImgType = imgType;
+					imageFrame.FrameImage.ImgDescription = "";
+					imageFrame.FrameImage.ImgMime = "";
 
 					AddFrame(imageFrame);
 				}
 
-				imageFrame.ImageData = Image.FromFile(fileName);
-				imageFrame.ImgMime = GetMimeType(imageFrame.ImageData);
+			return imageFrame;
+		}
+
+		public bool LoadImageFrameFromFile(string fileName,ImageType imgType, bool throwExceptions)
+		{
+			try
+			{
+				var imageFrame = GetOrCreateImageFrame(imgType);
+				imageFrame.FrameImage.LoadFromFile(fileName);
+				
 				Changed = true;
 			}
 			catch (Exception ex)
@@ -165,7 +160,7 @@ namespace MP3Tagger
 		{
 			foreach (var frame in Frames)
 			{
-				if (frame.ImgType == imgType)
+				if (frame.FrameType == FrameTypeEnum.Picture && frame.FrameImage.ImgType == imgType)
 				{
 					return frame;
 				}
@@ -202,7 +197,7 @@ namespace MP3Tagger
 
 		#region private methods
 
-		private void SetBaseValues()
+		private void ParseBaseValues()
 		{
 			foreach (var name in BaseCollumnNames)
 			{
@@ -308,7 +303,6 @@ namespace MP3Tagger
 
 			AddFrame(newFrame);
 		}
-
 
 		public void TransferBaseValuesToFrames()
 		{
@@ -497,6 +491,7 @@ namespace MP3Tagger
 			{
 				Loaded = false;
 				Active = false;
+				Changed = false;
 
 				Logger.Logger.WriteToLog(String.Format("Reading TAG v2 ..."));
 
@@ -568,7 +563,7 @@ namespace MP3Tagger
 						AddFrame(frame);						
 					}
 
-				SetBaseValues();
+				ParseBaseValues();
 
 				Logger.Logger.WriteToLog(String.Format("TAG found: (Title:{0}, Artist:{1}, ...)",Title,Artist));
 

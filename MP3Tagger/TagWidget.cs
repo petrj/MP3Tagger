@@ -47,7 +47,7 @@ namespace MP3Tagger
 				{
 						_tag.Genre = (byte)comboBoxGenre.Active;
 				}
-				else 	_tag.Genre = 0;
+				else 	_tag.Genre = 255;
 
 				int y;
 				if (int.TryParse(entryYear.Text,out y))

@@ -87,6 +87,7 @@
     <Compile Include="TagWidget.cs" />
     <Compile Include="gtk-gui\MP3Tagger.TagWidget.cs" />
     <Compile Include="Dialogs.cs" />
+    <Compile Include="TAG2Image.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

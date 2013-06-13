@@ -41,6 +41,7 @@ namespace MP3Tagger
 
 		public TAGID3v1 ()
 		{
+			Changed = false;
 			Genre = 255;
 			Active = false;
 			HeaderByteLength = 128;   // whole tag byte length
@@ -219,6 +220,7 @@ namespace MP3Tagger
 			{
 				Loaded = false;
 				Active = false;
+				Changed = false;
 
 				Logger.Logger.WriteToLog(String.Format("Reading TAG v1 ..."));
 		
