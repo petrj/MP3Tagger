@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dict language="en">
+
+	<w key="Tag1" value="TAG 1" />	
+	<w key="Tag2" value="TAG 2" />
+	<w key="Tag2Frames" value="TAG 2 - frames" />
+	<w key="Tag2Images" value="TAG 2 - images" />
+
+	<w key="NoChanges" value="No changes" />
+	<w key="WaitPlease" value="Wait please" />
+	<w key="LoadingTags" value="Loading tags ..." />
+	<w key="SaveAllConfirm" value="Save all changes ({0})?" />
+	<w key="ChooseDir" value="Choose the directory to open" />
+	<w key="ChooseImage" value="Choose image" />
+	
+	<w key="Name" value="" />	
+	<w key="Value" value="" />	
+	
+	<w key="Open" value="" />	
+	<w key="Edit" value="" />	
+	<w key="Previous" value="" />	
+	<w key="Next" value="" />	
+	<w key="Single" value="" />	
+	<w key="Multi" value="" />	
+	<w key="Write" value="" />	
+	<w key="Save" value="" />	
+	<w key="Close" value="" />	
+	<w key="OK" value="" />	
+	<w key="Undo" value="" />		
+	
+	<w key="FileName" value="" />	
+	<w key="Changed" value="" />
+	
+	<w key="Title" value="" />	
+	<w key="Artist" value="" />	
+	<w key="Album" value="" />	
+	<w key="Year" value="" />	
+	<w key="Comment" value="" />	
+	<w key="Track" value="" />
+	<w key="TrackNumber" value="Track Number" />
+	<w key="Genre" value="" />	
+
+</dict>

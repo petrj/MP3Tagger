@@ -91,7 +91,7 @@ namespace MP3Tagger
 			this.notebook.HeightRequest = 400;
 			this.notebook.CanFocus = true;
 			this.notebook.Name = "notebook";
-			this.notebook.CurrentPage = 0;
+			this.notebook.CurrentPage = 3;
 			// Container child notebook.Gtk.Notebook+NotebookChild
 			this.fixedTAG1 = new global::Gtk.Fixed ();
 			this.fixedTAG1.Name = "fixedTAG1";

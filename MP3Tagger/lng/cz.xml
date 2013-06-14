@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dict language="en">
+
+	<w key="Tag1" value="TAG 1" />	
+	<w key="Tag2" value="TAG 2" />
+	<w key="Tag2Frames" value="TAG 2 - rámce" />
+	<w key="Tag2Images" value="TAG 2 - obrázky" />
+
+	<w key="NoChanges" value="Žádné změny" />
+	<w key="WaitPlease" value="Čekejte, prosím" />
+	<w key="LoadingTags" value="Načítají se tagy ..." />
+	<w key="SaveAllConfirm" value="Uložit všechny změny ({0})?" />
+	<w key="ChooseDir" value="Zvolte adresář" />
+	<w key="ChooseImage" value="Zvolte obrázek" />
+	
+	<w key="Name" value="Název" />
+	<w key="Value" value="Hodnota" />
+	
+	<w key="Open" value="Otevřít" />	
+	<w key="Edit" value="Upravit" />	
+	<w key="Previous" value="Předchozí" />	
+	<w key="Next" value="Další" />	
+	<w key="Single" value="" />	
+	<w key="Multi" value="" />	
+	<w key="Write" value="Psát" />	
+	<w key="Save" value="Uložit" />	
+	<w key="Close" value="Zavřít" />	
+	<w key="OK" value="" />	
+	<w key="Undo" value="Zpět" />		
+	
+	<w key="FileName" value="Název souboru" />	
+	<w key="Changed" value="Změněno" />
+	
+	<w key="Title" value="Název" />	
+	<w key="Artist" value="Interpret" />	
+	<w key="Album" value="" />	
+	<w key="Year" value="Rok" />	
+	<w key="Comment" value="Komentář" />	
+	<w key="Track" value="Stopa" />
+	<w key="TrackNumber" value="Číslo stopy" />
+	<w key="Genre" value="Žánr" />		
+</dict>

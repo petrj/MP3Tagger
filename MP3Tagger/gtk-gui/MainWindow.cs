@@ -94,7 +94,7 @@ public partial class MainWindow
 		// Notebook tab
 		this.labelID3v1Tree = new global::Gtk.Label ();
 		this.labelID3v1Tree.Name = "labelID3v1Tree";
-		this.labelID3v1Tree.LabelProp = global::Mono.Unix.Catalog.GetString ("ID3");
+		this.labelID3v1Tree.LabelProp = global::Mono.Unix.Catalog.GetString ("TAG 1");
 		this.notebook.SetTabLabel (this.GtkScrolledWindow, this.labelID3v1Tree);
 		this.labelID3v1Tree.ShowAll ();
 		// Container child notebook.Gtk.Notebook+NotebookChild
@@ -112,7 +112,7 @@ public partial class MainWindow
 		// Notebook tab
 		this.labelID3v2Tree = new global::Gtk.Label ();
 		this.labelID3v2Tree.Name = "labelID3v2Tree";
-		this.labelID3v2Tree.LabelProp = global::Mono.Unix.Catalog.GetString ("ID3 v2");
+		this.labelID3v2Tree.LabelProp = global::Mono.Unix.Catalog.GetString ("TAG 2");
 		this.notebook.SetTabLabel (this.GtkScrolledWindow1, this.labelID3v2Tree);
 		this.labelID3v2Tree.ShowAll ();
 		this.@fixed.Add (this.notebook);

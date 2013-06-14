@@ -18,6 +18,8 @@ public partial class MainWindow: Gtk.Window
 	private TreeViewData _treeView1Data;
 	private TreeViewData _treeView2Data;
 
+	public Language Lng { get; set ; }
+
 	#endregion
 
 	#region public fields
@@ -26,13 +28,15 @@ public partial class MainWindow: Gtk.Window
 
 	#endregion
    
-	#region constructor
+	#region init
 
 	public MainWindow (): base (Gtk.WindowType.Toplevel)
 	{
 		Logger.Logger.WriteToLog("Starting new application instance");
 
 		Build ();
+
+		Lng = new Language("cz");
 
 		_treeView1Data = new TreeViewData(tree); 
 		_treeView2Data = new TreeViewData(tree2); 
@@ -54,8 +58,29 @@ public partial class MainWindow: Gtk.Window
 		tree2.Selection.Changed+=new EventHandler(OnSelectionChanged);
 
         tree.ButtonPressEvent += tree_ButtonPressEvent;
+
+		ApplyLanguage();
+		editWindow.ApplyLanguage();
 			
 		this.Show();
+	}
+
+	public void ApplyLanguage()
+	{
+		// toollbar
+
+		openAction.ShortLabel = Lng.Translate("Open");
+		selectSingleAction.ShortLabel = Lng.Translate("Single");
+		selectMultipleAction.ShortLabel = Lng.Translate("Multi");
+		editAction.ShortLabel = Lng.Translate("Edit");
+		editingModeAction.ShortLabel = Lng.Translate("Write");
+		saveAction.ShortLabel = Lng.Translate("Save");
+		closeAction.ShortLabel = Lng.Translate("Close");
+		goForwardAction.ShortLabel = Lng.Translate("Next");
+		goBackAction.ShortLabel = Lng.Translate("Previous");
+
+		labelID3v1Tree.LabelProp = Lng.Translate("Tag1");
+		labelID3v2Tree.LabelProp = Lng.Translate("Tag2");
 	}
     
 
@@ -72,8 +97,11 @@ public partial class MainWindow: Gtk.Window
 		_treeView2Data.Columns.Clear();
 
 		// filename
-		_treeView1Data.AppendStringColumn("FileName", null, false);
-        _treeView2Data.AppendStringColumn("FileName", null, false);
+
+		var fileNameColName = Lng.Translate("FileName");
+
+		_treeView1Data.AppendStringColumn(fileNameColName, null, false);
+        _treeView2Data.AppendStringColumn(fileNameColName, null, false);
 
 		// creating base TAG columns
 
@@ -82,18 +110,24 @@ public partial class MainWindow: Gtk.Window
             if (colName == "Genre")
                 continue;
 
-            _treeView1Data.AppendStringColumn(colName, OnStringCellEdit,EditingModeActive);
-            _treeView2Data.AppendStringColumn(colName, OnStringCellEdit, EditingModeActive);
+			var treeColName = Lng.Translate(colName);
+
+            _treeView1Data.AppendStringColumn(treeColName, OnStringCellEdit,EditingModeActive);
+            _treeView2Data.AppendStringColumn(treeColName, OnStringCellEdit, EditingModeActive);
 		}
 
-        var genreCol1 = _treeView1Data.AppendComboColumn("Genre", OnComboCellEdit, EditingModeActive, TAGBase.ID3Genre);
+		var genreColName = Lng.Translate("Genre");
+
+        var genreCol1 = _treeView1Data.AppendComboColumn(genreColName, OnComboCellEdit, EditingModeActive, TAGBase.ID3Genre);
 	    genreCol1.MinWidth = 150;
 
-        var genreCol2 = _treeView2Data.AppendComboColumn("Genre", OnComboCellEdit, EditingModeActive, TAGBase.ID3Genre);
+        var genreCol2 = _treeView2Data.AppendComboColumn(genreColName, OnComboCellEdit, EditingModeActive, TAGBase.ID3Genre);
         genreCol2.MinWidth = 150;
 
-        _treeView1Data.AppendCheckBoxColumn("Changed", null, false);
-        _treeView2Data.AppendCheckBoxColumn("Changed", null, false);
+		var changedColName = Lng.Translate("Changed");
+
+        _treeView1Data.AppendCheckBoxColumn(changedColName,null, false);
+        _treeView2Data.AppendCheckBoxColumn(changedColName, null, false);
 
 		// creating TreeView columns
 
@@ -106,10 +140,10 @@ public partial class MainWindow: Gtk.Window
 		var changedSongs = MP3List.ChangedSongs;
 		if (changedSongs.Count==0)
 		{
-			Dialogs.InfoDialog("No changes");
+			Dialogs.InfoDialog(Lng.Translate("NoChanges"));
 		} else
 		{
-			if (Dialogs.QuestionDialog(String.Format("Save all changes ({0})?",changedSongs.Count))!= ResponseType.Ok)
+			if (Dialogs.QuestionDialog(String.Format(Lng.Translate("SaveAllConfirm"),changedSongs.Count))!= ResponseType.Ok)
 			return false;			
 
 			foreach (var song in changedSongs)
@@ -125,8 +159,8 @@ public partial class MainWindow: Gtk.Window
 
 	public void AddFolder(string dir,bool recursive)
 	{
-		progressWin.Title = "Čekejte, prosím";
-		progressWin.Description = "Probíhá načítání mp3 tagů ...";
+		progressWin.Title = Lng.Translate("WaitPlease");
+		progressWin.Description = Lng.Translate("LoadingTags");
 		progressWin.Percents = 0;
 		progressWin.Show();
 
@@ -647,7 +681,7 @@ public partial class MainWindow: Gtk.Window
 
 	protected void OnOpenActionActivated (object sender, EventArgs e)
 	{
-		var dir = Dialogs.OpenDirectoryDialog("Choose the directory to open");
+		var dir = Dialogs.OpenDirectoryDialog(Lng.Translate("ChooseDir"));
 		if (dir != null)
 			AddFolder(dir,false);
 	}

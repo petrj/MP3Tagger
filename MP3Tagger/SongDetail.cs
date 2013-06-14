@@ -30,10 +30,6 @@ namespace MP3Tagger
 
 			_framesTreeViewData = new TreeViewData(treeViewFrames);
 
-			_framesTreeViewData.AppendStringColumn("Name", null, false);
-            _framesTreeViewData.AppendStringColumn("Value", null, false);
-			_framesTreeViewData.CreateTreeViewColumns();
-
 		}
 
 		#endregion
@@ -59,6 +55,33 @@ namespace MP3Tagger
 		#endregion
 
 		#region methods
+
+		public void ApplyLanguage()
+		{		
+			var lng = MainWin.Lng;
+
+			// toollbar
+			applyAction.ShortLabel = lng.Translate("OK");
+			undoAction.ShortLabel = lng.Translate("Undo");
+			saveAction1.ShortLabel = lng.Translate("Save");
+			goBackAction.ShortLabel = lng.Translate("Previous");
+			goForwardAction.ShortLabel = lng.Translate("Next");
+			closeAction1.ShortLabel = lng.Translate("Close");
+
+			checkButtonID31Active.Label = lng.Translate("Tag1");
+			checkButtonID32Active.Label = lng.Translate("Tag2");
+
+			labelTAG1.LabelProp = lng.Translate("Tag1");
+			labelTAG2.LabelProp = lng.Translate("Tag2");
+
+			labelTAG2Image.LabelProp = lng.Translate("Tag2Images");
+			labelTAG2Frames.LabelProp = lng.Translate("Tag2Frames");
+
+			buttonSetFrontCoverImage.Label = lng.Translate("ChooseImage");
+
+			tagWidget1.ApplyLanguage(lng);
+			tagWidget2.ApplyLanguage(lng);
+		}
 
 		// Eric Butler eric@extremeboredom.net
 		// Thu May 12 04:34:38 EDT 2005
@@ -120,6 +143,13 @@ namespace MP3Tagger
 
 		private void FillFrames(TAGID3v2 TAG2)
 		{
+			if (_framesTreeViewData.Columns.Count == 0)
+			{
+				_framesTreeViewData.AppendStringColumn(MainWin.Lng.Translate("Name"), null, false);
+	            _framesTreeViewData.AppendStringColumn(MainWin.Lng.Translate("Value"), null, false);
+				_framesTreeViewData.CreateTreeViewColumns();
+			}
+
 			_framesTreeViewData.Data.Clear();
 			foreach (var frame in TAG2.Frames)
 			{
@@ -205,16 +235,6 @@ namespace MP3Tagger
 			this.Hide();
 		}
 
-		protected void OnButtonSetFrontCoverImageClicked (object sender, EventArgs e)
-		{
-			var fileName = Dialogs.OpenFileDialog("Choose image");
-			if (fileName != null)
-			{
-				CurrentSong.ID3v2.LoadImageFrameFromFile(fileName,ImageType.CoverFront,false);
-				FillImage(imageCoverFront,ImageType.CoverFront);
-			}
-		}		
-
 		protected void OnSaveAction1Activated (object sender, EventArgs e)
 		{
 			OnApplyActionActivated(this,null);
@@ -222,6 +242,17 @@ namespace MP3Tagger
 		}
 
 		#endregion
+
+		protected void OnButtonSetFrontCoverImageClicked (object sender, EventArgs e)
+		{
+			var fileName = Dialogs.OpenFileDialog(MainWin.Lng.Translate("ChooseImage"));
+			if (fileName != null)
+			{
+				CurrentSong.ID3v2.LoadImageFrameFromFile(fileName,ImageType.CoverFront,false);
+				FillImage(imageCoverFront,ImageType.CoverFront);
+			}
+		}		
+
 
 		#endregion
 	}

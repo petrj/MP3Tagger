@@ -59,6 +59,7 @@
     </Reference>
     <Reference Include="Mono.Posix" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="gtk-gui\gui.stetic">
@@ -88,6 +89,18 @@
     <Compile Include="gtk-gui\MP3Tagger.TagWidget.cs" />
     <Compile Include="Dialogs.cs" />
     <Compile Include="TAG2Image.cs" />
+    <Compile Include="Language.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="lng\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="lng\en.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="lng\cz.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

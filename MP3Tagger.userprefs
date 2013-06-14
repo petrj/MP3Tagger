@@ -1,15 +1,17 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="MP3Tagger/TAGID3v2.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MP3Tagger/MainWindow.cs">
     <Files>
-      <File FileName="MP3Tagger/MainWindow.cs" Line="177" Column="23" />
-      <File FileName="MP3Tagger/SongDetail.cs" Line="127" Column="3" />
-      <File FileName="MP3Tagger/SongList.cs" Line="13" Column="69" />
-      <File FileName="MP3Tagger/TAGID3v2.cs" Line="460" Column="20" />
-      <File FileName="MP3Tagger/Song.cs" Line="83" Column="7" />
-      <File FileName="MP3Tagger/TAG2Frame.cs" Line="127" Column="40" />
-      <File FileName="MP3Tagger/TAGBase.cs" Line="151" Column="4" />
-      <File FileName="MP3Tagger/TagWidget.cs" Line="46" Column="80" />
+      <File FileName="MP3Tagger/MainWindow.cs" Line="237" Column="19" />
+      <File FileName="MP3Tagger/SongDetail.cs" Line="182" Column="35" />
+      <File FileName="MP3Tagger/SongList.cs" Line="29" Column="6" />
+      <File FileName="MP3Tagger/TAGID3v2.cs" Line="171" Column="3" />
+      <File FileName="MP3Tagger/Song.cs" Line="112" Column="17" />
+      <File FileName="MP3Tagger/TAG2Frame.cs" Line="564" Column="36" />
+      <File FileName="MP3Tagger/TAG2Image.cs" Line="77" Column="3" />
+      <File FileName="MP3Tagger/TAGBase.cs" Line="246" Column="76" />
+      <File FileName="MP3Tagger/TagWidget.cs" Line="41" Column="29" />
+      <File FileName="MP3Tagger/TAGID3v1.cs" Line="223" Column="21" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -18,12 +20,15 @@
       <Breakpoint file="/mnt/data/Develop/Source/mono/MP3Tagger/MP3Tagger/TAG2Frame.cs" line="89" />
       <Breakpoint file="/mnt/data/Develop/Source/mono/MP3Tagger/MP3Tagger/TAG2Frame.cs" line="98" />
       <Breakpoint file="/mnt/data/Develop/Source/mono/MP3Tagger/MP3Tagger/TAGBase.cs" line="109" />
-      <Breakpoint file="/mnt/data/Develop/git/MP3Tagger/MP3Tagger/TAG2Frame.cs" line="217" />
-      <Breakpoint file="/mnt/data/Develop/git/MP3Tagger/MP3Tagger/TAGID3v2.cs" line="411" />
-      <Breakpoint file="/mnt/data/Develop/git/MP3Tagger/MP3Tagger/TAGID3v2.cs" line="348" />
-      <Breakpoint file="/mnt/data/Develop/git/MP3Tagger/MP3Tagger/TAGID3v2.cs" line="441" />
-      <Breakpoint file="/mnt/data/Develop/git/MP3Tagger/MP3Tagger/TAGID3v2.cs" line="583" />
-      <Breakpoint file="/mnt/data/Develop/git/MP3Tagger/MP3Tagger/TAGID3v2.cs" line="445" />
+      <Breakpoint file="/mnt/data/Develop/git/MP3Tagger/MP3Tagger/TAG2Frame.cs" line="190" />
+      <Breakpoint file="/mnt/data/Develop/git/MP3Tagger/MP3Tagger/TAGID3v2.cs" line="342" />
+      <Breakpoint file="/mnt/data/Develop/git/MP3Tagger/MP3Tagger/TAGID3v2.cs" line="578" />
+      <Breakpoint file="/mnt/data/Develop/git/MP3Tagger/MP3Tagger/TAGID3v2.cs" line="439" />
+      <Breakpoint file="/mnt/data/Develop/git/MP3Tagger/MP3Tagger/MainWindow.cs" line="107" />
+      <Breakpoint file="/mnt/data/Develop/git/MP3Tagger/MP3Tagger/SongList.cs" line="48" />
+      <Breakpoint file="/mnt/data/Develop/git/MP3Tagger/MP3Tagger/TAGID3v2.cs" line="572" />
+      <Breakpoint file="/mnt/data/Develop/git/MP3Tagger/MP3Tagger/TAGID3v2.cs" line="147" />
+      <Breakpoint file="/mnt/data/Develop/git/MP3Tagger/MP3Tagger/MainWindow.cs" line="251" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
@@ -32,5 +37,6 @@
     <Watch file="MP3Tagger/TreeViewData.cs" line="63" offsetX="474" offsetY="900" expression="values" liveUpdate="False" />
     <Watch file="MP3Tagger/MainWindow.cs" line="486" offsetX="482" offsetY="7275" expression="editingSong" liveUpdate="False" />
     <Watch file="MP3Tagger/TAGID3v2.cs" line="327" offsetX="412" offsetY="4544" expression="framesData" liveUpdate="False" />
+    <Watch file="MP3Tagger/MainWindow.cs" line="258" offsetX="738" offsetY="3015" expression="imgFrame" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
 </Properties>

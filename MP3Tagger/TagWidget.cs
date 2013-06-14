@@ -75,6 +75,18 @@ namespace MP3Tagger
 				comboBoxGenre.AppendText(genreText);
 			}
 		}
+
+		public void ApplyLanguage(Language lng)
+		{	
+			labelTitle.LabelProp = lng.Translate("Title");
+			labelArtist.LabelProp = lng.Translate("Artist");
+			labelComment.LabelProp = lng.Translate("Comment");
+			labelAlbum.LabelProp = lng.Translate("Album");
+			labelYear.LabelProp = lng.Translate("Year");
+			labelGenre.LabelProp = lng.Translate("Genre");
+			labelTrackNumber.LabelProp = lng.Translate("TrackNumber");
+
+		}
 	}
 }
 
