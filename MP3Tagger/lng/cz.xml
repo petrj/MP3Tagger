@@ -10,12 +10,21 @@
 	<w key="WaitPlease" value="Čekejte, prosím" />
 	<w key="LoadingTags" value="Načítají se tagy ..." />
 	<w key="SaveAllConfirm" value="Uložit všechny změny ({0})?" />
-	<w key="ChooseDir" value="Zvolte adresář" />
+	<w key="ChooseDir" value="Zvolte adresář" />	
 	<w key="ChooseImage" value="Zvolte obrázek" />
+	<w key="ChooseMp3" value="Zvolte MP3" />
+	<w key="NoItemSelected" value="Není nic onačeno" />	
+	<w key="ConfirmRemoveSelected" value="Odstranit označené soubory ({0})?" />
+	<w key="ConfirmRemoveAll" value="Odstranit všechny soubory ({0})?" />
+	<w key="UnSaved" value="neuloženo" />
 	
 	<w key="Name" value="Název" />
 	<w key="Value" value="Hodnota" />
 	
+	<w key="Add" value="Přidat" />
+	<w key="Remove" value="Odebrat" />	
+	<w key="File" value="Soubor" />
+	<w key="Folder" value="Adresář" />
 	<w key="Open" value="Otevřít" />	
 	<w key="Edit" value="Upravit" />	
 	<w key="Previous" value="Předchozí" />	
@@ -30,6 +39,8 @@
 	
 	<w key="FileName" value="Název souboru" />	
 	<w key="Changed" value="Změněno" />
+	<w key="Selected" value="Vybrané" />	
+	<w key="All" value="Vše" />	
 	
 	<w key="Title" value="Název" />	
 	<w key="Artist" value="Interpret" />	

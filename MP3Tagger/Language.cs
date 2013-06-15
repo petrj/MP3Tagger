@@ -69,9 +69,9 @@ namespace MP3Tagger
 		{
 			if (this.ContainsKey(key))
 			{
-				return this[key];
+				return "*" + this[key];
 			} else
-				return defaultValue;
+				return "*" + defaultValue;
 		}
 
 		public string Translate(string key)

@@ -90,6 +90,8 @@
     <Compile Include="Dialogs.cs" />
     <Compile Include="TAG2Image.cs" />
     <Compile Include="Language.cs" />
+    <Compile Include="ToolBarWin.cs" />
+    <Compile Include="gtk-gui\MP3Tagger.ToolBarWin.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

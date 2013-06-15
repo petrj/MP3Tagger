@@ -13,6 +13,7 @@ public partial class MainWindow: Gtk.Window
     private SongList _songList = new SongList();
 	private MP3Tagger.ProgressBarWindow progressWin;
 	private SongDetail editWindow;
+	private ToolBarWin toolBarWin;
 	private Song _multiSelectSong;
 
 	private TreeViewData _treeView1Data;
@@ -54,6 +55,9 @@ public partial class MainWindow: Gtk.Window
 		editWindow = new SongDetail(this);
 		editWindow.Hide();
 
+		toolBarWin = new ToolBarWin(this);
+		toolBarWin.Hide();
+
 		tree.Selection.Changed+=new EventHandler(OnSelectionChanged);
 		tree2.Selection.Changed+=new EventHandler(OnSelectionChanged);
 
@@ -61,6 +65,7 @@ public partial class MainWindow: Gtk.Window
 
 		ApplyLanguage();
 		editWindow.ApplyLanguage();
+		toolBarWin.ApplyLanguage();
 			
 		this.Show();
 	}
@@ -69,7 +74,8 @@ public partial class MainWindow: Gtk.Window
 	{
 		// toollbar
 
-		openAction.ShortLabel = Lng.Translate("Open");
+		addAction.ShortLabel = Lng.Translate("Add");
+		removeAction.ShortLabel = Lng.Translate("Remove");
 		selectSingleAction.ShortLabel = Lng.Translate("Single");
 		selectMultipleAction.ShortLabel = Lng.Translate("Multi");
 		editAction.ShortLabel = Lng.Translate("Edit");
@@ -155,6 +161,80 @@ public partial class MainWindow: Gtk.Window
 		}
 
 		return true;
+	}
+
+	public int Remove(bool onlySelected)
+	{
+		var res = 0;
+
+		if (onlySelected)
+		{
+			var  selectedsongs = GetSelectedSongs();
+			var changedCount = 0;
+			foreach (var song in selectedsongs)	
+			if (song.Changed) changedCount++;
+
+			if (selectedsongs.Count == 0)
+			{
+				Dialogs.InfoDialog(Lng.Translate("NoItemSelected"));
+				return res;
+			} else
+			{
+				var question2 = selectedsongs.Count.ToString();;
+				if (changedCount > 0)
+				{
+					question2 += ", "+Lng.Translate("UnSaved")+" " + changedCount.ToString();
+				} 
+
+				if (Dialogs.QuestionDialog(String.Format(Lng.Translate("ConfirmRemoveSelected"),question2)) == Gtk.ResponseType.Ok)
+				{
+					res = selectedsongs.Count;
+					foreach (var song in selectedsongs)					
+						MP3List.Remove(song);
+				}
+			}
+		} else
+		{
+			if (MP3List.Count == 0)
+			{
+				return res;
+			}
+
+			var changedCount = MP3List.ChangedSongs.Count;
+			var question2 = MP3List.Count.ToString();
+
+			if (changedCount > 0)
+			{
+				question2 += ", "+Lng.Translate("UnSaved") + " "+changedCount.ToString();
+			} 
+
+			if (Dialogs.QuestionDialog(String.Format(Lng.Translate("ConfirmRemoveAll"),question2)) == Gtk.ResponseType.Ok)
+				{
+					res = MP3List.Count;
+					MP3List.Clear();
+				}
+		}
+
+		if (res>0)		
+		{
+			FillTree();
+			if (GetSelectedSongs().Count == 0)
+			{
+				if (MP3List.Count>0) SelectSong(MP3List[0]);
+			}
+		}
+
+		return res;
+	}
+
+	public void AddFile(string fname)
+	{
+		var addedMp3 = MP3List.AddFile(fname);
+		if (addedMp3 != null)
+		{
+        	FillTree();
+			SelectSong(addedMp3);
+		}
 	}
 
 	public void AddFolder(string dir,bool recursive)
@@ -679,13 +759,6 @@ public partial class MainWindow: Gtk.Window
 
 	#region toolbar action events
 
-	protected void OnOpenActionActivated (object sender, EventArgs e)
-	{
-		var dir = Dialogs.OpenDirectoryDialog(Lng.Translate("ChooseDir"));
-		if (dir != null)
-			AddFolder(dir,false);
-	}
-
 	protected void OnEditActionActivated (object sender, EventArgs e)
 	{
 		EditSelectedSongs();
@@ -734,6 +807,17 @@ public partial class MainWindow: Gtk.Window
 	protected void OnSaveActionActivated (object sender, EventArgs e)
 	{
 		SaveChanges();
+	}
+
+	protected void OnAddActionActivated (object sender, EventArgs e)
+	{
+		toolBarWin.Show(ToolBarWin.KindEnum.Add);
+	}
+
+
+	protected void OnRemoveActionActivated (object sender, EventArgs e)
+	{
+		toolBarWin.Show(ToolBarWin.KindEnum.Remove);
 	}
 
 	#endregion

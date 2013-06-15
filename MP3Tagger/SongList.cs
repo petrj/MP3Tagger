@@ -40,6 +40,26 @@ namespace MP3Tagger
 
 			progress(this, new MP3Tagger.ProgressEventArgs(100));
 		}
+
+		public Song AddFile(string fName)
+		{
+			if ( (File.Exists(fName)) && (Path.GetExtension(fName) == ".mp3"))
+			{
+				Logger.Logger.WriteToLog(String.Format("Adding file {0}",fName));
+
+					var mp3 = new Song();
+					mp3.Index = Count;
+					mp3.OpenFile(fName);
+					this.Add(mp3);
+
+					mp3.ID3v1.WriteToLog();
+					mp3.ID3v2.WriteToLog();
+
+				return mp3;
+			}
+
+			return null;
+		}
 	
 		public  List<Song> ChangedSongs
 		{
@@ -48,7 +68,7 @@ namespace MP3Tagger
 				var c=new List<Song>();
 				foreach (var song in this) 
 				{
-					if (song.ID3v1.Changed || song.ID3v2.Changed) c.Add(song);
+					if (song.Changed) c.Add(song);
 				}
 
 				return c;

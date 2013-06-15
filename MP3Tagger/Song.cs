@@ -28,6 +28,14 @@ namespace MP3Tagger
 			ID3v2.Clear();
 		}
 
+		public bool Changed
+		{
+			get
+			{
+				return ID3v1.Changed || ID3v2.Changed;
+			}
+		}
+
 		public bool SaveChanges(bool throwExceptions=false)
 		{
 			try

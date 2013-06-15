@@ -11,8 +11,10 @@ namespace MP3Tagger
 
 		private List<Song> _songs = new List<Song>();
 		private Song _currentSong;
-		private bool _shownFirst = true;
 		private TreeViewData _framesTreeViewData;
+
+		private int lastX = -1;
+		private int lastY = -1;
 
 		#endregion
 
@@ -26,6 +28,9 @@ namespace MP3Tagger
 			this.Build ();
 
 			this.Shown+= OnShown;
+			this.WidgetEvent+=OnWidgetEvent;
+
+			this.
 			MainWin = parent;
 
 			_framesTreeViewData = new TreeViewData(treeViewFrames);
@@ -63,7 +68,6 @@ namespace MP3Tagger
 			// toollbar
 			applyAction.ShortLabel = lng.Translate("OK");
 			undoAction.ShortLabel = lng.Translate("Undo");
-			saveAction1.ShortLabel = lng.Translate("Save");
 			goBackAction.ShortLabel = lng.Translate("Previous");
 			goForwardAction.ShortLabel = lng.Translate("Next");
 			closeAction1.ShortLabel = lng.Translate("Close");
@@ -164,10 +168,9 @@ namespace MP3Tagger
 		#region events
 
 		protected void OnShown(object sende, EventArgs e)
-		{
-			/*
-			//if (_shownFirst)
-			//{
+		{		
+			if (lastX == -1 || lastY == -1)
+			{
 				// center
 				int xMainWin;
 				int yMainWin;
@@ -180,11 +183,28 @@ namespace MP3Tagger
 				int h;
 				GetSize(out w,out h);
 
-				this.Move( xMainWin+(wMainWin-w)/2,yMainWin+(hMainWin-h)/2);
-			//}
+				lastX = xMainWin+(wMainWin-w)/2;
+				lastY = yMainWin+(hMainWin-h)/2;			
+			}
 
-			_shownFirst = false;
-			*/
+			Move(lastX,lastY);
+		}
+
+		protected void OnWidgetEvent(object sender, EventArgs e)
+		{
+			if (lastX == -1 || lastY == -1 || !Visible )
+				return;
+
+			if (e is WidgetEventArgs)
+			{
+				if ((e as WidgetEventArgs).Args.Length>0)
+				{
+					if ((e as WidgetEventArgs).Args[0] is Gdk.EventConfigure)
+					{
+						GetPosition(out lastX,out lastY);
+					}
+				}
+			}
 		}
 
 		protected void OnCheckButtonID32ActiveClicked (object sender, EventArgs e)
@@ -235,12 +255,6 @@ namespace MP3Tagger
 			this.Hide();
 		}
 
-		protected void OnSaveAction1Activated (object sender, EventArgs e)
-		{
-			OnApplyActionActivated(this,null);
-			MainWin.SaveChanges();
-		}
-
 		#endregion
 
 		protected void OnButtonSetFrontCoverImageClicked (object sender, EventArgs e)
@@ -251,8 +265,7 @@ namespace MP3Tagger
 				CurrentSong.ID3v2.LoadImageFrameFromFile(fileName,ImageType.CoverFront,false);
 				FillImage(imageCoverFront,ImageType.CoverFront);
 			}
-		}		
-
+		}
 
 		#endregion
 	}

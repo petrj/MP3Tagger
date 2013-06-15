@@ -19,13 +19,6 @@
         <property name="Type">Action</property>
         <property name="Label" translatable="yes" />
       </action>
-      <action id="openAction">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes">Open</property>
-        <property name="ShortLabel" translatable="yes">Open</property>
-        <property name="StockId">gtk-open</property>
-        <signal name="Activated" handler="OnOpenActionActivated" />
-      </action>
       <action id="editAction">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">Edit</property>
@@ -91,6 +84,20 @@
         <property name="ShortLabel" translatable="yes">_Save</property>
         <property name="StockId">gtk-save</property>
         <signal name="Activated" handler="OnSaveActionActivated" />
+      </action>
+      <action id="addAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Add</property>
+        <property name="ShortLabel" translatable="yes">Add</property>
+        <property name="StockId">gtk-add</property>
+        <signal name="Activated" handler="OnAddActionActivated" />
+      </action>
+      <action id="removeAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Remove</property>
+        <property name="ShortLabel" translatable="yes">Remove</property>
+        <property name="StockId">gtk-remove</property>
+        <signal name="Activated" handler="OnRemoveActionActivated" />
       </action>
     </action-group>
     <property name="MemberName" />
@@ -166,7 +173,9 @@
             <property name="MemberName" />
             <property name="ShowArrow">False</property>
             <node name="mainToolbar" type="Toolbar">
-              <node type="Toolitem" action="openAction" />
+              <node type="Toolitem" action="addAction" />
+              <node type="Toolitem" action="removeAction" />
+              <node type="Separator" />
               <node type="Toolitem" action="editAction" />
               <node type="Separator" />
               <node type="Toolitem" action="goBackAction" />
@@ -222,7 +231,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Window" id="MP3Tagger.SongDetail" design-size="526 529">
+  <widget class="Gtk.Window" id="MP3Tagger.SongDetail" design-size="393 529">
     <action-group name="Default">
       <action id="goForwardAction">
         <property name="Type">Action</property>
@@ -278,13 +287,6 @@
         <property name="StockId">gtk-close</property>
         <signal name="Activated" handler="OnCloseAction1Activated" />
       </action>
-      <action id="saveAction1">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes">Save</property>
-        <property name="ShortLabel" translatable="yes">Save</property>
-        <property name="StockId">gtk-save</property>
-        <signal name="Activated" handler="OnSaveAction1Activated" />
-      </action>
     </action-group>
     <property name="MemberName" />
     <property name="Title" translatable="yes">SongDetail</property>
@@ -306,8 +308,6 @@
               <node type="Separator" />
               <node type="Toolitem" action="undoAction" />
               <node type="Separator" />
-              <node type="Toolitem" action="saveAction1" />
-              <node type="Separator" />
               <node type="Toolitem" action="closeAction1" />
             </node>
           </widget>
@@ -321,7 +321,7 @@
             <property name="MemberName" />
             <property name="HeightRequest">400</property>
             <property name="CanFocus">True</property>
-            <property name="CurrentPage">3</property>
+            <property name="CurrentPage">0</property>
             <child>
               <widget class="Gtk.Fixed" id="fixedTAG1">
                 <property name="MemberName" />
@@ -746,6 +746,77 @@
           <packing>
             <property name="X">276</property>
             <property name="Y">108</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
+  <widget class="Gtk.Window" id="MP3Tagger.ToolBarWin" design-size="549 94">
+    <action-group name="Default">
+      <action id="actionClose">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Close</property>
+        <property name="ShortLabel" translatable="yes">Close</property>
+        <property name="StockId">gtk-close</property>
+        <signal name="Activated" handler="OnCloseActionActivated" />
+      </action>
+      <action id="actionAddSingleFile">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Add File</property>
+        <property name="ShortLabel" translatable="yes">Add File</property>
+        <property name="StockId">gtk-new</property>
+        <signal name="Activated" handler="OnActionAddFileActivated" />
+      </action>
+      <action id="actionAddFolder">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Add folder</property>
+        <property name="ShortLabel" translatable="yes">Add folder</property>
+        <property name="StockId">gtk-open</property>
+        <signal name="Activated" handler="OnActionAddFolderActivated" />
+      </action>
+      <action id="actionRemoveSelected">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Selected</property>
+        <property name="ShortLabel" translatable="yes">Selected</property>
+        <property name="StockId">gtk-dnd</property>
+        <signal name="Activated" handler="OnActionRemoveSelectedActivated" />
+      </action>
+      <action id="actionRemoveAll">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">All</property>
+        <property name="ShortLabel" translatable="yes">All</property>
+        <property name="StockId">gtk-dnd-multiple</property>
+        <signal name="Activated" handler="OnActionRemoveAllActivated" />
+      </action>
+    </action-group>
+    <property name="MemberName" />
+    <property name="Title" translatable="yes">Add</property>
+    <property name="Icon">stock:gtk-add Menu</property>
+    <property name="WindowPosition">CenterOnParent</property>
+    <property name="Modal">True</property>
+    <property name="Resizable">False</property>
+    <property name="AllowGrow">False</property>
+    <signal name="Shown" handler="OnShown" />
+    <child>
+      <widget class="Gtk.Fixed" id="fixed">
+        <property name="MemberName" />
+        <property name="HasWindow">False</property>
+        <child>
+          <widget class="Gtk.Toolbar" id="toolbar">
+            <property name="MemberName" />
+            <property name="ShowArrow">False</property>
+            <node name="toolbar" type="Toolbar">
+              <node type="Toolitem" action="actionAddSingleFile" />
+              <node type="Toolitem" action="actionAddFolder" />
+              <node type="Toolitem" action="actionRemoveSelected" />
+              <node type="Toolitem" action="actionRemoveAll" />
+              <node type="Separator" />
+              <node type="Toolitem" action="actionClose" />
+            </node>
+          </widget>
+          <packing>
+            <property name="X">2</property>
+            <property name="Y">11</property>
           </packing>
         </child>
       </widget>

@@ -6,7 +6,6 @@ public partial class MainWindow
 	private global::Gtk.UIManager UIManager;
 	private global::Gtk.Action SeznamMP3Action;
 	private global::Gtk.Action Action;
-	private global::Gtk.Action openAction;
 	private global::Gtk.Action editAction;
 	private global::Gtk.Action closeAction;
 	private global::Gtk.RadioAction selectMultipleAction;
@@ -15,6 +14,8 @@ public partial class MainWindow
 	private global::Gtk.Action goBackAction;
 	private global::Gtk.ToggleAction editingModeAction;
 	private global::Gtk.Action saveAction;
+	private global::Gtk.Action addAction;
+	private global::Gtk.Action removeAction;
 	private global::Gtk.Fixed @fixed;
 	private global::Gtk.Notebook notebook;
 	private global::Gtk.ScrolledWindow GtkScrolledWindow;
@@ -36,9 +37,6 @@ public partial class MainWindow
 		w1.Add (this.SeznamMP3Action, null);
 		this.Action = new global::Gtk.Action ("Action", null, null, null);
 		w1.Add (this.Action, null);
-		this.openAction = new global::Gtk.Action ("openAction", global::Mono.Unix.Catalog.GetString ("Open"), null, "gtk-open");
-		this.openAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Open");
-		w1.Add (this.openAction, null);
 		this.editAction = new global::Gtk.Action ("editAction", global::Mono.Unix.Catalog.GetString ("Edit"), null, "gtk-edit");
 		this.editAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Edit");
 		w1.Add (this.editAction, null);
@@ -65,6 +63,12 @@ public partial class MainWindow
 		this.saveAction = new global::Gtk.Action ("saveAction", global::Mono.Unix.Catalog.GetString ("_Save"), null, "gtk-save");
 		this.saveAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("_Save");
 		w1.Add (this.saveAction, null);
+		this.addAction = new global::Gtk.Action ("addAction", global::Mono.Unix.Catalog.GetString ("Add"), null, "gtk-add");
+		this.addAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Add");
+		w1.Add (this.addAction, null);
+		this.removeAction = new global::Gtk.Action ("removeAction", global::Mono.Unix.Catalog.GetString ("Remove"), null, "gtk-remove");
+		this.removeAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Remove");
+		w1.Add (this.removeAction, null);
 		this.UIManager.InsertActionGroup (w1, 0);
 		this.AddAccelGroup (this.UIManager.AccelGroup);
 		this.Name = "MainWindow";
@@ -120,7 +124,7 @@ public partial class MainWindow
 		w6.X = 4;
 		w6.Y = 54;
 		// Container child fixed.Gtk.Fixed+FixedChild
-		this.UIManager.AddUiFromString ("<ui><toolbar name='mainToolbar'><toolitem name='openAction' action='openAction'/><toolitem name='editAction' action='editAction'/><separator/><toolitem name='goBackAction' action='goBackAction'/><toolitem name='goForwardAction' action='goForwardAction'/><separator/><toolitem name='selectSingleAction' action='selectSingleAction'/><toolitem name='selectMultipleAction' action='selectMultipleAction'/><toolitem name='editingModeAction' action='editingModeAction'/><separator/><toolitem name='saveAction' action='saveAction'/><separator/><toolitem name='closeAction' action='closeAction'/></toolbar></ui>");
+		this.UIManager.AddUiFromString ("<ui><toolbar name='mainToolbar'><toolitem name='addAction' action='addAction'/><toolitem name='removeAction' action='removeAction'/><separator/><toolitem name='editAction' action='editAction'/><separator/><toolitem name='goBackAction' action='goBackAction'/><toolitem name='goForwardAction' action='goForwardAction'/><separator/><toolitem name='selectSingleAction' action='selectSingleAction'/><toolitem name='selectMultipleAction' action='selectMultipleAction'/><toolitem name='editingModeAction' action='editingModeAction'/><separator/><toolitem name='saveAction' action='saveAction'/><separator/><toolitem name='closeAction' action='closeAction'/></toolbar></ui>");
 		this.mainToolbar = ((global::Gtk.Toolbar)(this.UIManager.GetWidget ("/mainToolbar")));
 		this.mainToolbar.Name = "mainToolbar";
 		this.mainToolbar.ShowArrow = false;
@@ -135,7 +139,6 @@ public partial class MainWindow
 		this.DefaultHeight = 720;
 		this.Show ();
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
-		this.openAction.Activated += new global::System.EventHandler (this.OnOpenActionActivated);
 		this.editAction.Activated += new global::System.EventHandler (this.OnEditActionActivated);
 		this.closeAction.Activated += new global::System.EventHandler (this.OnCloseActionActivated);
 		this.selectMultipleAction.Activated += new global::System.EventHandler (this.OnDndMultipleActionActivated);
@@ -144,5 +147,7 @@ public partial class MainWindow
 		this.goBackAction.Activated += new global::System.EventHandler (this.OnGoBackActionActivated);
 		this.editingModeAction.Activated += new global::System.EventHandler (this.OnEditingModeActionActivated);
 		this.saveAction.Activated += new global::System.EventHandler (this.OnSaveActionActivated);
+		this.addAction.Activated += new global::System.EventHandler (this.OnAddActionActivated);
+		this.removeAction.Activated += new global::System.EventHandler (this.OnRemoveActionActivated);
 	}
 }

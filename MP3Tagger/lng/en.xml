@@ -12,10 +12,19 @@
 	<w key="SaveAllConfirm" value="Save all changes ({0})?" />
 	<w key="ChooseDir" value="Choose the directory to open" />
 	<w key="ChooseImage" value="Choose image" />
+	<w key="ChooseMp3" value="Choose MP3" />
+	<w key="NoItemSelected" value="No Item Selected" />
+	<w key="ConfirmRemoveSelected" value="Are you sure to remove selected mp3 ({0})?" />
+	<w key="ConfirmRemoveAll" value="Are you sure to remove alls mp3 ({0})?" />	
+	<w key="UnSaved" value="unsaved" />
 	
 	<w key="Name" value="" />	
 	<w key="Value" value="" />	
 	
+	<w key="Add" value="" />
+	<w key="Remove" value="" />		
+	<w key="File" value="" />
+	<w key="Folder" value="" />
 	<w key="Open" value="" />	
 	<w key="Edit" value="" />	
 	<w key="Previous" value="" />	
@@ -30,7 +39,9 @@
 	
 	<w key="FileName" value="" />	
 	<w key="Changed" value="" />
-	
+	<w key="Selected" value="" />	
+	<w key="All" value="" />	
+		
 	<w key="Title" value="" />	
 	<w key="Artist" value="" />	
 	<w key="Album" value="" />	
