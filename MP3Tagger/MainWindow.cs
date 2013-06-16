@@ -37,7 +37,7 @@ public partial class MainWindow: Gtk.Window
 
 		Build ();
 
-		Lng = new Language("cz");
+		Lng = new Language();
 
 		_treeView1Data = new TreeViewData(tree); 
 		_treeView2Data = new TreeViewData(tree2); 
@@ -63,14 +63,20 @@ public partial class MainWindow: Gtk.Window
 
         tree.ButtonPressEvent += tree_ButtonPressEvent;
 
-		ApplyLanguage();
-		editWindow.ApplyLanguage();
-		toolBarWin.ApplyLanguage();
+		LoadLanguage("cz");
 			
 		this.Show();
 	}
 
-	public void ApplyLanguage()
+	public void LoadLanguage(string flag)
+	{
+		Lng.LoadByFlag(flag);
+		ApplyLanguage();
+		editWindow.ApplyLanguage();
+		toolBarWin.ApplyLanguage();
+	}
+
+	private void ApplyLanguage()
 	{
 		// toollbar
 
@@ -89,7 +95,6 @@ public partial class MainWindow: Gtk.Window
 		labelID3v2Tree.LabelProp = Lng.Translate("Tag2");
 	}
     
-
 	#endregion
 
 	#region methods
@@ -820,6 +825,11 @@ public partial class MainWindow: Gtk.Window
 		toolBarWin.Show(ToolBarWin.KindEnum.Remove);
 	}
 
+
+	protected void OnChangeLanguageActionActivated (object sender, EventArgs e)
+	{
+		toolBarWin.Show(ToolBarWin.KindEnum.Languages);
+	}
 	#endregion
 
     #endregion

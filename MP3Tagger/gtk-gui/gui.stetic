@@ -99,6 +99,13 @@
         <property name="StockId">gtk-remove</property>
         <signal name="Activated" handler="OnRemoveActionActivated" />
       </action>
+      <action id="changeLanguageAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Language</property>
+        <property name="ShortLabel" translatable="yes">Language</property>
+        <property name="StockId">gtk-select-font</property>
+        <signal name="Activated" handler="OnChangeLanguageActionActivated" />
+      </action>
     </action-group>
     <property name="MemberName" />
     <property name="Title" translatable="yes">MP3 Tagger</property>
@@ -184,6 +191,8 @@
               <node type="Toolitem" action="selectSingleAction" />
               <node type="Toolitem" action="selectMultipleAction" />
               <node type="Toolitem" action="editingModeAction" />
+              <node type="Separator" />
+              <node type="Toolitem" action="changeLanguageAction" />
               <node type="Separator" />
               <node type="Toolitem" action="saveAction" />
               <node type="Separator" />

@@ -11,10 +11,36 @@ namespace MP3Tagger
 		public static string DefaultFlag = "en";
 
 		public string Flag { get; set; }
+		public string Description { get; set; }
 
-		public Language ():this(DefaultFlag)
+		public static string LanguagePath
 		{
+			get
+			{
+				return Path.Combine(global::System.AppDomain.CurrentDomain.BaseDirectory,"lng/");
+			}
+		}
 
+		public static List<Language> AvailableLanguages
+		{
+			get
+			{
+				var res  = new List<Language> ();
+				var xmls = Directory.GetFiles(LanguagePath,"*.xml");
+				foreach (var xml in xmls)
+				{
+					var lng = new Language();
+					lng.LoadFromFile(xml);
+					res.Add(lng);
+				}
+
+				return res;
+			}
+		}
+
+		public void LoadByFlag(string flag)
+		{
+			LoadFromFile(Path.Combine(LanguagePath,flag+".xml"));
 		}
 
 		public void LoadFromFile(string fileName)
@@ -24,6 +50,22 @@ namespace MP3Tagger
 			var doc = new XmlDocument();
 			
 	        doc.Load(fileName);
+
+			var mainNode = doc.SelectSingleNode("dict");
+			for (var k=0;k<mainNode.Attributes.Count;k++)
+			{
+				var attr = mainNode.Attributes[k];
+				if (attr.Name == "description") 
+				{
+					Description = attr.Value;
+				}
+				if (attr.Name == "language") 
+				{
+					Flag = attr.Value;
+				}
+			}
+
+
 
         	var xpath = "dict/w";
 			var nodes = doc.SelectNodes(xpath);				 
@@ -52,12 +94,16 @@ namespace MP3Tagger
 			}
 		}
 
+		public Language ()
+		{
+
+		}
+
 		public Language (string flag)
 		{
 			Flag = flag;
 
-			string lngPath = Path.Combine(global::System.AppDomain.CurrentDomain.BaseDirectory,"lng/");
-			var fName = Path.Combine(lngPath,flag+".xml");
+			var fName = Path.Combine(LanguagePath,flag+".xml");
 
 			if (File.Exists(fName))
 			{

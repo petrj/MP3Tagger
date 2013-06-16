@@ -1,30 +1,38 @@
 using System;
+using System.Collections.Generic;
 
 namespace MP3Tagger
 {
 	public partial class ToolBarWin : Gtk.Window
 	{
 		public MainWindow MainWin { get; set; }
+		private List<Gtk.ToolButton> LngButtons { get; set; }
 
 		public enum KindEnum
 		{
 			Add = 0,
-			Remove = 1
+			Remove = 1,
+			Languages = 2
 		}
 
 		public void Show(KindEnum kind)
 		{
-			// hidding all except Close
+			// hidding all action buttons (made from GUI) except Close
 			foreach (var item in toolbar.AllChildren)
 			{
 				if (item is Gtk.ToolButton)
 				{
 					if ((item as Gtk.ToolButton).Name != "actionClose")
 					{
-						(item as Gtk.ToolButton).Action.Visible = false;
+						if ((item as Gtk.ToolButton).Action != null)
+						{
+							(item as Gtk.ToolButton).Action.Visible = false;
+						} 
 					}
 				}
 			}
+			// hidding language buttons
+			foreach (var btn in LngButtons) btn.Visible = false;
 
 			switch (kind)
 			{
@@ -41,6 +49,9 @@ namespace MP3Tagger
 						actionRemoveAll.Visible = true;
 						actionRemoveSelected.Visible = true;
 					break;
+				case KindEnum.Languages:
+						foreach (var btn in LngButtons) btn.Visible = true;
+					break;
 			}
 
 
@@ -48,9 +59,30 @@ namespace MP3Tagger
 			Show();
 		}
 
+		private void CreateLanguageButtons()
+		{
+			var availableLanguages = Language.AvailableLanguages;
+			foreach (var lng in availableLanguages)
+			{
+				Gtk.ToolButton button = new Gtk.ToolButton (Gtk.Stock.SelectFont);
+				button.Visible = true;
+				button.Label = lng.Description;
+				button.Clicked += OnChangeLanguage;
+				button.Data["Flag"] = lng.Flag;
+				toolbar.Insert (button, 0); 
+				LngButtons.Add(button);
+			}
+		}
+
 	  	public ToolBarWin (MainWindow mainWin) : base(Gtk.WindowType.Toplevel)
         {
             this.Build ();
+
+			LngButtons = new List<Gtk.ToolButton>();
+			CreateLanguageButtons();
+
+			Show();
+
 			MainWin = mainWin;
         }
 
@@ -66,6 +98,16 @@ namespace MP3Tagger
 				int yMainWin;
 				MainWin.GetPosition(out xMainWin,out yMainWin);
 				this.Move( xMainWin+5,yMainWin+80);
+		}
+
+		protected void OnChangeLanguage(object sender, EventArgs e)
+		{
+			if ( (sender is Gtk.ToolButton) && ((sender as Gtk.ToolButton).Data.ContainsKey("Flag")))
+			{
+				Hide ();
+				var flag  = Convert.ToString((sender as Gtk.ToolButton).Data["Flag"]);
+				MainWin.LoadLanguage(flag);
+			}
 		}
 
 		protected void OnActionAddFileActivated (object sender, EventArgs e)
