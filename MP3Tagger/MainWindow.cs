@@ -90,6 +90,7 @@ public partial class MainWindow: Gtk.Window
 		closeAction.ShortLabel = Lng.Translate("Close");
 		goForwardAction.ShortLabel = Lng.Translate("Next");
 		goBackAction.ShortLabel = Lng.Translate("Previous");
+		changeLanguageAction.ShortLabel = Lng.Translate("Language");
 
 		labelID3v1Tree.LabelProp = Lng.Translate("Tag1");
 		labelID3v2Tree.LabelProp = Lng.Translate("Tag2");
@@ -123,11 +124,23 @@ public partial class MainWindow: Gtk.Window
 
 			var treeColName = Lng.Translate(colName);
 
+			switch (colName)
+			{
+				case "Title": if (MP3List.SortColumn == SongList.SortColumnEnum.Title) treeColName = treeColName +"* " ; break;
+				case "Artist": if (MP3List.SortColumn == SongList.SortColumnEnum.Artist) treeColName = treeColName + "* " ; break;
+				case "Album": if (MP3List.SortColumn == SongList.SortColumnEnum.Album) treeColName = treeColName + "* " ; break;
+				case "Year": if (MP3List.SortColumn == SongList.SortColumnEnum.Year) treeColName = treeColName + "* " ; break;
+				case "Comment": if (MP3List.SortColumn == SongList.SortColumnEnum.Comment) treeColName = treeColName + "* " ; break;
+				case "Track": if (MP3List.SortColumn == SongList.SortColumnEnum.Track) treeColName = treeColName + "* " ; break;
+			}
+
             _treeView1Data.AppendStringColumn(treeColName, OnStringCellEdit,EditingModeActive);
             _treeView2Data.AppendStringColumn(treeColName, OnStringCellEdit, EditingModeActive);
 		}
 
 		var genreColName = Lng.Translate("Genre");
+
+		if (MP3List.SortColumn == SongList.SortColumnEnum.Genre) genreColName = genreColName + "* " ; 
 
         var genreCol1 = _treeView1Data.AppendComboColumn(genreColName, OnComboCellEdit, EditingModeActive, TAGBase.ID3Genre);
 	    genreCol1.MinWidth = 150;
@@ -136,6 +149,8 @@ public partial class MainWindow: Gtk.Window
         genreCol2.MinWidth = 150;
 
 		var changedColName = Lng.Translate("Changed");
+
+		if (MP3List.SortColumn == SongList.SortColumnEnum.Changed) changedColName = changedColName + "* " ; 
 
         _treeView1Data.AppendCheckBoxColumn(changedColName,null, false);
         _treeView2Data.AppendCheckBoxColumn(changedColName, null, false);
@@ -166,6 +181,18 @@ public partial class MainWindow: Gtk.Window
 		}
 
 		return true;
+	}
+
+	public void SelectAll()
+	{
+		_treeView1Data.Tree.Selection.SelectAll();
+		_treeView2Data.Tree.Selection.SelectAll();
+	}
+
+	public void UnSelectAll()
+	{
+		_treeView1Data.Tree.Selection.UnselectAll();
+		_treeView2Data.Tree.Selection.UnselectAll();
 	}
 
 	public int Remove(bool onlySelected)
@@ -597,6 +624,53 @@ public partial class MainWindow: Gtk.Window
 
 	#endregion
 
+	#region Context Menu
+
+	private void AddSortContextMenuButton(Gtk.Menu menu, SongList.SortColumnEnum sortColumn, string title)
+	{
+		Gtk.MenuItem item = new MenuItem(title);
+		item.ButtonPressEvent +=new ButtonPressEventHandler(contextMenu_ButtonPressEvent);
+		item.Data["key"] = sortColumn;
+		menu.Add(item);
+	}
+
+	private void AddSelectContextMenu(Gtk.Menu menu)
+	{
+		Gtk.MenuItem sortItem = new MenuItem(Lng.Translate("Sort"));
+
+		menu.Add(sortItem);
+
+		// sort menu
+
+		Gtk.Menu sortMenu = new Menu();
+
+		AddSortContextMenuButton(sortMenu,SongList.SortColumnEnum.FileName,Lng.Translate("FileName"));
+
+		AddSortContextMenuButton(sortMenu,SongList.SortColumnEnum.Title,Lng.Translate("Title"));
+		AddSortContextMenuButton(sortMenu,SongList.SortColumnEnum.Artist,Lng.Translate("Artist"));
+		AddSortContextMenuButton(sortMenu,SongList.SortColumnEnum.Album,Lng.Translate("Album"));
+
+		AddSortContextMenuButton(sortMenu,SongList.SortColumnEnum.Year,Lng.Translate("Year"));
+		AddSortContextMenuButton(sortMenu,SongList.SortColumnEnum.Genre,Lng.Translate("Genre"));
+		AddSortContextMenuButton(sortMenu,SongList.SortColumnEnum.Album,Lng.Translate("Comment"));
+		AddSortContextMenuButton(sortMenu,SongList.SortColumnEnum.Track,Lng.Translate("TrackNumber"));
+		AddSortContextMenuButton(sortMenu,SongList.SortColumnEnum.Changed,Lng.Translate("Changed"));
+
+		sortItem.Submenu = sortMenu;
+	}
+		 
+	private void ShowContextMenu()
+	{
+		Gtk.Menu contextMenu = new Menu();
+
+		AddSelectContextMenu(contextMenu);
+			
+		contextMenu.ShowAll();
+		contextMenu.Popup();
+	}
+
+	#endregion
+
 	#region events
 
     private void OnStringCellEdit(object o, EditedArgs args)
@@ -739,13 +813,40 @@ public partial class MainWindow: Gtk.Window
 
 	}
 
+    //[GLib.ConnectBefore]
+    private void contextMenu_ButtonPressEvent(object o, ButtonPressEventArgs args)
+    {
+		if (o != null &&
+		    o is Gtk.MenuItem && 
+		    (o as Gtk.MenuItem).Data != null &&
+		    (o as Gtk.MenuItem).Data.ContainsKey("key"))
+		{
+			var sortCol = (SongList.SortColumnEnum) (o as Gtk.MenuItem).Data["key"];
+
+			MP3List.SortBy(sortCol,notebook.CurrentPage == 0);
+
+			var selectedSongs = GetSelectedSongs();	
+			CreateGridColumns();
+			FillTree();
+			SelectSongs(selectedSongs);							
+			ShowAll();
+		}
+    }
+
     [GLib.ConnectBefore]
     private void tree_ButtonPressEvent(object o, ButtonPressEventArgs args)
     {
         if (args.Event.Type == Gdk.EventType.TwoButtonPress)
         {
+			// double click
             EditSelectedSongs();
         }
+		if(args.Event.Button == 3) 
+		{
+			// right button click
+			ShowContextMenu();
+		}
+
     }
 
 	protected void OnSelectionChanged (object sender, EventArgs e)
@@ -830,6 +931,12 @@ public partial class MainWindow: Gtk.Window
 	{
 		toolBarWin.Show(ToolBarWin.KindEnum.Languages);
 	}
+
+	protected void OnSelectActionActivated (object sender, EventArgs e)
+	{
+		toolBarWin.Show(ToolBarWin.KindEnum.Selection);
+	}
+
 	#endregion
 
     #endregion

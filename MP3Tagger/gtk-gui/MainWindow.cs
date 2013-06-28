@@ -17,6 +17,7 @@ public partial class MainWindow
 	private global::Gtk.Action addAction;
 	private global::Gtk.Action removeAction;
 	private global::Gtk.Action changeLanguageAction;
+	private global::Gtk.Action selectAction;
 	private global::Gtk.Fixed @fixed;
 	private global::Gtk.Notebook notebook;
 	private global::Gtk.ScrolledWindow GtkScrolledWindow;
@@ -44,13 +45,13 @@ public partial class MainWindow
 		this.closeAction = new global::Gtk.Action ("closeAction", global::Mono.Unix.Catalog.GetString ("Close "), null, "gtk-close");
 		this.closeAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Close");
 		w1.Add (this.closeAction, null);
-		this.selectMultipleAction = new global::Gtk.RadioAction ("selectMultipleAction", global::Mono.Unix.Catalog.GetString ("Selection MultRrow"), null, "gtk-dnd-multiple", 0);
+		this.selectMultipleAction = new global::Gtk.RadioAction ("selectMultipleAction", global::Mono.Unix.Catalog.GetString ("Edit multi"), null, "gtk-dnd-multiple", 0);
 		this.selectMultipleAction.Group = new global::GLib.SList (global::System.IntPtr.Zero);
-		this.selectMultipleAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Select-Multi");
+		this.selectMultipleAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Edit multi");
 		w1.Add (this.selectMultipleAction, null);
-		this.selectSingleAction = new global::Gtk.RadioAction ("selectSingleAction", global::Mono.Unix.Catalog.GetString ("Selection-Single"), null, "gtk-dnd", 0);
+		this.selectSingleAction = new global::Gtk.RadioAction ("selectSingleAction", global::Mono.Unix.Catalog.GetString ("Edit single"), null, "gtk-dnd", 0);
 		this.selectSingleAction.Group = this.selectMultipleAction.Group;
-		this.selectSingleAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Select-Single");
+		this.selectSingleAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Edit single");
 		w1.Add (this.selectSingleAction, null);
 		this.goForwardAction = new global::Gtk.Action ("goForwardAction", global::Mono.Unix.Catalog.GetString ("Next"), null, "gtk-go-forward");
 		this.goForwardAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Next");
@@ -58,8 +59,8 @@ public partial class MainWindow
 		this.goBackAction = new global::Gtk.Action ("goBackAction", global::Mono.Unix.Catalog.GetString ("Previous"), null, "gtk-go-back");
 		this.goBackAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Previous");
 		w1.Add (this.goBackAction, null);
-		this.editingModeAction = new global::Gtk.ToggleAction ("editingModeAction", global::Mono.Unix.Catalog.GetString ("Edit Mode"), null, "gtk-index");
-		this.editingModeAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Edit Mode");
+		this.editingModeAction = new global::Gtk.ToggleAction ("editingModeAction", global::Mono.Unix.Catalog.GetString ("Edit cells"), null, "gtk-index");
+		this.editingModeAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Edit Cells");
 		w1.Add (this.editingModeAction, null);
 		this.saveAction = new global::Gtk.Action ("saveAction", global::Mono.Unix.Catalog.GetString ("_Save"), null, "gtk-save");
 		this.saveAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("_Save");
@@ -73,6 +74,9 @@ public partial class MainWindow
 		this.changeLanguageAction = new global::Gtk.Action ("changeLanguageAction", global::Mono.Unix.Catalog.GetString ("Language"), null, "gtk-select-font");
 		this.changeLanguageAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Language");
 		w1.Add (this.changeLanguageAction, null);
+		this.selectAction = new global::Gtk.Action ("selectAction", global::Mono.Unix.Catalog.GetString ("Select"), null, "gtk-select-all");
+		this.selectAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Select");
+		w1.Add (this.selectAction, null);
 		this.UIManager.InsertActionGroup (w1, 0);
 		this.AddAccelGroup (this.UIManager.AccelGroup);
 		this.Name = "MainWindow";
@@ -128,7 +132,7 @@ public partial class MainWindow
 		w6.X = 4;
 		w6.Y = 54;
 		// Container child fixed.Gtk.Fixed+FixedChild
-		this.UIManager.AddUiFromString ("<ui><toolbar name='mainToolbar'><toolitem name='addAction' action='addAction'/><toolitem name='removeAction' action='removeAction'/><separator/><toolitem name='editAction' action='editAction'/><separator/><toolitem name='goBackAction' action='goBackAction'/><toolitem name='goForwardAction' action='goForwardAction'/><separator/><toolitem name='selectSingleAction' action='selectSingleAction'/><toolitem name='selectMultipleAction' action='selectMultipleAction'/><toolitem name='editingModeAction' action='editingModeAction'/><separator/><toolitem name='changeLanguageAction' action='changeLanguageAction'/><separator/><toolitem name='saveAction' action='saveAction'/><separator/><toolitem name='closeAction' action='closeAction'/></toolbar></ui>");
+		this.UIManager.AddUiFromString ("<ui><toolbar name='mainToolbar'><toolitem name='addAction' action='addAction'/><toolitem name='removeAction' action='removeAction'/><separator/><toolitem name='editAction' action='editAction'/><separator/><toolitem name='goBackAction' action='goBackAction'/><toolitem name='goForwardAction' action='goForwardAction'/><separator/><toolitem name='selectSingleAction' action='selectSingleAction'/><toolitem name='selectMultipleAction' action='selectMultipleAction'/><toolitem name='editingModeAction' action='editingModeAction'/><separator/><toolitem name='selectAction' action='selectAction'/><separator/><toolitem name='changeLanguageAction' action='changeLanguageAction'/><separator/><toolitem name='saveAction' action='saveAction'/><separator/><toolitem name='closeAction' action='closeAction'/></toolbar></ui>");
 		this.mainToolbar = ((global::Gtk.Toolbar)(this.UIManager.GetWidget ("/mainToolbar")));
 		this.mainToolbar.Name = "mainToolbar";
 		this.mainToolbar.ShowArrow = false;
@@ -139,7 +143,7 @@ public partial class MainWindow
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();
 		}
-		this.DefaultWidth = 1038;
+		this.DefaultWidth = 1053;
 		this.DefaultHeight = 720;
 		this.Show ();
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
@@ -154,5 +158,6 @@ public partial class MainWindow
 		this.addAction.Activated += new global::System.EventHandler (this.OnAddActionActivated);
 		this.removeAction.Activated += new global::System.EventHandler (this.OnRemoveActionActivated);
 		this.changeLanguageAction.Activated += new global::System.EventHandler (this.OnChangeLanguageActionActivated);
+		this.selectAction.Activated += new global::System.EventHandler (this.OnSelectActionActivated);
 	}
 }

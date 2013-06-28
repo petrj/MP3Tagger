@@ -115,6 +115,8 @@ namespace Grid
 
 		public void CreateTreeViewColumns()
 		{
+			while (Tree.Columns.Length>0) Tree.RemoveColumn(Tree.Columns[0]);
+
 			var columnPosition=0;
 			foreach (var column in Columns)
 			{

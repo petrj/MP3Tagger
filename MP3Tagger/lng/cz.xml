@@ -17,9 +17,12 @@
 	<w key="ConfirmRemoveSelected" value="Odstranit označené soubory ({0})?" />
 	<w key="ConfirmRemoveAll" value="Odstranit všechny soubory ({0})?" />
 	<w key="UnSaved" value="neuloženo" />
+	<w key="SelectAll" value="Označit vše" />
+	<w key="UnSelectAll" value="Odznačit vše" />
 	
 	<w key="Name" value="Název" />
 	<w key="Value" value="Hodnota" />
+	<w key="Sort" value="Třídit" />
 	
 	<w key="Add" value="Přidat" />
 	<w key="Remove" value="Odebrat" />	
@@ -30,12 +33,13 @@
 	<w key="Previous" value="Předchozí" />	
 	<w key="Next" value="Další" />	
 	<w key="Single" value="" />	
-	<w key="Multi" value="" />	
-	<w key="Write" value="Psát" />	
+	<w key="Multi" value="Multi" />	
+	<w key="Write" value="Buňky" />	
 	<w key="Save" value="Uložit" />	
 	<w key="Close" value="Zavřít" />	
 	<w key="OK" value="" />	
 	<w key="Undo" value="Zpět" />		
+	<w key="Language" value="Jayzk" />			
 	
 	<w key="FileName" value="Název souboru" />	
 	<w key="Changed" value="Změněno" />

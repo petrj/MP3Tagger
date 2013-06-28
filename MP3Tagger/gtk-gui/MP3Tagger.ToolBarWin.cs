@@ -10,6 +10,8 @@ namespace MP3Tagger
 		private global::Gtk.Action actionAddFolder;
 		private global::Gtk.Action actionRemoveSelected;
 		private global::Gtk.Action actionRemoveAll;
+		private global::Gtk.Action actionSelectAll;
+		private global::Gtk.Action actionUnselectAll;
 		private global::Gtk.Fixed @fixed;
 		private global::Gtk.Toolbar toolbar;
 		
@@ -34,6 +36,12 @@ namespace MP3Tagger
 			this.actionRemoveAll = new global::Gtk.Action ("actionRemoveAll", global::Mono.Unix.Catalog.GetString ("All"), null, "gtk-dnd-multiple");
 			this.actionRemoveAll.ShortLabel = global::Mono.Unix.Catalog.GetString ("All");
 			w1.Add (this.actionRemoveAll, null);
+			this.actionSelectAll = new global::Gtk.Action ("actionSelectAll", global::Mono.Unix.Catalog.GetString ("Select all"), null, "gtk-select-all");
+			this.actionSelectAll.ShortLabel = global::Mono.Unix.Catalog.GetString ("Select all");
+			w1.Add (this.actionSelectAll, null);
+			this.actionUnselectAll = new global::Gtk.Action ("actionUnselectAll", global::Mono.Unix.Catalog.GetString ("Unselect all"), null, "gtk-remove");
+			this.actionUnselectAll.ShortLabel = global::Mono.Unix.Catalog.GetString ("Unselect all");
+			w1.Add (this.actionUnselectAll, null);
 			this.UIManager.InsertActionGroup (w1, 0);
 			this.AddAccelGroup (this.UIManager.AccelGroup);
 			this.Name = "MP3Tagger.ToolBarWin";
@@ -48,7 +56,7 @@ namespace MP3Tagger
 			this.@fixed.Name = "fixed";
 			this.@fixed.HasWindow = false;
 			// Container child fixed.Gtk.Fixed+FixedChild
-			this.UIManager.AddUiFromString ("<ui><toolbar name='toolbar'><toolitem name='actionAddSingleFile' action='actionAddSingleFile'/><toolitem name='actionAddFolder' action='actionAddFolder'/><toolitem name='actionRemoveSelected' action='actionRemoveSelected'/><toolitem name='actionRemoveAll' action='actionRemoveAll'/><separator/><toolitem name='actionClose' action='actionClose'/></toolbar></ui>");
+			this.UIManager.AddUiFromString ("<ui><toolbar name='toolbar'><toolitem name='actionAddSingleFile' action='actionAddSingleFile'/><toolitem name='actionAddFolder' action='actionAddFolder'/><toolitem name='actionRemoveSelected' action='actionRemoveSelected'/><toolitem name='actionRemoveAll' action='actionRemoveAll'/><toolitem name='actionSelectAll' action='actionSelectAll'/><toolitem name='actionUnselectAll' action='actionUnselectAll'/><separator/><toolitem name='actionClose' action='actionClose'/></toolbar></ui>");
 			this.toolbar = ((global::Gtk.Toolbar)(this.UIManager.GetWidget ("/toolbar")));
 			this.toolbar.Name = "toolbar";
 			this.toolbar.ShowArrow = false;
@@ -60,7 +68,7 @@ namespace MP3Tagger
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
-			this.DefaultWidth = 549;
+			this.DefaultWidth = 627;
 			this.DefaultHeight = 94;
 			this.Show ();
 			this.Shown += new global::System.EventHandler (this.OnShown);
@@ -69,6 +77,8 @@ namespace MP3Tagger
 			this.actionAddFolder.Activated += new global::System.EventHandler (this.OnActionAddFolderActivated);
 			this.actionRemoveSelected.Activated += new global::System.EventHandler (this.OnActionRemoveSelectedActivated);
 			this.actionRemoveAll.Activated += new global::System.EventHandler (this.OnActionRemoveAllActivated);
+			this.actionSelectAll.Activated += new global::System.EventHandler (this.OnActionSelectAllActivated);
+			this.actionUnselectAll.Activated += new global::System.EventHandler (this.OnActionUnselectAllActivated);
 		}
 	}
 }

@@ -12,7 +12,8 @@ namespace MP3Tagger
 		{
 			Add = 0,
 			Remove = 1,
-			Languages = 2
+			Languages = 2,
+			Selection = 3
 		}
 
 		public void Show(KindEnum kind)
@@ -51,6 +52,10 @@ namespace MP3Tagger
 					break;
 				case KindEnum.Languages:
 						foreach (var btn in LngButtons) btn.Visible = true;
+					break;
+				case KindEnum.Selection:
+						actionSelectAll.Visible = true;
+						actionUnselectAll.Visible = true;
 					break;
 			}
 
@@ -142,6 +147,8 @@ namespace MP3Tagger
 			actionClose.ShortLabel = lng.Translate("Close");
 			actionRemoveSelected.ShortLabel = lng.Translate("Selected");
 			actionRemoveAll.ShortLabel = lng.Translate("All");
+			actionSelectAll.ShortLabel = lng.Translate("SelectAll");
+			actionUnselectAll.ShortLabel = lng.Translate("UnSelectAll");
 		}
 
 		protected void OnActionRemoveSelectedActivated (object sender, EventArgs e)
@@ -156,6 +163,18 @@ namespace MP3Tagger
 			MainWin.Remove(false);
 		}
 
+		protected void OnActionSelectAllActivated (object sender, EventArgs e)
+		{
+			Hide ();
+			MainWin.SelectAll();
+		}
+
+		protected void OnActionUnselectAllActivated (object sender, EventArgs e)
+		{
+			Hide ();
+			MainWin.UnSelectAll();
+
+		}
 	}
 }
 

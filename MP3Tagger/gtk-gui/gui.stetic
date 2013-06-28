@@ -8,7 +8,7 @@
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <widget-library name="../bin/Debug/MP3Tagger.exe" internal="true" />
   </import>
-  <widget class="Gtk.Window" id="MainWindow" design-size="1038 720">
+  <widget class="Gtk.Window" id="MainWindow" design-size="1053 720">
     <action-group name="Default">
       <action id="SeznamMP3Action">
         <property name="Type">Action</property>
@@ -35,8 +35,8 @@
       </action>
       <action id="selectMultipleAction">
         <property name="Type">Radio</property>
-        <property name="Label" translatable="yes">Selection MultRrow</property>
-        <property name="ShortLabel" translatable="yes">Select-Multi</property>
+        <property name="Label" translatable="yes">Edit multi</property>
+        <property name="ShortLabel" translatable="yes">Edit multi</property>
         <property name="StockId">gtk-dnd-multiple</property>
         <property name="DrawAsRadio">False</property>
         <property name="Active">False</property>
@@ -46,8 +46,8 @@
       </action>
       <action id="selectSingleAction">
         <property name="Type">Radio</property>
-        <property name="Label" translatable="yes">Selection-Single</property>
-        <property name="ShortLabel" translatable="yes">Select-Single</property>
+        <property name="Label" translatable="yes">Edit single</property>
+        <property name="ShortLabel" translatable="yes">Edit single</property>
         <property name="StockId">gtk-dnd</property>
         <property name="DrawAsRadio">False</property>
         <property name="Active">False</property>
@@ -71,8 +71,8 @@
       </action>
       <action id="editingModeAction">
         <property name="Type">Toggle</property>
-        <property name="Label" translatable="yes">Edit Mode</property>
-        <property name="ShortLabel" translatable="yes">Edit Mode</property>
+        <property name="Label" translatable="yes">Edit cells</property>
+        <property name="ShortLabel" translatable="yes">Edit Cells</property>
         <property name="StockId">gtk-index</property>
         <property name="DrawAsRadio">False</property>
         <property name="Active">False</property>
@@ -105,6 +105,13 @@
         <property name="ShortLabel" translatable="yes">Language</property>
         <property name="StockId">gtk-select-font</property>
         <signal name="Activated" handler="OnChangeLanguageActionActivated" />
+      </action>
+      <action id="selectAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Select</property>
+        <property name="ShortLabel" translatable="yes">Select</property>
+        <property name="StockId">gtk-select-all</property>
+        <signal name="Activated" handler="OnSelectActionActivated" />
       </action>
     </action-group>
     <property name="MemberName" />
@@ -191,6 +198,8 @@
               <node type="Toolitem" action="selectSingleAction" />
               <node type="Toolitem" action="selectMultipleAction" />
               <node type="Toolitem" action="editingModeAction" />
+              <node type="Separator" />
+              <node type="Toolitem" action="selectAction" />
               <node type="Separator" />
               <node type="Toolitem" action="changeLanguageAction" />
               <node type="Separator" />
@@ -760,7 +769,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Window" id="MP3Tagger.ToolBarWin" design-size="549 94">
+  <widget class="Gtk.Window" id="MP3Tagger.ToolBarWin" design-size="627 94">
     <action-group name="Default">
       <action id="actionClose">
         <property name="Type">Action</property>
@@ -797,6 +806,20 @@
         <property name="StockId">gtk-dnd-multiple</property>
         <signal name="Activated" handler="OnActionRemoveAllActivated" />
       </action>
+      <action id="actionSelectAll">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Select all</property>
+        <property name="ShortLabel" translatable="yes">Select all</property>
+        <property name="StockId">gtk-select-all</property>
+        <signal name="Activated" handler="OnActionSelectAllActivated" />
+      </action>
+      <action id="actionUnselectAll">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Unselect all</property>
+        <property name="ShortLabel" translatable="yes">Unselect all</property>
+        <property name="StockId">gtk-remove</property>
+        <signal name="Activated" handler="OnActionUnselectAllActivated" />
+      </action>
     </action-group>
     <property name="MemberName" />
     <property name="Title" translatable="yes">Add</property>
@@ -819,6 +842,8 @@
               <node type="Toolitem" action="actionAddFolder" />
               <node type="Toolitem" action="actionRemoveSelected" />
               <node type="Toolitem" action="actionRemoveAll" />
+              <node type="Toolitem" action="actionSelectAll" />
+              <node type="Toolitem" action="actionUnselectAll" />
               <node type="Separator" />
               <node type="Toolitem" action="actionClose" />
             </node>
