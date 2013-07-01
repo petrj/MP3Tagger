@@ -380,14 +380,25 @@ public partial class MainWindow: Gtk.Window
 
 	#region selection methods
 
-	public void ApplySongEdit()
+	public void ApplySongEdit(string fileRenameMask = "")
 	{
 		var selectedSongs = GetSelectedSongs();
-		if (selectedSongs.Count > 1)
+
+		// renaming by mask?
+		if (!String.IsNullOrEmpty(fileRenameMask))
 		{
-			// multi selection
 			foreach (var song in selectedSongs)
 			{
+				song.RenameByMask(fileRenameMask);
+			}
+		}
+
+		// apply multi selection changes ?
+		if (selectedSongs.Count > 1)
+		{
+			foreach (var song in selectedSongs)
+			{
+
 				song.ID3v1.Active = MultiSelectSong.ID3v1.Active;
 				song.ID3v1.Active = MultiSelectSong.ID3v2.Active;
 
@@ -667,6 +678,7 @@ public partial class MainWindow: Gtk.Window
 			
 		contextMenu.ShowAll();
 		contextMenu.Popup();
+		contextMenu.Dispose();
 	}
 
 	#endregion

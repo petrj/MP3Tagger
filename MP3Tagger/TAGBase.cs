@@ -153,6 +153,7 @@ namespace MP3Tagger
 		public string FileName 
 		{
 			get { return _fileName;	}
+			set { _fileName = value; }
 		}
 
 		public virtual string GenreText

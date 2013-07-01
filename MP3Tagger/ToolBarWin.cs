@@ -41,6 +41,7 @@ namespace MP3Tagger
 
 						actionAddSingleFile.Visible = true;
 						actionAddFolder.Visible = true;
+						actionAddFolderRecursive.Visible = true;
 						//actionRemoveAll.Visible = false;
 						//actionRemoveSelected.Visible = false;
 					break;
@@ -149,6 +150,7 @@ namespace MP3Tagger
 			actionRemoveAll.ShortLabel = lng.Translate("All");
 			actionSelectAll.ShortLabel = lng.Translate("SelectAll");
 			actionUnselectAll.ShortLabel = lng.Translate("UnSelectAll");
+			actionAddFolderRecursive.ShortLabel = lng.Translate("FolderRec");
 		}
 
 		protected void OnActionRemoveSelectedActivated (object sender, EventArgs e)
@@ -175,6 +177,18 @@ namespace MP3Tagger
 			MainWin.UnSelectAll();
 
 		}
+
+		protected void OnActionAddFolderREcursiveActivated (object sender, EventArgs e)
+		{
+			var dir = Dialogs.OpenDirectoryDialog(MainWin.Lng.Translate("ChooseDir"));
+			if (dir != null)
+			{
+				Hide ();
+				MainWin.AddFolder(dir,true);
+			}
+		}
+
+
 	}
 }
 

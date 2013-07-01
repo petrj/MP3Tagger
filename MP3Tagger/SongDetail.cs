@@ -75,6 +75,8 @@ namespace MP3Tagger
 			checkButtonID31Active.Label = lng.Translate("Tag1");
 			checkButtonID32Active.Label = lng.Translate("Tag2");
 
+			labelFName.LabelProp = lng.Translate("File");
+
 			labelTAG1.LabelProp = lng.Translate("Tag1");
 			labelTAG2.LabelProp = lng.Translate("Tag2");
 
@@ -123,6 +125,7 @@ namespace MP3Tagger
 				if (CurrentSong.FileName != null && System.IO.File.Exists(CurrentSong.FileName))			   
 				{
 					Title = System.IO.Path.GetFileName(CurrentSong.FileName);
+					entryFileName.Text = Title;
 				}
 
 				checkButtonID31Active.Active = CurrentSong.ID3v1.Active;
@@ -232,7 +235,7 @@ namespace MP3Tagger
                 tagWidget2.ApplyChanges();
 			}
 
-			MainWin.ApplySongEdit();
+			MainWin.ApplySongEdit(entryFileName.Text);
 		}	
 
 		protected void OnGoBackActionActivated (object sender, EventArgs e)
@@ -267,6 +270,23 @@ namespace MP3Tagger
 			}
 		}
 
+
+		protected void OnButtonMaskHelpActivated (object sender, EventArgs e)
+		{
+
+		}
+
+		protected void OnButtonMaskHelpClicked (object sender, EventArgs e)
+		{
+			var help = MainWin.Lng.Translate("FileNameByMask");
+			help += CurrentSong.UnMask(entryFileName.Text);
+
+			help += System.Environment.NewLine;
+			help += System.Environment.NewLine;
+			help += MainWin.Lng.Translate("MaskHelp");
+
+			Dialogs.InfoDialog(help);
+		}
 		#endregion
 	}
 }

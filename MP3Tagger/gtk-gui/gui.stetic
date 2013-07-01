@@ -249,7 +249,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Window" id="MP3Tagger.SongDetail" design-size="393 529">
+  <widget class="Gtk.Window" id="MP3Tagger.SongDetail" design-size="396 470">
     <action-group name="Default">
       <action id="goForwardAction">
         <property name="Type">Action</property>
@@ -335,9 +335,62 @@
           </packing>
         </child>
         <child>
+          <widget class="Gtk.Entry" id="entryFileName">
+            <property name="MemberName" />
+            <property name="WidthRequest">265</property>
+            <property name="CanFocus">True</property>
+            <property name="IsEditable">True</property>
+            <property name="InvisibleChar">●</property>
+          </widget>
+          <packing>
+            <property name="X">85</property>
+            <property name="Y">73</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.Label" id="labelFName">
+            <property name="MemberName" />
+            <property name="LabelProp" translatable="yes">Filename</property>
+          </widget>
+          <packing>
+            <property name="X">15</property>
+            <property name="Y">77</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.CheckButton" id="checkButtonID31Active">
+            <property name="MemberName" />
+            <property name="CanFocus">True</property>
+            <property name="Label" translatable="yes">TAG 1</property>
+            <property name="Active">True</property>
+            <property name="DrawIndicator">True</property>
+            <property name="HasLabel">True</property>
+            <property name="UseUnderline">True</property>
+          </widget>
+          <packing>
+            <property name="X">11</property>
+            <property name="Y">112</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.CheckButton" id="checkButtonID32Active">
+            <property name="MemberName" />
+            <property name="CanFocus">True</property>
+            <property name="Label" translatable="yes">TAG 2</property>
+            <property name="DrawIndicator">True</property>
+            <property name="HasLabel">True</property>
+            <property name="UseUnderline">True</property>
+            <signal name="Clicked" handler="OnCheckButtonID32ActiveClicked" />
+          </widget>
+          <packing>
+            <property name="X">85</property>
+            <property name="Y">112</property>
+          </packing>
+        </child>
+        <child>
           <widget class="Gtk.Notebook" id="notebook">
             <property name="MemberName" />
-            <property name="HeightRequest">400</property>
+            <property name="HeightRequest">300</property>
             <property name="CanFocus">True</property>
             <property name="CurrentPage">0</property>
             <child>
@@ -416,7 +469,7 @@
                       <widget class="Gtk.TreeView" id="treeViewFrames">
                         <property name="MemberName" />
                         <property name="WidthRequest">350</property>
-                        <property name="HeightRequest">350</property>
+                        <property name="HeightRequest">230</property>
                         <property name="CanFocus">True</property>
                         <property name="ShowScrollbars">True</property>
                       </widget>
@@ -496,38 +549,24 @@
             </child>
           </widget>
           <packing>
-            <property name="X">4</property>
-            <property name="Y">100</property>
+            <property name="X">3</property>
+            <property name="Y">140</property>
           </packing>
         </child>
         <child>
-          <widget class="Gtk.CheckButton" id="checkButtonID31Active">
+          <widget class="Gtk.Button" id="buttonMaskHelp">
             <property name="MemberName" />
             <property name="CanFocus">True</property>
-            <property name="Label" translatable="yes">TAG 1</property>
-            <property name="Active">True</property>
-            <property name="DrawIndicator">True</property>
-            <property name="HasLabel">True</property>
+            <property name="Type">TextAndIcon</property>
+            <property name="Icon">stock:gtk-dialog-info Menu</property>
+            <property name="Label" translatable="yes" />
             <property name="UseUnderline">True</property>
+            <signal name="Activated" handler="OnButtonMaskHelpActivated" />
+            <signal name="Clicked" handler="OnButtonMaskHelpClicked" />
           </widget>
           <packing>
-            <property name="X">5</property>
-            <property name="Y">71</property>
-          </packing>
-        </child>
-        <child>
-          <widget class="Gtk.CheckButton" id="checkButtonID32Active">
-            <property name="MemberName" />
-            <property name="CanFocus">True</property>
-            <property name="Label" translatable="yes">TAG 2</property>
-            <property name="DrawIndicator">True</property>
-            <property name="HasLabel">True</property>
-            <property name="UseUnderline">True</property>
-            <signal name="Clicked" handler="OnCheckButtonID32ActiveClicked" />
-          </widget>
-          <packing>
-            <property name="X">70</property>
-            <property name="Y">70</property>
+            <property name="X">355</property>
+            <property name="Y">72</property>
           </packing>
         </child>
       </widget>
@@ -769,7 +808,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Window" id="MP3Tagger.ToolBarWin" design-size="627 94">
+  <widget class="Gtk.Window" id="MP3Tagger.ToolBarWin" design-size="804 94">
     <action-group name="Default">
       <action id="actionClose">
         <property name="Type">Action</property>
@@ -820,6 +859,13 @@
         <property name="StockId">gtk-remove</property>
         <signal name="Activated" handler="OnActionUnselectAllActivated" />
       </action>
+      <action id="actionAddFolderRecursive">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Add folder rec.</property>
+        <property name="ShortLabel" translatable="yes">Add folder rec.</property>
+        <property name="StockId">gtk-directory</property>
+        <signal name="Activated" handler="OnActionAddFolderREcursiveActivated" />
+      </action>
     </action-group>
     <property name="MemberName" />
     <property name="Title" translatable="yes">Add</property>
@@ -840,6 +886,7 @@
             <node name="toolbar" type="Toolbar">
               <node type="Toolitem" action="actionAddSingleFile" />
               <node type="Toolitem" action="actionAddFolder" />
+              <node type="Toolitem" action="actionAddFolderRecursive" />
               <node type="Toolitem" action="actionRemoveSelected" />
               <node type="Toolitem" action="actionRemoveAll" />
               <node type="Toolitem" action="actionSelectAll" />
