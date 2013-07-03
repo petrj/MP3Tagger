@@ -122,11 +122,27 @@ namespace MP3Tagger
 		{
 			if (CurrentSong != null)
 			{
+				//comboboxentryFileName.Active = 0;
+
+				var fileNameListStore = new Gtk.ListStore (typeof(string));            	
+				fileNameListStore.AppendValues("");
+				fileNameListStore.AppendValues("*i - *t.mp3");
+				fileNameListStore.AppendValues("*y-*a-*t.mp3");
+
+				int activeIndex;
 				if (CurrentSong.FileName != null && System.IO.File.Exists(CurrentSong.FileName))			   
 				{
 					Title = System.IO.Path.GetFileName(CurrentSong.FileName);
-					entryFileName.Text = Title;
+					fileNameListStore.AppendValues(Title);
+					activeIndex = 3;
+				} else
+				{
+					Title = String.Format(MainWin.Lng.Translate("Edit"));
+					activeIndex = 0;
 				}
+
+				comboboxentryFileName.Model = fileNameListStore;							 
+				comboboxentryFileName.Active = activeIndex;
 
 				checkButtonID31Active.Active = CurrentSong.ID3v1.Active;
 				checkButtonID32Active.Active = CurrentSong.ID3v2.Active;
@@ -235,7 +251,7 @@ namespace MP3Tagger
                 tagWidget2.ApplyChanges();
 			}
 
-			MainWin.ApplySongEdit(entryFileName.Text);
+			MainWin.ApplySongEdit(comboboxentryFileName.ActiveText);
 		}	
 
 		protected void OnGoBackActionActivated (object sender, EventArgs e)
@@ -278,8 +294,12 @@ namespace MP3Tagger
 
 		protected void OnButtonMaskHelpClicked (object sender, EventArgs e)
 		{
+			var firstSelectedSong = MainWin.FirstSelectedSong;
+			if (firstSelectedSong == null)
+				return;
+
 			var help = MainWin.Lng.Translate("FileNameByMask");
-			help += CurrentSong.UnMask(entryFileName.Text);
+			help += firstSelectedSong.UnMask(comboboxentryFileName.ActiveText);
 
 			help += System.Environment.NewLine;
 			help += System.Environment.NewLine;

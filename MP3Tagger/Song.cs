@@ -67,7 +67,7 @@ namespace MP3Tagger
 				string fName = System.IO.Path.GetFileName(FileName);
 				string name = System.IO.Path.GetFileNameWithoutExtension(FileName);
 				string ext = System.IO.Path.GetExtension(FileName);
-				while (ext.StartsWith(".")) { ext = ext.Substring(1); };
+				while ((ext != null) && (ext.StartsWith("."))) { ext = ext.Substring(1); };
 
 				/*
 

@@ -19,6 +19,8 @@
 	<w key="UnSaved" value="neuloženo" />
 	<w key="SelectAll" value="Označit vše" />
 	<w key="UnSelectAll" value="Odznačit vše" />
+	<w key="ConfirmRenameByMask" value="Přejmenovat soubory ({0}) podle masky: {1} ?" />
+	<w key="Edit" value="Úprava" />
 	
 	<w key="Name" value="Název" />
 	<w key="Value" value="Hodnota" />

@@ -57,6 +57,19 @@ namespace MP3Tagger
 			return result;
 		}
 
+		public static bool ConfirmDialog(string message)
+		{
+			MessageDialog md = new MessageDialog (null, 
+	                                  DialogFlags.DestroyWithParent,
+	                              	  MessageType.Question, 
+	                                  ButtonsType.YesNo, message);
+
+			var result = (ResponseType)md.Run ();
+			md.Destroy();
+
+			return result == ResponseType.Yes;
+		}
+
 		public static void InfoDialog(string message,MessageType msgType = MessageType.Info )
 		{
 			MessageDialog md = new MessageDialog (null, 

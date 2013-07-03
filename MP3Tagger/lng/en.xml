@@ -18,7 +18,9 @@
 	<w key="ConfirmRemoveAll" value="Are you sure to remove alls mp3 ({0})?" />	
 	<w key="UnSaved" value="unsaved" />
 	<w key="SelectAll" value="Select All" />
-	<w key="UnSelectAll" value="UnSelect All" />	
+	<w key="UnSelectAll" value="UnSelect All" />
+	<w key="ConfirmRenameByMask" value="Rename files ({0}) by mask: {1} ?" />
+	<w key="Edit" value="Edit" />	
 	
 	<w key="Name" value="" />	
 	<w key="Value" value="" />

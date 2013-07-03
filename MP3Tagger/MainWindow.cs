@@ -322,6 +322,22 @@ public partial class MainWindow: Gtk.Window
 
     #region properties
 
+	public Song FirstSelectedSong
+	{
+		get
+		{
+
+			var selected = GetSelectedSongs();
+			if (selected != null && selected.Count>0)
+			{
+				return selected[0];
+			}
+
+			return null;
+		}
+
+	}
+
 	public Song MultiSelectSong
 	{
 		get { return _multiSelectSong; }
@@ -384,15 +400,6 @@ public partial class MainWindow: Gtk.Window
 	{
 		var selectedSongs = GetSelectedSongs();
 
-		// renaming by mask?
-		if (!String.IsNullOrEmpty(fileRenameMask))
-		{
-			foreach (var song in selectedSongs)
-			{
-				song.RenameByMask(fileRenameMask);
-			}
-		}
-
 		// apply multi selection changes ?
 		if (selectedSongs.Count > 1)
 		{
@@ -416,7 +423,26 @@ public partial class MainWindow: Gtk.Window
 					}
 				}
 			}
+
 		}
+
+		if (selectedSongs.Count > 0)
+		{
+			// renaming by mask?
+			if (!String.IsNullOrEmpty(fileRenameMask) &&
+			    fileRenameMask.Trim() != "*f" &&
+			    fileRenameMask.Trim() != System.IO.Path.GetFileName(selectedSongs[0].FileName))
+			{
+				if (Dialogs.ConfirmDialog(String.Format(Lng.Translate("ConfirmRenameByMask"),selectedSongs.Count,fileRenameMask)))
+				{	
+					foreach (var song in selectedSongs)
+					{
+						song.RenameByMask(fileRenameMask);
+					}
+				}
+			}
+		}
+
 
 		FillTree();
 		SelectSongs(selectedSongs);
@@ -456,7 +482,6 @@ public partial class MainWindow: Gtk.Window
 
 		return MP3List[index];
 	}
-
 
 	public List<Song> GetSelectedSongs()
 	{
