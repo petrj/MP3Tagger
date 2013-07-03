@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Diagnostics;
 using System.Collections.Generic;
 using Grid;
 using Gtk;
@@ -100,6 +101,25 @@ public partial class MainWindow: Gtk.Window
 
 	#region methods
 
+
+	private void ExecuteProcess(string cmd,string prms = null)	
+	{
+		var proc = new Process 
+		{
+		    StartInfo = new ProcessStartInfo 
+			{
+			        FileName = cmd,
+			        Arguments = prms,
+			        UseShellExecute = false,
+			        RedirectStandardOutput = false,
+			        CreateNoWindow = false
+			}
+	
+		};
+				
+		proc.Start();						
+	}
+
 	private void CreateGridColumns()
 	{
 		_treeView1Data.Data.Clear();
@@ -159,6 +179,24 @@ public partial class MainWindow: Gtk.Window
 
 		_treeView1Data.CreateTreeViewColumns();
 		_treeView2Data.CreateTreeViewColumns();
+	}
+
+	public void RunSelectedSong(string player = "vlc")
+	{
+		var selSongs = GetSelectedSongs();
+		if (selSongs.Count == 0)
+		{
+			Dialogs.InfoDialog(Lng.Translate("NoSelection"));
+			return;
+		}
+		if (selSongs.Count > 1)
+		{
+			Dialogs.InfoDialog(Lng.Translate("SingleSelectionExpected"));
+			return;
+		}
+
+		//ExecuteProcess(selSongs[0].FileName);
+		ExecuteProcess(player,selSongs[0].FileName);
 	}
 
 	public bool SaveChanges()
@@ -290,6 +328,8 @@ public partial class MainWindow: Gtk.Window
 
     public void FillTree()
     {
+		// todo - after grid refresh scroll bar starts on beginning
+
 		Logger.Logger.WriteToLog("Filling TreeView");
 
 		_treeView1Data.Data.Clear();
@@ -315,7 +355,18 @@ public partial class MainWindow: Gtk.Window
         tree.Model = _treeView1Data.CreateTreeViewListStore();
 		tree2.Model = _treeView2Data.CreateTreeViewListStore();
 
-        Show();
+		/*
+		// scroll to first selected ?
+		var selSongs = GetSelectedSongs();
+		if (selSongs.Count>0)
+		{
+			var ind = selSongs[0].Index;
+			var iter = _treeView1Data.TreeIters[ind];
+			tree.ScrollToCell((Gtk.TreePath)iter,tree.Columns[0],false,(float)0,(float)0);
+		}
+		*/
+
+        //Show();
 	}
 
 	#endregion
@@ -577,7 +628,7 @@ public partial class MainWindow: Gtk.Window
 			{
 				rows.Add(s.Index);
 			}
-			SelectRows(rows);
+			SelectRows(rows);		
 	}
 
 	public void SelectRow(int rowIndex)
@@ -604,8 +655,22 @@ public partial class MainWindow: Gtk.Window
 
         if (editWindow.IsActive && rows.Count == 1)
         {
-            editWindow.CurrentSong = MP3List[rows[0]];
-        }
+            editWindow.CurrentSong = MP3List[rows[0]];        
+		}
+
+
+		// scroll to first selected ?
+		TreePath[] treePaths;
+		if (notebook.CurrentPage == 0)		
+			treePaths = tree.Selection.GetSelectedRows();
+		else
+			treePaths = tree2.Selection.GetSelectedRows();
+
+		if (treePaths != null &&
+		    treePaths.Length > 0)
+		{
+			tree.ScrollToCell(treePaths[0],tree.Columns[0],false,(float)0,(float)0);
+		}
 	}
 
 	public void SelectNext()
@@ -662,11 +727,20 @@ public partial class MainWindow: Gtk.Window
 
 	#region Context Menu
 
+	private void AddContextMenuButton(Gtk.Menu menu, string actionKey, string title)
+	{
+		Gtk.MenuItem item = new MenuItem(title);
+		item.ButtonPressEvent +=new ButtonPressEventHandler(contextMenu_ButtonPressEvent);
+		item.Data["key"] = actionKey;
+		menu.Add(item);
+	}
+
 	private void AddSortContextMenuButton(Gtk.Menu menu, SongList.SortColumnEnum sortColumn, string title)
 	{
 		Gtk.MenuItem item = new MenuItem(title);
 		item.ButtonPressEvent +=new ButtonPressEventHandler(contextMenu_ButtonPressEvent);
-		item.Data["key"] = sortColumn;
+		item.Data["key"] = "sort";
+		item.Data["sort"] = sortColumn;
 		menu.Add(item);
 	}
 
@@ -698,6 +772,8 @@ public partial class MainWindow: Gtk.Window
 	private void ShowContextMenu()
 	{
 		Gtk.Menu contextMenu = new Menu();
+
+		AddContextMenuButton(contextMenu,"run",Lng.Translate("Run"));
 
 		AddSelectContextMenu(contextMenu);
 			
@@ -853,12 +929,26 @@ public partial class MainWindow: Gtk.Window
     //[GLib.ConnectBefore]
     private void contextMenu_ButtonPressEvent(object o, ButtonPressEventArgs args)
     {
-		if (o != null &&
-		    o is Gtk.MenuItem && 
-		    (o as Gtk.MenuItem).Data != null &&
-		    (o as Gtk.MenuItem).Data.ContainsKey("key"))
+		if (o == null ||
+		    !(o is Gtk.MenuItem))		
+			return;
+
+		var menuItem = (o as Gtk.MenuItem);
+
+		if ( menuItem.Data == null ||
+		    !(menuItem.Data.ContainsKey("key")) )
+			return;
+
+		var key = menuItem.Data["key"].ToString();
+
+		if (key == "run")
 		{
-			var sortCol = (SongList.SortColumnEnum) (o as Gtk.MenuItem).Data["key"];
+			RunSelectedSong();
+		}
+
+		if (key == "sort" && menuItem.Data.ContainsKey("sort"))
+		{
+			var sortCol = (SongList.SortColumnEnum) menuItem.Data["sort"];
 
 			MP3List.SortBy(sortCol,notebook.CurrentPage == 0);
 

@@ -235,6 +235,15 @@ namespace MP3Tagger
 			}
 		}
 
+		protected void OnCheckButtonID31ActiveClicked (object sender, EventArgs e)
+		{
+			if (CurrentSong != null)
+			{			 
+				CurrentSong.ID3v1.Active = checkButtonID31Active.Active;
+				FillAll();
+			}
+		}
+
 		#region toolbar action events
 
 		protected void OnCancelActionActivated (object sender, EventArgs e)
@@ -307,6 +316,7 @@ namespace MP3Tagger
 
 			Dialogs.InfoDialog(help);
 		}
+
 		#endregion
 	}
 }

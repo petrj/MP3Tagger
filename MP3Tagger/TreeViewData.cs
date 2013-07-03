@@ -89,7 +89,6 @@ namespace Grid
 			return newColumn;
 		}
 
-
 		public Gtk.TreeViewColumn AppendStringColumn(string name, EditedHandler EditedHandler , bool editable = false)
 		{
 			var newColumn = new Gtk.TreeViewColumn ();

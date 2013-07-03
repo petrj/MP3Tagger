@@ -281,6 +281,7 @@ namespace MP3Tagger
 			this.applyAction.Activated += new global::System.EventHandler (this.OnApplyActionActivated);
 			this.undoAction.Activated += new global::System.EventHandler (this.OnCancelActionActivated);
 			this.closeAction1.Activated += new global::System.EventHandler (this.OnCloseAction1Activated);
+			this.checkButtonID31Active.Clicked += new global::System.EventHandler (this.OnCheckButtonID31ActiveClicked);
 			this.checkButtonID32Active.Clicked += new global::System.EventHandler (this.OnCheckButtonID32ActiveClicked);
 			this.buttonSetFrontCoverImage.Clicked += new global::System.EventHandler (this.OnButtonSetFrontCoverImageClicked);
 			this.buttonMaskHelp.Activated += new global::System.EventHandler (this.OnButtonMaskHelpActivated);

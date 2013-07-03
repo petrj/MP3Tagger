@@ -21,6 +21,9 @@
 	<w key="UnSelectAll" value="UnSelect All" />
 	<w key="ConfirmRenameByMask" value="Rename files ({0}) by mask: {1} ?" />
 	<w key="Edit" value="Edit" />	
+	<w key="Run" value="" />
+	<w key="NoSelection" value="Empty selection" />
+	<w key="SingleSelectionExpected" value="Selected more than 1 item" />	
 	
 	<w key="Name" value="" />	
 	<w key="Value" value="" />

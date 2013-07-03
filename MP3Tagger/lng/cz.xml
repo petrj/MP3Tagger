@@ -21,6 +21,9 @@
 	<w key="UnSelectAll" value="Odznačit vše" />
 	<w key="ConfirmRenameByMask" value="Přejmenovat soubory ({0}) podle masky: {1} ?" />
 	<w key="Edit" value="Úprava" />
+	<w key="Run" value="Spustit" />
+	<w key="NoSelection" value="Výběr je prázdný" />
+	<w key="SingleSelectionExpected" value="Je vybráno více položek, než 1" />	
 	
 	<w key="Name" value="Název" />
 	<w key="Value" value="Hodnota" />
@@ -60,18 +63,18 @@
 	<w key="FileNameByMask" value="Jméno souboru dle masky: " />
 	<w key="MaskHelp" value="Nápověda:
 
-*f - fileName
-*n - name without extension
-*e - extension (without .)
+*f - jméno souboru
+*n - jméno souboru bez přípony
+*e - přípona (bez .)
 
-*t - title
+*t - název
 *i - interpret
 *a - album
-*t - track number
-*y - year
+*t - číslo tracku
+*y - rok
 
-*2 - position number in current list (2 digits)
-*3 - position number in current list (3 digits)
+*2 - pozice v aktuálním seznamu (2 číslice)
+*3 - pozice v aktuálním seznamu (3 číslice)
 
 " />	
 </dict>
