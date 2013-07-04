@@ -88,7 +88,7 @@ public partial class MainWindow
 		this.@fixed.HasWindow = false;
 		// Container child fixed.Gtk.Fixed+FixedChild
 		this.notebook = new global::Gtk.Notebook ();
-		this.notebook.WidthRequest = 1000;
+		this.notebook.WidthRequest = 800;
 		this.notebook.HeightRequest = 600;
 		this.notebook.CanFocus = true;
 		this.notebook.Name = "notebook";
@@ -147,6 +147,7 @@ public partial class MainWindow
 		this.DefaultHeight = 720;
 		this.Show ();
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
+		this.SizeAllocated += new global::Gtk.SizeAllocatedHandler (this.OnSizeAllocated);
 		this.editAction.Activated += new global::System.EventHandler (this.OnEditActionActivated);
 		this.closeAction.Activated += new global::System.EventHandler (this.OnCloseActionActivated);
 		this.selectMultipleAction.Activated += new global::System.EventHandler (this.OnDndMultipleActionActivated);
@@ -159,5 +160,6 @@ public partial class MainWindow
 		this.removeAction.Activated += new global::System.EventHandler (this.OnRemoveActionActivated);
 		this.changeLanguageAction.Activated += new global::System.EventHandler (this.OnChangeLanguageActionActivated);
 		this.selectAction.Activated += new global::System.EventHandler (this.OnSelectActionActivated);
+		this.notebook.SizeAllocated += new global::Gtk.SizeAllocatedHandler (this.OnNotebookSizeAllocated);
 	}
 }

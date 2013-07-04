@@ -118,6 +118,7 @@
     <property name="Title" translatable="yes">MP3 Tagger</property>
     <property name="WindowPosition">CenterOnParent</property>
     <signal name="DeleteEvent" handler="OnDeleteEvent" />
+    <signal name="SizeAllocated" handler="OnSizeAllocated" />
     <child>
       <widget class="Gtk.Fixed" id="fixed">
         <property name="MemberName" />
@@ -125,10 +126,11 @@
         <child>
           <widget class="Gtk.Notebook" id="notebook">
             <property name="MemberName" />
-            <property name="WidthRequest">1000</property>
+            <property name="WidthRequest">800</property>
             <property name="HeightRequest">600</property>
             <property name="CanFocus">True</property>
             <property name="CurrentPage">0</property>
+            <signal name="SizeAllocated" handler="OnNotebookSizeAllocated" />
             <child>
               <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow">
                 <property name="MemberName" />

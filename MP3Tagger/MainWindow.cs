@@ -43,8 +43,8 @@ public partial class MainWindow: Gtk.Window
 		_treeView1Data = new TreeViewData(tree); 
 		_treeView2Data = new TreeViewData(tree2); 
 
-		progressWin = new MP3Tagger.ProgressBarWindow();
-	    progressWin.Hide();
+		progressWin = new MP3Tagger.ProgressBarWindow(this);
+		progressWin.Hide();
 
 		EditingModeActive = false;
 		ActualSelectionMode = SelectionMode.Multiple;
@@ -314,10 +314,13 @@ public partial class MainWindow: Gtk.Window
 		progressWin.Percents = 0;
 		progressWin.Show();
 
+		while (GLib.MainContext.Iteration());
+
         MP3List.AddFilesFromFolder(dir,recursive,Progress);
         FillTree();
 		if (MP3List.Count>0) SelectSong(MP3List[0]);
-		progressWin.Destroy();
+
+		progressWin.Hide();
 	}
 
     public void Progress(object sender, MP3Tagger.ProgressEventArgs e) 
@@ -1064,6 +1067,29 @@ public partial class MainWindow: Gtk.Window
 		toolBarWin.Show(ToolBarWin.KindEnum.Selection);
 	}
 
+	protected void OnSizeAllocated(object o, SizeAllocatedArgs args)
+	{
+		// resizing notebook size
+
+		int margin = 10;
+
+		int w = 0;
+		int h = 0;
+		GetSize(out w,out h);
+
+
+		int wNotebook = 0;
+		int hNotebook = 0;
+
+		notebook.GetSizeRequest(out wNotebook,out hNotebook);
+
+		notebook.SetSizeRequest(w-margin,h-50-margin);
+	}
+
+	protected void OnNotebookSizeAllocated (object o, SizeAllocatedArgs args)
+	{
+
+	}
 	#endregion
 
     #endregion
