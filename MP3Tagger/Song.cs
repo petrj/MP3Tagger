@@ -147,6 +147,8 @@ namespace MP3Tagger
 
 		public bool SaveAs(string saveFileName, bool throwExceptions=false)
 		{
+			Logger.Logger.WriteToLog(String.Format("Saving {0}",saveFileName));
+
 			try
 			{
 				if (File.Exists(saveFileName))
@@ -189,6 +191,8 @@ namespace MP3Tagger
 
 		public bool OpenFile(string fileName, bool throwExceptions=false)
 		{
+			Logger.Logger.WriteToLog(String.Format("Opening file {0}",fileName));
+
 			try
 			{
 				if (!File.Exists(fileName))

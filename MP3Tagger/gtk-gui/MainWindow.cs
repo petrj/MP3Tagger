@@ -160,6 +160,5 @@ public partial class MainWindow
 		this.removeAction.Activated += new global::System.EventHandler (this.OnRemoveActionActivated);
 		this.changeLanguageAction.Activated += new global::System.EventHandler (this.OnChangeLanguageActionActivated);
 		this.selectAction.Activated += new global::System.EventHandler (this.OnSelectActionActivated);
-		this.notebook.SizeAllocated += new global::Gtk.SizeAllocatedHandler (this.OnNotebookSizeAllocated);
 	}
 }

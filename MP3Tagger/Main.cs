@@ -10,6 +10,10 @@ namespace MP3Tagger
 		{
 			Application.Init ();
 			MainWindow win = new MainWindow ();
+
+			Configuration.LoadConfiguration();
+			win.ApplyConfiguration();
+
 			if (args.Length>0)
 			{
 				foreach (var arg in args)

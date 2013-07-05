@@ -41,6 +41,8 @@ namespace MP3Tagger
 
 		public TAGID3v1 ()
 		{
+			DefaultEncoding = Encoding.GetEncoding(Configuration.DefaultTAG1Encoding);
+
 			Changed = false;
 			Genre = 255;
 			Active = false;
@@ -155,7 +157,6 @@ namespace MP3Tagger
 
 			base.Clear(); 
 		}
-
 
 		public override void WriteToLog()
 		{

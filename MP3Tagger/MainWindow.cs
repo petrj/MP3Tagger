@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Text;
 using System.Diagnostics;
 using System.Collections.Generic;
 using Grid;
@@ -63,8 +64,6 @@ public partial class MainWindow: Gtk.Window
 		tree2.Selection.Changed+=new EventHandler(OnSelectionChanged);
 
         tree.ButtonPressEvent += tree_ButtonPressEvent;
-
-		LoadLanguage("cz");
 			
 		this.Show();
 	}
@@ -75,6 +74,20 @@ public partial class MainWindow: Gtk.Window
 		ApplyLanguage();
 		editWindow.ApplyLanguage();
 		toolBarWin.ApplyLanguage();
+	}
+
+	public void ApplyConfiguration()
+	{
+		// default language
+		if (String.IsNullOrEmpty(Configuration.DefaultLanguage))
+		{
+			LoadLanguage("en");
+		} else
+		{
+			LoadLanguage(Configuration.DefaultLanguage);
+		}
+
+		MultiSelectSong.ID3v1.DefaultEncoding = Encoding.GetEncoding(Configuration.DefaultTAG1Encoding);
 	}
 
 	private void ApplyLanguage()
@@ -181,7 +194,7 @@ public partial class MainWindow: Gtk.Window
 		_treeView2Data.CreateTreeViewColumns();
 	}
 
-	public void RunSelectedSong(string player = "vlc")
+	public void RunSelectedSong(string player)
 	{
 		var selSongs = GetSelectedSongs();
 		if (selSongs.Count == 0)
@@ -196,7 +209,7 @@ public partial class MainWindow: Gtk.Window
 		}
 
 		//ExecuteProcess(selSongs[0].FileName);
-		ExecuteProcess(player,selSongs[0].FileName);
+		ExecuteProcess(player,"\"" + selSongs[0].FileName+ "\"");
 	}
 
 	public bool SaveChanges()
@@ -661,7 +674,11 @@ public partial class MainWindow: Gtk.Window
             editWindow.CurrentSong = MP3List[rows[0]];        
 		}
 
+		ScrollToFirstSelected();
+	}
 
+	public void ScrollToFirstSelected()
+	{
 		// scroll to first selected ?
 		TreePath[] treePaths;
 		if (notebook.CurrentPage == 0)		
@@ -675,6 +692,7 @@ public partial class MainWindow: Gtk.Window
 			tree.ScrollToCell(treePaths[0],tree.Columns[0],false,(float)0,(float)0);
 		}
 	}
+
 
 	public void SelectNext()
 	{
@@ -730,12 +748,14 @@ public partial class MainWindow: Gtk.Window
 
 	#region Context Menu
 
-	private void AddContextMenuButton(Gtk.Menu menu, string actionKey, string title)
+	private Gtk.MenuItem AddContextMenuButton(Gtk.Menu menu, string actionKey, string title)
 	{
 		Gtk.MenuItem item = new MenuItem(title);
 		item.ButtonPressEvent +=new ButtonPressEventHandler(contextMenu_ButtonPressEvent);
 		item.Data["key"] = actionKey;
 		menu.Add(item);
+
+		return item;
 	}
 
 	private void AddSortContextMenuButton(Gtk.Menu menu, SongList.SortColumnEnum sortColumn, string title)
@@ -747,7 +767,8 @@ public partial class MainWindow: Gtk.Window
 		menu.Add(item);
 	}
 
-	private void AddSelectContextMenu(Gtk.Menu menu)
+
+	private void AddSortContextMenu(Gtk.Menu menu)
 	{
 		Gtk.MenuItem sortItem = new MenuItem(Lng.Translate("Sort"));
 
@@ -771,14 +792,34 @@ public partial class MainWindow: Gtk.Window
 
 		sortItem.Submenu = sortMenu;
 	}
+
+	private void AddRunContextMenu(Gtk.Menu menu)
+	{
+		Gtk.MenuItem runItem = new MenuItem(Lng.Translate("Run"));
+
+		menu.Add(runItem);
+
+		// submenu
+
+		Gtk.Menu runMenu = new Menu();
+
+		foreach (var runApp in Configuration.RunApplications)
+		{
+			var item = AddContextMenuButton(runMenu,"run",runApp);
+			item.Data["runApp"] = runApp;
+		}
+
+		runItem.Submenu = runMenu;
+	}
 		 
 	private void ShowContextMenu()
 	{
 		Gtk.Menu contextMenu = new Menu();
 
-		AddContextMenuButton(contextMenu,"run",Lng.Translate("Run"));
+		//AddContextMenuButton(contextMenu,"run",Lng.Translate("Run"));
 
-		AddSelectContextMenu(contextMenu);
+		AddRunContextMenu(contextMenu);
+		AddSortContextMenu(contextMenu);
 			
 		contextMenu.ShowAll();
 		contextMenu.Popup();
@@ -944,9 +985,13 @@ public partial class MainWindow: Gtk.Window
 
 		var key = menuItem.Data["key"].ToString();
 
-		if (key == "run")
+		if (key == "run")		
 		{
-			RunSelectedSong();
+			if (menuItem.Data.ContainsKey("runApp"))
+			{
+				var player = Convert.ToString(menuItem.Data["runApp"]);
+				RunSelectedSong(player);
+			}
 		}
 
 		if (key == "sort" && menuItem.Data.ContainsKey("sort"))

@@ -194,7 +194,7 @@ namespace MP3Tagger
 
 				if (Path.GetExtension(f).ToLower() == ".mp3")
 				{
-					Logger.Logger.WriteToLog(String.Format("Adding file {0}",f));
+					//Logger.Logger.WriteToLog(String.Format("Adding file {0}",f));
 					var mp3 = new Song();
 					mp3.Index = Count;
 					mp3.OpenFile(f);

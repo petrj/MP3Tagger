@@ -1,0 +1,11 @@
+<MP3Tagger>
+    <Configuration>
+    <DefaultLanguage>cz</DefaultLanguage>
+    <DefaultTAG1Encoding>windows-1250</DefaultTAG1Encoding>
+	<RunApplications>
+		<App>vlc</App>
+		<App>mediainfo-gui</App>
+		<App>audacious</App>
+	</RunApplications>	
+    </Configuration>
+</MP3Tagger>

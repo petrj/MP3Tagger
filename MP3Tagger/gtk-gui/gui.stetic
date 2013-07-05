@@ -130,7 +130,6 @@
             <property name="HeightRequest">600</property>
             <property name="CanFocus">True</property>
             <property name="CurrentPage">0</property>
-            <signal name="SizeAllocated" handler="OnNotebookSizeAllocated" />
             <child>
               <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow">
                 <property name="MemberName" />
