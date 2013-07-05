@@ -95,8 +95,8 @@ namespace MP3Tagger
 					switch (col)
 					{
 						case SortColumnEnum.FileName:
-							a = this[i].FileName;
-							b = this[j].FileName;
+							a = Path.GetFileName(this[i].FileName);
+							b = Path.GetFileName(this[j].FileName);
 							t = typeof(string);
 							break;
 

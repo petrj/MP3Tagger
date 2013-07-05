@@ -42,15 +42,18 @@
 	<w key="Open" value="" />	
 	<w key="Edit" value="" />	
 	<w key="Previous" value="" />	
-	<w key="Next" value="" />	
-	<w key="Single" value="" />	
-	<w key="Multi" value="" />	
+	<w key="Next" value="" />		
+	<w key="Single" value="Single row mode" />	
+	<w key="SingleSelect" value="" />
+	<w key="Multi" value="Multi rows mode" />	
+	<w key="MultiSelect" value="" />
 	<w key="Write" value="" />	
 	<w key="Save" value="" />	
 	<w key="Close" value="" />	
 	<w key="OK" value="" />	
 	<w key="Undo" value="" />
 	<w key="Language" value="" />				
+	<w key="Info" value="" />	
 	
 	<w key="FileName" value="" />	
 	<w key="Changed" value="" />

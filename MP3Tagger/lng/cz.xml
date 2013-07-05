@@ -44,13 +44,16 @@
 	<w key="Previous" value="Předchozí" />	
 	<w key="Next" value="Další" />	
 	<w key="Single" value="" />	
+	<w key="SingleSelect" value="Jediná řádka" />	
 	<w key="Multi" value="Multi" />	
+	<w key="MultiSelect" value="Více řádek" />	
 	<w key="Write" value="Buňky" />	
 	<w key="Save" value="Uložit" />	
 	<w key="Close" value="Zavřít" />	
 	<w key="OK" value="" />	
 	<w key="Undo" value="Zpět" />		
 	<w key="Language" value="Jayzk" />			
+	<w key="Info" value="" />	
 	
 	<w key="FileName" value="Název souboru" />	
 	<w key="Changed" value="Změněno" />

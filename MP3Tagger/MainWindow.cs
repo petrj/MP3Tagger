@@ -16,6 +16,7 @@ public partial class MainWindow: Gtk.Window
 	private MP3Tagger.ProgressBarWindow progressWin;
 	private SongDetail editWindow;
 	private ToolBarWin toolBarWin;
+	private InfoWin infoWin;
 	private Song _multiSelectSong;
 
 	private TreeViewData _treeView1Data;
@@ -60,10 +61,15 @@ public partial class MainWindow: Gtk.Window
 		toolBarWin = new ToolBarWin(this);
 		toolBarWin.Hide();
 
+		infoWin = new InfoWin();
+		infoWin.Hide();
+
+
 		tree.Selection.Changed+=new EventHandler(OnSelectionChanged);
 		tree2.Selection.Changed+=new EventHandler(OnSelectionChanged);
 
         tree.ButtonPressEvent += tree_ButtonPressEvent;
+		tree2.ButtonPressEvent += tree_ButtonPressEvent;
 			
 		this.Show();
 	}
@@ -74,6 +80,11 @@ public partial class MainWindow: Gtk.Window
 		ApplyLanguage();
 		editWindow.ApplyLanguage();
 		toolBarWin.ApplyLanguage();
+
+		var selectedSongs = GetSelectedSongs();	
+		CreateGridColumns();
+		FillTree();
+		SelectSongs(selectedSongs);	
 	}
 
 	public void ApplyConfiguration()
@@ -106,9 +117,12 @@ public partial class MainWindow: Gtk.Window
 		goForwardAction.ShortLabel = Lng.Translate("Next");
 		goBackAction.ShortLabel = Lng.Translate("Previous");
 		changeLanguageAction.ShortLabel = Lng.Translate("Language");
+		dialogInfoAction.ShortLabel = Lng.Translate("Info");
 
 		labelID3v1Tree.LabelProp = Lng.Translate("Tag1");
 		labelID3v2Tree.LabelProp = Lng.Translate("Tag2");
+
+		infoWin.Title = Lng.Translate("Info");
 	}
     
 	#endregion
@@ -1162,6 +1176,13 @@ public partial class MainWindow: Gtk.Window
 	{
 
 	}
+
+	protected void OnDialogInfoActionActivated (object sender, EventArgs e)	
+	{
+		Dialogs.CenterChildToParent(this,infoWin);
+		infoWin.Show();
+	}
+
 	#endregion
 
     #endregion

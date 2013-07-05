@@ -13,6 +13,8 @@ namespace MP3Tagger
 		private global::Gtk.Action actionSelectAll;
 		private global::Gtk.Action actionUnselectAll;
 		private global::Gtk.Action actionAddFolderRecursive;
+		private global::Gtk.Action actionSelectModeSingle;
+		private global::Gtk.Action actionMultipleRowsMode;
 		private global::Gtk.Fixed @fixed;
 		private global::Gtk.Toolbar toolbar;
 		
@@ -46,6 +48,12 @@ namespace MP3Tagger
 			this.actionAddFolderRecursive = new global::Gtk.Action ("actionAddFolderRecursive", global::Mono.Unix.Catalog.GetString ("Add folder rec."), null, "gtk-directory");
 			this.actionAddFolderRecursive.ShortLabel = global::Mono.Unix.Catalog.GetString ("Add folder rec.");
 			w1.Add (this.actionAddFolderRecursive, null);
+			this.actionSelectModeSingle = new global::Gtk.Action ("actionSelectModeSingle", global::Mono.Unix.Catalog.GetString ("Single row mode"), null, "gtk-dnd");
+			this.actionSelectModeSingle.ShortLabel = global::Mono.Unix.Catalog.GetString ("Single row mode");
+			w1.Add (this.actionSelectModeSingle, null);
+			this.actionMultipleRowsMode = new global::Gtk.Action ("actionMultipleRowsMode", global::Mono.Unix.Catalog.GetString ("Multiple rows Mode"), null, "gtk-dnd-multiple");
+			this.actionMultipleRowsMode.ShortLabel = global::Mono.Unix.Catalog.GetString ("Multiple rows Mode");
+			w1.Add (this.actionMultipleRowsMode, null);
 			this.UIManager.InsertActionGroup (w1, 0);
 			this.AddAccelGroup (this.UIManager.AccelGroup);
 			this.Name = "MP3Tagger.ToolBarWin";
@@ -72,7 +80,7 @@ namespace MP3Tagger
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
-			this.DefaultWidth = 804;
+			this.DefaultWidth = 1053;
 			this.DefaultHeight = 94;
 			this.Show ();
 			this.Shown += new global::System.EventHandler (this.OnShown);

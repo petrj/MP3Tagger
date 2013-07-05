@@ -18,6 +18,7 @@ public partial class MainWindow
 	private global::Gtk.Action removeAction;
 	private global::Gtk.Action changeLanguageAction;
 	private global::Gtk.Action selectAction;
+	private global::Gtk.Action dialogInfoAction;
 	private global::Gtk.Fixed @fixed;
 	private global::Gtk.Notebook notebook;
 	private global::Gtk.ScrolledWindow GtkScrolledWindow;
@@ -77,6 +78,9 @@ public partial class MainWindow
 		this.selectAction = new global::Gtk.Action ("selectAction", global::Mono.Unix.Catalog.GetString ("Select"), null, "gtk-select-all");
 		this.selectAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Select");
 		w1.Add (this.selectAction, null);
+		this.dialogInfoAction = new global::Gtk.Action ("dialogInfoAction", global::Mono.Unix.Catalog.GetString ("Info"), null, "gtk-dialog-info");
+		this.dialogInfoAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Info");
+		w1.Add (this.dialogInfoAction, null);
 		this.UIManager.InsertActionGroup (w1, 0);
 		this.AddAccelGroup (this.UIManager.AccelGroup);
 		this.Name = "MainWindow";
@@ -132,7 +136,7 @@ public partial class MainWindow
 		w6.X = 4;
 		w6.Y = 54;
 		// Container child fixed.Gtk.Fixed+FixedChild
-		this.UIManager.AddUiFromString ("<ui><toolbar name='mainToolbar'><toolitem name='addAction' action='addAction'/><toolitem name='removeAction' action='removeAction'/><separator/><toolitem name='editAction' action='editAction'/><separator/><toolitem name='goBackAction' action='goBackAction'/><toolitem name='goForwardAction' action='goForwardAction'/><separator/><toolitem name='selectSingleAction' action='selectSingleAction'/><toolitem name='selectMultipleAction' action='selectMultipleAction'/><toolitem name='editingModeAction' action='editingModeAction'/><separator/><toolitem name='selectAction' action='selectAction'/><separator/><toolitem name='changeLanguageAction' action='changeLanguageAction'/><separator/><toolitem name='saveAction' action='saveAction'/><separator/><toolitem name='closeAction' action='closeAction'/></toolbar></ui>");
+		this.UIManager.AddUiFromString ("<ui><toolbar name='mainToolbar'><toolitem name='addAction' action='addAction'/><toolitem name='removeAction' action='removeAction'/><separator/><toolitem name='editAction' action='editAction'/><separator/><toolitem name='goBackAction' action='goBackAction'/><toolitem name='goForwardAction' action='goForwardAction'/><separator/><toolitem name='selectSingleAction' action='selectSingleAction'/><toolitem name='selectMultipleAction' action='selectMultipleAction'/><toolitem name='editingModeAction' action='editingModeAction'/><separator/><toolitem name='selectAction' action='selectAction'/><separator/><toolitem name='changeLanguageAction' action='changeLanguageAction'/><toolitem name='dialogInfoAction' action='dialogInfoAction'/><separator/><toolitem name='saveAction' action='saveAction'/><separator/><toolitem name='closeAction' action='closeAction'/></toolbar></ui>");
 		this.mainToolbar = ((global::Gtk.Toolbar)(this.UIManager.GetWidget ("/mainToolbar")));
 		this.mainToolbar.Name = "mainToolbar";
 		this.mainToolbar.ShowArrow = false;
@@ -160,5 +164,6 @@ public partial class MainWindow
 		this.removeAction.Activated += new global::System.EventHandler (this.OnRemoveActionActivated);
 		this.changeLanguageAction.Activated += new global::System.EventHandler (this.OnChangeLanguageActionActivated);
 		this.selectAction.Activated += new global::System.EventHandler (this.OnSelectActionActivated);
+		this.dialogInfoAction.Activated += new global::System.EventHandler (this.OnDialogInfoActionActivated);
 	}
 }

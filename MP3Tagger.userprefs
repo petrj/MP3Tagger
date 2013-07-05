@@ -1,14 +1,18 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="MP3Tagger/MainWindow.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MP3Tagger/InfoWin.cs">
     <Files>
-      <File FileName="MP3Tagger/MainWindow.cs" Line="1092" Column="3" />
+      <File FileName="MP3Tagger/MainWindow.cs" Line="120" Column="41" />
       <File FileName="MP3Tagger/SongDetail.cs" Line="1" Column="1" />
       <File FileName="MP3Tagger/TreeViewData.cs" Line="169" Column="5" />
       <File FileName="MP3Tagger/Main.cs" Line="19" Column="1" />
-      <File FileName="MP3Tagger/ProgressBarWindow.cs" Line="1" Column="1" />
+      <File FileName="MP3Tagger/ProgressBarWindow.cs" Line="8" Column="38" />
       <File FileName="MP3Tagger/ProgressEvent.cs" Line="20" Column="1" />
       <File FileName="MP3Tagger/SongList.cs" Line="191" Column="5" />
+      <File FileName="MP3Tagger/InfoWin.cs" Line="15" Column="1" />
+      <File FileName="MP3Tagger/ToolBarWin.cs" Line="97" Column="12" />
+      <File FileName="MP3Tagger/Dialogs.cs" Line="1" Column="1" />
+      <File FileName="MP3Tagger/Configuration.cs" Line="133" Column="63" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -21,6 +25,7 @@
       <Breakpoint file="/mnt/data/Develop/git/MP3Tagger/MP3Tagger/TAGID3v2.cs" line="342" />
       <Breakpoint file="/mnt/data/Develop/git/MP3Tagger/MP3Tagger/TAGID3v2.cs" line="439" />
       <Breakpoint file="/mnt/data/Develop/git/MP3Tagger/MP3Tagger/TAGID3v2.cs" line="147" />
+      <Breakpoint file="/mnt/data/Develop/git/MP3Tagger/MP3Tagger/InfoWin.cs" line="15" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
@@ -31,4 +36,5 @@
     <Watch file="MP3Tagger/TAGID3v2.cs" line="327" offsetX="412" offsetY="4544" expression="framesData" liveUpdate="False" />
     <Watch file="MP3Tagger/MainWindow.cs" line="258" offsetX="738" offsetY="3015" expression="imgFrame" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
+  <AuthorInfo Name="Petr" Email="" Copyright="" Company="http://github.com/petrj/MP3Tagger" Trademark="" />
 </Properties>
