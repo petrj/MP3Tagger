@@ -13,6 +13,14 @@ namespace MP3Tagger
         public string FileName { get; set; }
 		public int Index { get; set; }
 
+		#region private fields
+
+		private bool _ID3v1ActiveAfterLoad = false;
+		private bool _ID3v2ActiveAfterLoad = false;
+		private long _ID3v2TotalByteLengthAfterLoad = 0;
+
+		#endregion
+
         public Song()
         {
             ID3v1 = new TAGID3v1();
@@ -28,6 +36,23 @@ namespace MP3Tagger
 			ID3v2.Clear();
 		}
 
+		#region properties
+
+		public long ID3v2TotalByteLengthAfterLoad 
+		{
+			get { return _ID3v2TotalByteLengthAfterLoad;	}
+		}
+
+		public bool ID3v1ActiveAfterLoad 
+		{
+			get { return _ID3v1ActiveAfterLoad;	}
+		}
+
+		public bool ID3v2ActiveAfterLoad 
+		{
+			get { return _ID3v2ActiveAfterLoad;	}
+		}
+
 		public bool Changed
 		{
 			get
@@ -35,6 +60,10 @@ namespace MP3Tagger
 				return ID3v1.Changed || ID3v2.Changed;
 			}
 		}
+
+		#endregion
+
+		#region public methods
 
 		public bool SaveChanges(bool throwExceptions=false)
 		{
@@ -48,9 +77,6 @@ namespace MP3Tagger
 					File.Move(tmpFileName,FileName);
 				}
 
-				ID3v1.Changed = false;
-				ID3v2.Changed = false;
-
 			} catch (Exception ex)
 			{
 				Logger.Logger.WriteToLog(String.Format("Error while saving {0}",FileName),ex);
@@ -63,7 +89,6 @@ namespace MP3Tagger
 
 		public string UnMask(string mask)
 		{
-
 				string fName = System.IO.Path.GetFileName(FileName);
 				string name = System.IO.Path.GetFileNameWithoutExtension(FileName);
 				string ext = System.IO.Path.GetExtension(FileName);
@@ -157,20 +182,21 @@ namespace MP3Tagger
 				// reading originale file
 				using (var frs = new FileStream(FileName,FileMode.Open))
 				{
-					var dataByteLength = Convert.ToInt32(frs.Length);
-					if (ID3v1.Active) dataByteLength = dataByteLength - ID3v1.HeaderByteLength;
-					if (ID3v2.Active) dataByteLength = dataByteLength - ID3v2.TotalByteLength;
+					var originalDataByteLength = frs.Length;
+					if (ID3v1ActiveAfterLoad) originalDataByteLength = originalDataByteLength - ID3v1.HeaderByteLength;
+					if (ID3v2ActiveAfterLoad) originalDataByteLength = originalDataByteLength - ID3v2TotalByteLengthAfterLoad;
 
-					// reading original pbinary data
+					// reading original binary data
 
-					if (ID3v2.Active) frs.Seek(ID3v2.TotalByteLength,0);
-					var data = new byte[dataByteLength];
-					frs.Read(data,0,dataByteLength);
+					if (ID3v2ActiveAfterLoad) frs.Seek(ID3v2TotalByteLengthAfterLoad,0);
+					var data = new byte[originalDataByteLength];
+					frs.Read(data,0,Convert.ToInt32(originalDataByteLength));
 
+					// writing to stream
 					using (var fs = new FileStream(saveFileName,FileMode.CreateNew))
 					{
 						if (ID3v2.Active) ID3v2.SaveToStream(fs,throwExceptions);
-						fs.Write(data,0,dataByteLength);
+						fs.Write(data,0,Convert.ToInt32(originalDataByteLength));
 						if (ID3v1.Active) ID3v1.SaveToStream(fs,throwExceptions);
 
 						fs.Close();
@@ -178,6 +204,10 @@ namespace MP3Tagger
 
 					frs.Close();
 				}
+
+				ID3v1.Changed = false;
+				ID3v2.Changed = false;
+
 			
 			} catch (Exception ex)
 			{
@@ -205,8 +235,16 @@ namespace MP3Tagger
 					ID3v1.ReadFromStream(fs,throwExceptions);
 					ID3v2.ReadFromStream(fs,throwExceptions);
 
+					_ID3v1ActiveAfterLoad = ID3v1.Active;
+					_ID3v2ActiveAfterLoad = ID3v2.Active;
+					_ID3v2TotalByteLengthAfterLoad = ID3v2.TotalByteLength;
+
 					fs.Close();
 				}
+
+				ID3v1.Changed = false;
+				ID3v2.Changed = false;
+
 			
 			} catch (Exception ex)
 			{
@@ -217,6 +255,15 @@ namespace MP3Tagger
 
 			return true;
 		}
+	
+		public bool Reload(bool throwExceptions=false)
+		{
+			Logger.Logger.WriteToLog(String.Format("Reloading file {0}",FileName));
+
+			return OpenFile(FileName,throwExceptions);
+		}
+		
+		#endregion
 	}
 }
 

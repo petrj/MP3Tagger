@@ -101,6 +101,7 @@ public partial class MainWindow: Gtk.Window
 		editAction.ShortLabel = Lng.Translate("Edit");
 		editingModeAction.ShortLabel = Lng.Translate("Write");
 		saveAction.ShortLabel = Lng.Translate("Save");
+		selectAction.ShortLabel = Lng.Translate("Select");
 		closeAction.ShortLabel = Lng.Translate("Close");
 		goForwardAction.ShortLabel = Lng.Translate("Next");
 		goBackAction.ShortLabel = Lng.Translate("Previous");
@@ -463,6 +464,14 @@ public partial class MainWindow: Gtk.Window
 
 	#region selection methods
 
+	public void ReloadSelectedSongs()
+	{
+		foreach (var song in GetSelectedSongs())
+		{
+			song.Reload();
+		}
+	}
+
 	public void ApplySongEdit(string fileRenameMask = "")
 	{
 		var selectedSongs = GetSelectedSongs();
@@ -509,6 +518,16 @@ public partial class MainWindow: Gtk.Window
 				}
 			}
 		}
+
+		if (selectedSongs.Count > 0)
+		{
+			foreach (var song in selectedSongs)
+			{
+				if (!song.ID3v1.Active) song.ID3v1.Clear();
+				if (!song.ID3v2.Active) song.ID3v2.Clear();
+			}
+		}
+		  
 
 
 		FillTree();
@@ -586,50 +605,58 @@ public partial class MainWindow: Gtk.Window
 		return selectedSongs;
 	}
 
-
-	private void EditSelectedSongs()
+	public void EditSelectedSongs()
 	{
-		Song actualSelectedSong = null;
-		var selectedSongs = GetSelectedSongs();
-
-		if (selectedSongs.Count == 1)		
+		try
 		{
-			// single edit
-			actualSelectedSong = selectedSongs[0];
 
-		} else
-		if (selectedSongs.Count > 1)		
-		{
-			//	multiple edit
+			Song actualSelectedSong = null;
+			var selectedSongs = GetSelectedSongs();
 
-			MultiSelectSong.Clear();
-			actualSelectedSong = MultiSelectSong;
-
-			// detect id3 v1 and v2
-			var v1Count = 0;
-			var v2Count = 0;
-			foreach (var s in selectedSongs)
+			if (selectedSongs.Count == 1)		
 			{
-				if (s.ID3v1.Active) v1Count++;
-				if (s.ID3v2.Active) v2Count++;
+				// single edit
+				actualSelectedSong = selectedSongs[0];
+
+			} else
+			if (selectedSongs.Count > 1)		
+			{
+				//	multiple edit
+
+				MultiSelectSong.Clear();
+				actualSelectedSong = MultiSelectSong;
+
+				// detect id3 v1 and v2
+				var v1Count = 0;
+				var v2Count = 0;
+				foreach (var s in selectedSongs)
+				{
+					if (s.ID3v1.Active) v1Count++;
+					if (s.ID3v2.Active) v2Count++;
+				}
+
+				if ( (double) v1Count >= (double)selectedSongs.Count/(double)2)
+				{
+					MultiSelectSong.ID3v1.Active = true;
+				}
+				if ( (double) v2Count >= (double)selectedSongs.Count/(double)2)
+				{
+					MultiSelectSong.ID3v2.Active = true;
+				}
+
 			}
 
-			if ( (double) v1Count >= (double)selectedSongs.Count/(double)2)
-			{
-				MultiSelectSong.ID3v1.Active = true;
-			}
-			if ( (double) v2Count >= (double)selectedSongs.Count/(double)2)
-			{
-				MultiSelectSong.ID3v2.Active = true;
-			}
-
+			if (actualSelectedSong != null)
+	        {
+	            editWindow.CurrentSong = actualSelectedSong;
+	            editWindow.Show();
+	        }
 		}
-
-		if (actualSelectedSong != null)
-        {
-            editWindow.CurrentSong = actualSelectedSong;
-            editWindow.Show();
-        }
+		catch (Exception ex)
+		{
+			Logger.Logger.WriteToLog("Error while editing",ex);
+			Dialogs.InfoDialog(Lng.Translate("Error"));
+		}
 	}
 
 	public void SelectSong(Song song)

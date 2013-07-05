@@ -84,6 +84,8 @@ namespace MP3Tagger
 			labelTAG2Frames.LabelProp = lng.Translate("Tag2Frames");
 
 			buttonSetFrontCoverImage.Label = lng.Translate("ChooseImage");
+			buttonCopyToTAG2.Label = lng.Translate("CopyToTAG1");
+			buttonCopyToTAG1.Label = lng.Translate("CopyToTAG2");
 
 			tagWidget1.ApplyLanguage(lng);
 			tagWidget2.ApplyLanguage(lng);
@@ -248,8 +250,14 @@ namespace MP3Tagger
 
 		protected void OnCancelActionActivated (object sender, EventArgs e)
 		{
-			MainWin.FillTree();
-			MainWin.SelectSong(CurrentSong);
+			var selectedSongs = MainWin.GetSelectedSongs();
+			if (Dialogs.ConfirmDialog(String.Format(MainWin.Lng.Translate("ReloadFromDisk"),selectedSongs.Count)))
+			{
+				MainWin.ReloadSelectedSongs();
+				MainWin.FillTree();
+				MainWin.SelectSongs(selectedSongs);
+				MainWin.EditSelectedSongs();
+			}
 		}
 
 		protected void OnApplyActionActivated (object sender, EventArgs e)
@@ -317,6 +325,24 @@ namespace MP3Tagger
 			Dialogs.InfoDialog(help);
 		}
 
+
+		protected void OnButtonCopyToTAG1Clicked (object sender, EventArgs e)
+		{
+			if (CurrentSong != null && CurrentSong.ID3v2.Active)
+			{			 
+				CurrentSong.ID3v2.CopyTo(CurrentSong.ID3v1);
+				FillAll();
+			}
+		}
+
+		protected void OnButtonCopyToTAG2Clicked (object sender, EventArgs e)
+		{
+			if (CurrentSong != null && CurrentSong.ID3v1.Active)
+			{			 
+				CurrentSong.ID3v1.CopyTo(CurrentSong.ID3v2);
+				FillAll();
+			}
+		}
 		#endregion
 	}
 }

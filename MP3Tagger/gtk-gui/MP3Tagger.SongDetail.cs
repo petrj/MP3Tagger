@@ -17,12 +17,17 @@ namespace MP3Tagger
 		private global::Gtk.Toolbar toolbar;
 		private global::Gtk.CheckButton checkButtonID31Active;
 		private global::Gtk.CheckButton checkButtonID32Active;
+		private global::Gtk.Button buttonMaskHelp;
+		private global::Gtk.ComboBoxEntry comboboxentryFileName;
+		private global::Gtk.Label labelFName;
 		private global::Gtk.Notebook notebook;
 		private global::Gtk.Fixed fixedTAG1;
 		private global::MP3Tagger.TagWidget tagWidget1;
+		private global::Gtk.Button buttonCopyToTAG2;
 		private global::Gtk.Label labelTAG1;
 		private global::Gtk.Fixed fixedTAG2;
 		private global::MP3Tagger.TagWidget tagWidget2;
+		private global::Gtk.Button buttonCopyToTAG1;
 		private global::Gtk.Label labelTAG2;
 		private global::Gtk.Fixed fixedTAG2Frames;
 		private global::Gtk.ScrolledWindow GtkScrolledWindow2;
@@ -33,9 +38,6 @@ namespace MP3Tagger
 		private global::Gtk.Image imageCoverFront;
 		private global::Gtk.Button buttonSetFrontCoverImage;
 		private global::Gtk.Label labelTAG2Image;
-		private global::Gtk.Button buttonMaskHelp;
-		private global::Gtk.ComboBoxEntry comboboxentryFileName;
-		private global::Gtk.Label labelFName;
 		
 		protected virtual void Build ()
 		{
@@ -109,8 +111,47 @@ namespace MP3Tagger
 			w4.X = 85;
 			w4.Y = 112;
 			// Container child fixed.Gtk.Fixed+FixedChild
+			this.buttonMaskHelp = new global::Gtk.Button ();
+			this.buttonMaskHelp.CanFocus = true;
+			this.buttonMaskHelp.Name = "buttonMaskHelp";
+			this.buttonMaskHelp.UseUnderline = true;
+			// Container child buttonMaskHelp.Gtk.Container+ContainerChild
+			global::Gtk.Alignment w5 = new global::Gtk.Alignment (0.5F, 0.5F, 0F, 0F);
+			// Container child GtkAlignment.Gtk.Container+ContainerChild
+			global::Gtk.HBox w6 = new global::Gtk.HBox ();
+			w6.Spacing = 2;
+			// Container child GtkHBox.Gtk.Container+ContainerChild
+			global::Gtk.Image w7 = new global::Gtk.Image ();
+			w7.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-dialog-info", global::Gtk.IconSize.Menu);
+			w6.Add (w7);
+			// Container child GtkHBox.Gtk.Container+ContainerChild
+			global::Gtk.Label w9 = new global::Gtk.Label ();
+			w6.Add (w9);
+			w5.Add (w6);
+			this.buttonMaskHelp.Add (w5);
+			this.@fixed.Add (this.buttonMaskHelp);
+			global::Gtk.Fixed.FixedChild w13 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.buttonMaskHelp]));
+			w13.X = 351;
+			w13.Y = 74;
+			// Container child fixed.Gtk.Fixed+FixedChild
+			this.comboboxentryFileName = global::Gtk.ComboBoxEntry.NewText ();
+			this.comboboxentryFileName.WidthRequest = 260;
+			this.comboboxentryFileName.Name = "comboboxentryFileName";
+			this.@fixed.Add (this.comboboxentryFileName);
+			global::Gtk.Fixed.FixedChild w14 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.comboboxentryFileName]));
+			w14.X = 84;
+			w14.Y = 74;
+			// Container child fixed.Gtk.Fixed+FixedChild
+			this.labelFName = new global::Gtk.Label ();
+			this.labelFName.Name = "labelFName";
+			this.labelFName.LabelProp = global::Mono.Unix.Catalog.GetString ("Filename");
+			this.@fixed.Add (this.labelFName);
+			global::Gtk.Fixed.FixedChild w15 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.labelFName]));
+			w15.X = 13;
+			w15.Y = 77;
+			// Container child fixed.Gtk.Fixed+FixedChild
 			this.notebook = new global::Gtk.Notebook ();
-			this.notebook.HeightRequest = 300;
+			this.notebook.HeightRequest = 330;
 			this.notebook.CanFocus = true;
 			this.notebook.Name = "notebook";
 			this.notebook.CurrentPage = 0;
@@ -123,9 +164,19 @@ namespace MP3Tagger
 			this.tagWidget1.Events = ((global::Gdk.EventMask)(256));
 			this.tagWidget1.Name = "tagWidget1";
 			this.fixedTAG1.Add (this.tagWidget1);
-			global::Gtk.Fixed.FixedChild w5 = ((global::Gtk.Fixed.FixedChild)(this.fixedTAG1 [this.tagWidget1]));
-			w5.X = 5;
-			w5.Y = 5;
+			global::Gtk.Fixed.FixedChild w16 = ((global::Gtk.Fixed.FixedChild)(this.fixedTAG1 [this.tagWidget1]));
+			w16.X = 5;
+			w16.Y = 5;
+			// Container child fixedTAG1.Gtk.Fixed+FixedChild
+			this.buttonCopyToTAG2 = new global::Gtk.Button ();
+			this.buttonCopyToTAG2.CanFocus = true;
+			this.buttonCopyToTAG2.Name = "buttonCopyToTAG2";
+			this.buttonCopyToTAG2.UseUnderline = true;
+			this.buttonCopyToTAG2.Label = global::Mono.Unix.Catalog.GetString ("GtkButton");
+			this.fixedTAG1.Add (this.buttonCopyToTAG2);
+			global::Gtk.Fixed.FixedChild w17 = ((global::Gtk.Fixed.FixedChild)(this.fixedTAG1 [this.buttonCopyToTAG2]));
+			w17.X = 8;
+			w17.Y = 267;
 			this.notebook.Add (this.fixedTAG1);
 			// Notebook tab
 			this.labelTAG1 = new global::Gtk.Label ();
@@ -143,12 +194,22 @@ namespace MP3Tagger
 			this.tagWidget2.Events = ((global::Gdk.EventMask)(256));
 			this.tagWidget2.Name = "tagWidget2";
 			this.fixedTAG2.Add (this.tagWidget2);
-			global::Gtk.Fixed.FixedChild w7 = ((global::Gtk.Fixed.FixedChild)(this.fixedTAG2 [this.tagWidget2]));
-			w7.X = 5;
-			w7.Y = 5;
+			global::Gtk.Fixed.FixedChild w19 = ((global::Gtk.Fixed.FixedChild)(this.fixedTAG2 [this.tagWidget2]));
+			w19.X = 5;
+			w19.Y = 5;
+			// Container child fixedTAG2.Gtk.Fixed+FixedChild
+			this.buttonCopyToTAG1 = new global::Gtk.Button ();
+			this.buttonCopyToTAG1.CanFocus = true;
+			this.buttonCopyToTAG1.Name = "buttonCopyToTAG1";
+			this.buttonCopyToTAG1.UseUnderline = true;
+			this.buttonCopyToTAG1.Label = global::Mono.Unix.Catalog.GetString ("GtkButton");
+			this.fixedTAG2.Add (this.buttonCopyToTAG1);
+			global::Gtk.Fixed.FixedChild w20 = ((global::Gtk.Fixed.FixedChild)(this.fixedTAG2 [this.buttonCopyToTAG1]));
+			w20.X = 9;
+			w20.Y = 267;
 			this.notebook.Add (this.fixedTAG2);
-			global::Gtk.Notebook.NotebookChild w8 = ((global::Gtk.Notebook.NotebookChild)(this.notebook [this.fixedTAG2]));
-			w8.Position = 1;
+			global::Gtk.Notebook.NotebookChild w21 = ((global::Gtk.Notebook.NotebookChild)(this.notebook [this.fixedTAG2]));
+			w21.Position = 1;
 			// Notebook tab
 			this.labelTAG2 = new global::Gtk.Label ();
 			this.labelTAG2.Name = "labelTAG2";
@@ -167,17 +228,17 @@ namespace MP3Tagger
 			// Container child GtkScrolledWindow2.Gtk.Container+ContainerChild
 			this.treeViewFrames = new global::Gtk.TreeView ();
 			this.treeViewFrames.WidthRequest = 350;
-			this.treeViewFrames.HeightRequest = 230;
+			this.treeViewFrames.HeightRequest = 260;
 			this.treeViewFrames.CanFocus = true;
 			this.treeViewFrames.Name = "treeViewFrames";
 			this.GtkScrolledWindow2.Add (this.treeViewFrames);
 			this.fixedTAG2Frames.Add (this.GtkScrolledWindow2);
-			global::Gtk.Fixed.FixedChild w10 = ((global::Gtk.Fixed.FixedChild)(this.fixedTAG2Frames [this.GtkScrolledWindow2]));
-			w10.X = 5;
-			w10.Y = 5;
+			global::Gtk.Fixed.FixedChild w23 = ((global::Gtk.Fixed.FixedChild)(this.fixedTAG2Frames [this.GtkScrolledWindow2]));
+			w23.X = 5;
+			w23.Y = 5;
 			this.notebook.Add (this.fixedTAG2Frames);
-			global::Gtk.Notebook.NotebookChild w11 = ((global::Gtk.Notebook.NotebookChild)(this.notebook [this.fixedTAG2Frames]));
-			w11.Position = 2;
+			global::Gtk.Notebook.NotebookChild w24 = ((global::Gtk.Notebook.NotebookChild)(this.notebook [this.fixedTAG2Frames]));
+			w24.Position = 2;
 			// Notebook tab
 			this.labelTAG2Frames = new global::Gtk.Label ();
 			this.labelTAG2Frames.Name = "labelTAG2Frames";
@@ -194,16 +255,16 @@ namespace MP3Tagger
 			this.labelCoverFront.Name = "labelCoverFront";
 			this.labelCoverFront.LabelProp = global::Mono.Unix.Catalog.GetString ("Front Cover");
 			this.fixedImages.Add (this.labelCoverFront);
-			global::Gtk.Fixed.FixedChild w12 = ((global::Gtk.Fixed.FixedChild)(this.fixedImages [this.labelCoverFront]));
-			w12.X = 11;
-			w12.Y = 16;
+			global::Gtk.Fixed.FixedChild w25 = ((global::Gtk.Fixed.FixedChild)(this.fixedImages [this.labelCoverFront]));
+			w25.X = 11;
+			w25.Y = 16;
 			// Container child fixedImages.Gtk.Fixed+FixedChild
 			this.imageCoverFront = new global::Gtk.Image ();
 			this.imageCoverFront.Name = "imageCoverFront";
 			this.fixedImages.Add (this.imageCoverFront);
-			global::Gtk.Fixed.FixedChild w13 = ((global::Gtk.Fixed.FixedChild)(this.fixedImages [this.imageCoverFront]));
-			w13.X = 18;
-			w13.Y = 45;
+			global::Gtk.Fixed.FixedChild w26 = ((global::Gtk.Fixed.FixedChild)(this.fixedImages [this.imageCoverFront]));
+			w26.X = 18;
+			w26.Y = 45;
 			// Container child fixedImages.Gtk.Fixed+FixedChild
 			this.buttonSetFrontCoverImage = new global::Gtk.Button ();
 			this.buttonSetFrontCoverImage.CanFocus = true;
@@ -211,13 +272,13 @@ namespace MP3Tagger
 			this.buttonSetFrontCoverImage.UseUnderline = true;
 			this.buttonSetFrontCoverImage.Label = global::Mono.Unix.Catalog.GetString ("Browse ...");
 			this.fixedImages.Add (this.buttonSetFrontCoverImage);
-			global::Gtk.Fixed.FixedChild w14 = ((global::Gtk.Fixed.FixedChild)(this.fixedImages [this.buttonSetFrontCoverImage]));
-			w14.X = 97;
-			w14.Y = 10;
+			global::Gtk.Fixed.FixedChild w27 = ((global::Gtk.Fixed.FixedChild)(this.fixedImages [this.buttonSetFrontCoverImage]));
+			w27.X = 97;
+			w27.Y = 10;
 			this.notebook.Add (this.fixedImages);
-			global::Gtk.Notebook.NotebookChild w15 = ((global::Gtk.Notebook.NotebookChild)(this.notebook [this.fixedImages]));
-			w15.Position = 3;
-			w15.TabExpand = true;
+			global::Gtk.Notebook.NotebookChild w28 = ((global::Gtk.Notebook.NotebookChild)(this.notebook [this.fixedImages]));
+			w28.Position = 3;
+			w28.TabExpand = true;
 			// Notebook tab
 			this.labelTAG2Image = new global::Gtk.Label ();
 			this.labelTAG2Image.Name = "labelTAG2Image";
@@ -225,54 +286,15 @@ namespace MP3Tagger
 			this.notebook.SetTabLabel (this.fixedImages, this.labelTAG2Image);
 			this.labelTAG2Image.ShowAll ();
 			this.@fixed.Add (this.notebook);
-			global::Gtk.Fixed.FixedChild w16 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.notebook]));
-			w16.X = 3;
-			w16.Y = 140;
-			// Container child fixed.Gtk.Fixed+FixedChild
-			this.buttonMaskHelp = new global::Gtk.Button ();
-			this.buttonMaskHelp.CanFocus = true;
-			this.buttonMaskHelp.Name = "buttonMaskHelp";
-			this.buttonMaskHelp.UseUnderline = true;
-			// Container child buttonMaskHelp.Gtk.Container+ContainerChild
-			global::Gtk.Alignment w17 = new global::Gtk.Alignment (0.5F, 0.5F, 0F, 0F);
-			// Container child GtkAlignment.Gtk.Container+ContainerChild
-			global::Gtk.HBox w18 = new global::Gtk.HBox ();
-			w18.Spacing = 2;
-			// Container child GtkHBox.Gtk.Container+ContainerChild
-			global::Gtk.Image w19 = new global::Gtk.Image ();
-			w19.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-dialog-info", global::Gtk.IconSize.Menu);
-			w18.Add (w19);
-			// Container child GtkHBox.Gtk.Container+ContainerChild
-			global::Gtk.Label w21 = new global::Gtk.Label ();
-			w18.Add (w21);
-			w17.Add (w18);
-			this.buttonMaskHelp.Add (w17);
-			this.@fixed.Add (this.buttonMaskHelp);
-			global::Gtk.Fixed.FixedChild w25 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.buttonMaskHelp]));
-			w25.X = 351;
-			w25.Y = 74;
-			// Container child fixed.Gtk.Fixed+FixedChild
-			this.comboboxentryFileName = global::Gtk.ComboBoxEntry.NewText ();
-			this.comboboxentryFileName.WidthRequest = 260;
-			this.comboboxentryFileName.Name = "comboboxentryFileName";
-			this.@fixed.Add (this.comboboxentryFileName);
-			global::Gtk.Fixed.FixedChild w26 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.comboboxentryFileName]));
-			w26.X = 84;
-			w26.Y = 74;
-			// Container child fixed.Gtk.Fixed+FixedChild
-			this.labelFName = new global::Gtk.Label ();
-			this.labelFName.Name = "labelFName";
-			this.labelFName.LabelProp = global::Mono.Unix.Catalog.GetString ("Filename");
-			this.@fixed.Add (this.labelFName);
-			global::Gtk.Fixed.FixedChild w27 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.labelFName]));
-			w27.X = 13;
-			w27.Y = 77;
+			global::Gtk.Fixed.FixedChild w29 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.notebook]));
+			w29.X = 6;
+			w29.Y = 140;
 			this.Add (this.@fixed);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
 			this.DefaultWidth = 396;
-			this.DefaultHeight = 470;
+			this.DefaultHeight = 495;
 			this.Show ();
 			this.Shown += new global::System.EventHandler (this.OnShown);
 			this.goForwardAction.Activated += new global::System.EventHandler (this.OnGoForwardActionActivated);
@@ -283,9 +305,11 @@ namespace MP3Tagger
 			this.closeAction1.Activated += new global::System.EventHandler (this.OnCloseAction1Activated);
 			this.checkButtonID31Active.Clicked += new global::System.EventHandler (this.OnCheckButtonID31ActiveClicked);
 			this.checkButtonID32Active.Clicked += new global::System.EventHandler (this.OnCheckButtonID32ActiveClicked);
-			this.buttonSetFrontCoverImage.Clicked += new global::System.EventHandler (this.OnButtonSetFrontCoverImageClicked);
 			this.buttonMaskHelp.Activated += new global::System.EventHandler (this.OnButtonMaskHelpActivated);
 			this.buttonMaskHelp.Clicked += new global::System.EventHandler (this.OnButtonMaskHelpClicked);
+			this.buttonCopyToTAG2.Clicked += new global::System.EventHandler (this.OnButtonCopyToTAG2Clicked);
+			this.buttonCopyToTAG1.Clicked += new global::System.EventHandler (this.OnButtonCopyToTAG1Clicked);
+			this.buttonSetFrontCoverImage.Clicked += new global::System.EventHandler (this.OnButtonSetFrontCoverImageClicked);
 		}
 	}
 }

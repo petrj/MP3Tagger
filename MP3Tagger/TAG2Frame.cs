@@ -282,11 +282,12 @@ namespace MP3Tagger
 		{
 			var res = new List<byte>();
 
-			res.Add(0); // default encoding
+			res.Add(3); // always save as UTF8
 
-			var bytes = DefaultEncoding.GetBytes(Value);
+			var bytes = Encoding.UTF8.GetBytes(Value);
 			res.AddRange(bytes);
 
+			res.Add(0); // zero byte;
 			res.Add(0); // zero byte;
 
 			return res;

@@ -219,6 +219,7 @@ namespace MP3Tagger
 		{
 			try
 			{
+				Clear();
 				Loaded = false;
 				Active = false;
 				Changed = false;

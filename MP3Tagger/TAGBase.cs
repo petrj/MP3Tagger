@@ -173,6 +173,19 @@ namespace MP3Tagger
 
 		#region public methods
 
+		public void CopyTo(TAGBase tag)
+		{
+			tag.Active = true;
+
+			tag.Title = Title;
+			tag.Artist = Artist;
+			tag.Album = Album;
+			tag.Comment = Comment;
+			tag.TrackNumber = TrackNumber;
+			tag.Year = Year;
+			tag.Genre = Genre;
+		}
+
 		public static void AddToByteList(List<byte> byteList, string value,int length, Encoding enc)
 		{
 			byte[] valueAsByteArray;

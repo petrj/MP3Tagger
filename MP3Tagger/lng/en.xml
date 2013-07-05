@@ -18,12 +18,17 @@
 	<w key="ConfirmRemoveAll" value="Are you sure to remove alls mp3 ({0})?" />	
 	<w key="UnSaved" value="unsaved" />
 	<w key="SelectAll" value="Select All" />
+	<w key="Select" value="" />
 	<w key="UnSelectAll" value="UnSelect All" />
 	<w key="ConfirmRenameByMask" value="Rename files ({0}) by mask: {1} ?" />
 	<w key="Edit" value="Edit" />	
 	<w key="Run" value="" />
 	<w key="NoSelection" value="Empty selection" />
 	<w key="SingleSelectionExpected" value="Selected more than 1 item" />	
+	<w key="CopyToTAG1" value="Copy to TAG 2" />
+	<w key="CopyToTAG2" value="Copy to TAG 1" />
+	<w key="ReloadFromDisk" value="Discard changes relaod again from disk ({0}) ?" />	
+	<w key="Error" value="" />
 	
 	<w key="Name" value="" />	
 	<w key="Value" value="" />

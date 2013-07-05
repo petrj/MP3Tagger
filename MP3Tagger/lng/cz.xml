@@ -18,12 +18,17 @@
 	<w key="ConfirmRemoveAll" value="Odstranit všechny soubory ({0})?" />
 	<w key="UnSaved" value="neuloženo" />
 	<w key="SelectAll" value="Označit vše" />
+	<w key="Select" value="Označit" />
 	<w key="UnSelectAll" value="Odznačit vše" />
 	<w key="ConfirmRenameByMask" value="Přejmenovat soubory ({0}) podle masky: {1} ?" />
 	<w key="Edit" value="Úprava" />
 	<w key="Run" value="Spustit" />
 	<w key="NoSelection" value="Výběr je prázdný" />
 	<w key="SingleSelectionExpected" value="Je vybráno více položek, než 1" />	
+	<w key="CopyToTAG1" value="Kopírovat do TAG 2" />
+	<w key="CopyToTAG2" value="Kopírovat do TAG 1" />
+	<w key="ReloadFromDisk" value="Zahodit změny a načíst znovu z disku ({0}) ?" />
+	<w key="Error" value="Chyba" />
 	
 	<w key="Name" value="Název" />
 	<w key="Value" value="Hodnota" />

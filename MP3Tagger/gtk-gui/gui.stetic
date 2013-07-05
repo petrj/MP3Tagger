@@ -250,7 +250,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Window" id="MP3Tagger.SongDetail" design-size="396 470">
+  <widget class="Gtk.Window" id="MP3Tagger.SongDetail" design-size="396 495">
     <action-group name="Default">
       <action id="goForwardAction">
         <property name="Type">Action</property>
@@ -367,9 +367,47 @@
           </packing>
         </child>
         <child>
+          <widget class="Gtk.Button" id="buttonMaskHelp">
+            <property name="MemberName" />
+            <property name="CanFocus">True</property>
+            <property name="Type">TextAndIcon</property>
+            <property name="Icon">stock:gtk-dialog-info Menu</property>
+            <property name="Label" translatable="yes" />
+            <property name="UseUnderline">True</property>
+            <signal name="Activated" handler="OnButtonMaskHelpActivated" />
+            <signal name="Clicked" handler="OnButtonMaskHelpClicked" />
+          </widget>
+          <packing>
+            <property name="X">351</property>
+            <property name="Y">74</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.ComboBoxEntry" id="comboboxentryFileName">
+            <property name="MemberName" />
+            <property name="WidthRequest">260</property>
+            <property name="IsTextCombo">True</property>
+            <property name="Items" translatable="yes" />
+          </widget>
+          <packing>
+            <property name="X">84</property>
+            <property name="Y">74</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.Label" id="labelFName">
+            <property name="MemberName" />
+            <property name="LabelProp" translatable="yes">Filename</property>
+          </widget>
+          <packing>
+            <property name="X">13</property>
+            <property name="Y">77</property>
+          </packing>
+        </child>
+        <child>
           <widget class="Gtk.Notebook" id="notebook">
             <property name="MemberName" />
-            <property name="HeightRequest">300</property>
+            <property name="HeightRequest">330</property>
             <property name="CanFocus">True</property>
             <property name="CurrentPage">0</property>
             <child>
@@ -384,6 +422,20 @@
                   <packing>
                     <property name="X">5</property>
                     <property name="Y">5</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.Button" id="buttonCopyToTAG2">
+                    <property name="MemberName" />
+                    <property name="CanFocus">True</property>
+                    <property name="Type">TextOnly</property>
+                    <property name="Label" translatable="yes">GtkButton</property>
+                    <property name="UseUnderline">True</property>
+                    <signal name="Clicked" handler="OnButtonCopyToTAG2Clicked" />
+                  </widget>
+                  <packing>
+                    <property name="X">8</property>
+                    <property name="Y">267</property>
                   </packing>
                 </child>
               </widget>
@@ -410,6 +462,20 @@
                   <packing>
                     <property name="X">5</property>
                     <property name="Y">5</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.Button" id="buttonCopyToTAG1">
+                    <property name="MemberName" />
+                    <property name="CanFocus">True</property>
+                    <property name="Type">TextOnly</property>
+                    <property name="Label" translatable="yes">GtkButton</property>
+                    <property name="UseUnderline">True</property>
+                    <signal name="Clicked" handler="OnButtonCopyToTAG1Clicked" />
+                  </widget>
+                  <packing>
+                    <property name="X">9</property>
+                    <property name="Y">267</property>
                   </packing>
                 </child>
               </widget>
@@ -448,7 +514,7 @@
                       <widget class="Gtk.TreeView" id="treeViewFrames">
                         <property name="MemberName" />
                         <property name="WidthRequest">350</property>
-                        <property name="HeightRequest">230</property>
+                        <property name="HeightRequest">260</property>
                         <property name="CanFocus">True</property>
                         <property name="ShowScrollbars">True</property>
                       </widget>
@@ -528,46 +594,8 @@
             </child>
           </widget>
           <packing>
-            <property name="X">3</property>
+            <property name="X">6</property>
             <property name="Y">140</property>
-          </packing>
-        </child>
-        <child>
-          <widget class="Gtk.Button" id="buttonMaskHelp">
-            <property name="MemberName" />
-            <property name="CanFocus">True</property>
-            <property name="Type">TextAndIcon</property>
-            <property name="Icon">stock:gtk-dialog-info Menu</property>
-            <property name="Label" translatable="yes" />
-            <property name="UseUnderline">True</property>
-            <signal name="Activated" handler="OnButtonMaskHelpActivated" />
-            <signal name="Clicked" handler="OnButtonMaskHelpClicked" />
-          </widget>
-          <packing>
-            <property name="X">351</property>
-            <property name="Y">74</property>
-          </packing>
-        </child>
-        <child>
-          <widget class="Gtk.ComboBoxEntry" id="comboboxentryFileName">
-            <property name="MemberName" />
-            <property name="WidthRequest">260</property>
-            <property name="IsTextCombo">True</property>
-            <property name="Items" translatable="yes" />
-          </widget>
-          <packing>
-            <property name="X">84</property>
-            <property name="Y">74</property>
-          </packing>
-        </child>
-        <child>
-          <widget class="Gtk.Label" id="labelFName">
-            <property name="MemberName" />
-            <property name="LabelProp" translatable="yes">Filename</property>
-          </widget>
-          <packing>
-            <property name="X">13</property>
-            <property name="Y">77</property>
           </packing>
         </child>
       </widget>
