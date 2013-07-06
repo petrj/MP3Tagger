@@ -81,10 +81,8 @@ public partial class MainWindow: Gtk.Window
 		editWindow.ApplyLanguage();
 		toolBarWin.ApplyLanguage();
 
-		var selectedSongs = GetSelectedSongs();	
 		CreateGridColumns();
 		FillTree();
-		SelectSongs(selectedSongs);	
 	}
 
 	public void ApplyConfiguration()
@@ -209,6 +207,24 @@ public partial class MainWindow: Gtk.Window
 		_treeView2Data.CreateTreeViewColumns();
 	}
 
+	public void CopyTagOfSelectedSongs(bool fromTAG1)
+	{
+		var selSongs = GetSelectedSongs();
+		foreach(var song in MP3List)
+		{
+			if (fromTAG1 && song.ID3v1.Active)
+			{
+				song.ID3v1.CopyTo(song.ID3v2);
+			}
+			if (!fromTAG1 && song.ID3v2.Active)
+			{
+				song.ID3v2.CopyTo(song.ID3v1);
+			}
+		}
+
+		FillTree();
+	}
+
 	public void RunSelectedSong(string player)
 	{
 		var selSongs = GetSelectedSongs();
@@ -315,11 +331,8 @@ public partial class MainWindow: Gtk.Window
 
 		if (res>0)		
 		{
+			UnSelectAll();
 			FillTree();
-			if (GetSelectedSongs().Count == 0)
-			{
-				if (MP3List.Count>0) SelectSong(MP3List[0]);
-			}
 		}
 
 		return res;
@@ -331,7 +344,6 @@ public partial class MainWindow: Gtk.Window
 		if (addedMp3 != null)
 		{
         	FillTree();
-			SelectSong(addedMp3);
 		}
 	}
 
@@ -346,7 +358,6 @@ public partial class MainWindow: Gtk.Window
 
         MP3List.AddFilesFromFolder(dir,recursive,Progress);
         FillTree();
-		if (MP3List.Count>0) SelectSong(MP3List[0]);
 
 		progressWin.Hide();
 	}
@@ -362,6 +373,8 @@ public partial class MainWindow: Gtk.Window
 		// todo - after grid refresh scroll bar starts on beginning
 
 		Logger.Logger.WriteToLog("Filling TreeView");
+
+		var selectedSongs = GetSelectedSongs();
 
 		_treeView1Data.Data.Clear();
 		_treeView2Data.Data.Clear();
@@ -385,6 +398,14 @@ public partial class MainWindow: Gtk.Window
 
         tree.Model = _treeView1Data.CreateTreeViewListStore();
 		tree2.Model = _treeView2Data.CreateTreeViewListStore();
+
+		SelectSongs(selectedSongs);	
+
+		//ensure to select first row
+		if (GetSelectedSongs().Count == 0)
+		{
+			if (MP3List.Count>0) SelectSong(MP3List[0]);
+		}
 
 		/*
 		// scroll to first selected ?
@@ -495,9 +516,8 @@ public partial class MainWindow: Gtk.Window
 		{
 			foreach (var song in selectedSongs)
 			{
-
 				song.ID3v1.Active = MultiSelectSong.ID3v1.Active;
-				song.ID3v1.Active = MultiSelectSong.ID3v2.Active;
+				song.ID3v2.Active = MultiSelectSong.ID3v2.Active;
 
 				if (MultiSelectSong.ID3v1.Active) MultiSelectSong.ID3v1.CopyNonEmptyValuesTo(song.ID3v1);
 				if (MultiSelectSong.ID3v2.Active) 
@@ -541,11 +561,8 @@ public partial class MainWindow: Gtk.Window
 				if (!song.ID3v2.Active) song.ID3v2.Clear();
 			}
 		}
-		  
-
 
 		FillTree();
-		SelectSongs(selectedSongs);
 	}
 
 	public int ActualSelectedSongIndex(TreeViewData data)
@@ -875,9 +892,6 @@ public partial class MainWindow: Gtk.Window
     {
 		try
 		{
-
-			var selectedSongs = GetSelectedSongs();		
-
 				if (
 						(o != null) &&
 						(o is Gtk.Object) &&
@@ -940,7 +954,6 @@ public partial class MainWindow: Gtk.Window
 						}
 
 				FillTree();
-				SelectSongs(selectedSongs);
 			}
 
 		} catch (Exception ex)
@@ -1041,11 +1054,8 @@ public partial class MainWindow: Gtk.Window
 
 			MP3List.SortBy(sortCol,notebook.CurrentPage == 0);
 
-			var selectedSongs = GetSelectedSongs();	
 			CreateGridColumns();
 			FillTree();
-			SelectSongs(selectedSongs);							
-			ShowAll();
 		}
     }
 
@@ -1122,8 +1132,6 @@ public partial class MainWindow: Gtk.Window
 		CreateGridColumns();
 
 		FillTree();
-
-		if (MP3List.Count>0) SelectSong(MP3List[0]);
 	}
 
 	protected void OnSaveActionActivated (object sender, EventArgs e)

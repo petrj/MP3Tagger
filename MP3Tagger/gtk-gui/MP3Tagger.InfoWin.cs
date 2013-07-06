@@ -24,7 +24,7 @@ namespace MP3Tagger
 			// Container child fixed.Gtk.Fixed+FixedChild
 			this.label2 = new global::Gtk.Label ();
 			this.label2.Name = "label2";
-			this.label2.LabelProp = global::Mono.Unix.Catalog.GetString ("MP3Tagger");
+			this.label2.LabelProp = global::Mono.Unix.Catalog.GetString ("MP3Tagger 4 (beta)");
 			this.@fixed.Add (this.label2);
 			global::Gtk.Fixed.FixedChild w1 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.label2]));
 			w1.X = 16;

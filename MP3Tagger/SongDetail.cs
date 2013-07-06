@@ -255,7 +255,6 @@ namespace MP3Tagger
 			{
 				MainWin.ReloadSelectedSongs();
 				MainWin.FillTree();
-				MainWin.SelectSongs(selectedSongs);
 				MainWin.EditSelectedSongs();
 			}
 		}
@@ -328,19 +327,19 @@ namespace MP3Tagger
 
 		protected void OnButtonCopyToTAG1Clicked (object sender, EventArgs e)
 		{
-			if (CurrentSong != null && CurrentSong.ID3v2.Active)
-			{			 
-				CurrentSong.ID3v2.CopyTo(CurrentSong.ID3v1);
-				FillAll();
+			if (CurrentSong != null)
+			{
+				OnApplyActionActivated(this,null);
+				MainWin.CopyTagOfSelectedSongs(false);
 			}
 		}
 
 		protected void OnButtonCopyToTAG2Clicked (object sender, EventArgs e)
 		{
-			if (CurrentSong != null && CurrentSong.ID3v1.Active)
-			{			 
-				CurrentSong.ID3v1.CopyTo(CurrentSong.ID3v2);
-				FillAll();
+			if (CurrentSong != null)
+			{
+			    OnApplyActionActivated(this,null);
+				MainWin.CopyTagOfSelectedSongs(true);
 			}
 		}
 		#endregion

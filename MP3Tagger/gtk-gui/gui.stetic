@@ -417,7 +417,7 @@
             <property name="MemberName" />
             <property name="HeightRequest">330</property>
             <property name="CanFocus">True</property>
-            <property name="CurrentPage">0</property>
+            <property name="CurrentPage">1</property>
             <child>
               <widget class="Gtk.Fixed" id="fixedTAG1">
                 <property name="MemberName" />
@@ -963,7 +963,7 @@
         <child>
           <widget class="Gtk.Label" id="label2">
             <property name="MemberName" />
-            <property name="LabelProp" translatable="yes">MP3Tagger</property>
+            <property name="LabelProp" translatable="yes">MP3Tagger 4 (beta)</property>
           </widget>
           <packing>
             <property name="X">16</property>
