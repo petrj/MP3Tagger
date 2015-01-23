@@ -172,6 +172,48 @@ namespace MP3Tagger
 		#endregion
 
 		#region public methods
+		
+		public void UnMask()
+		{
+			Title = UnMaskValue(Title);
+			Artist = UnMaskValue(Artist);
+			Album = UnMaskValue(Album);
+			Comment = UnMaskValue(Comment);
+		}
+		
+		private string UnMaskValue(string mask)
+		{
+				string fName = System.IO.Path.GetFileName(FileName);
+				string name = System.IO.Path.GetFileNameWithoutExtension(FileName);
+				string ext = System.IO.Path.GetExtension(FileName);
+				while ((ext != null) && (ext.StartsWith("."))) { ext = ext.Substring(1); };
+
+				/*
+
+					?f - FileName
+					?n - FileName without extension
+					?e - extension (without .)
+
+					?t - title
+					?i - interpret
+					?a - album
+					?t - track number
+					?y - year					
+
+				*/				
+
+				mask = mask.Replace("*f",fName);
+				mask = mask.Replace("*e",ext);
+				mask = mask.Replace("*n",name);
+								
+				mask = mask.Replace("*t",Title);
+				mask = mask.Replace("*i",Artist);
+				mask = mask.Replace("*a",Album);
+				mask = mask.Replace("*t",TrackNumber.ToString());
+				mask = mask.Replace("*y",Year.ToString());								
+
+			return mask;
+		}		
 
 		public void CopyTo(TAGBase tag)
 		{
@@ -220,7 +262,7 @@ namespace MP3Tagger
 			if (!String.IsNullOrEmpty(Comment)) tag.Comment = Comment;
 			if (Year !=0) tag.Year = Year;
 			if (TrackNumber !=0) tag.TrackNumber = TrackNumber;
-			if (Genre !=255) tag.Genre = Genre;
+			if (Genre !=255) tag.Genre = Genre;	
 		}
 
 		public virtual void Clear()

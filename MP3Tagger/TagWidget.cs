@@ -8,6 +8,9 @@ namespace MP3Tagger
 	public partial class TagWidget : Gtk.Bin
 	{
 		private TAGBase _tag;
+		
+		private string _infoMaskWinTitle;
+		private string _infoMaskWinText;
 
 		public TAGBase Tag 
 		{
@@ -40,7 +43,7 @@ namespace MP3Tagger
 
 		public void ApplyChanges()
 		{
-				_tag.Title = entryTitle.Text;
+				_tag.Title =  entryTitle.Text;
 				_tag.Artist = entryArtist.Text;
 				_tag.Album = entryAlbum.Text;
 				if (comboBoxGenre.Active>=0 && comboBoxGenre.Active<TAGBase.ID3Genre.Length)
@@ -85,7 +88,19 @@ namespace MP3Tagger
 			labelYear.LabelProp = lng.Translate("Year");
 			labelGenre.LabelProp = lng.Translate("Genre");
 			labelTrackNumber.LabelProp = lng.Translate("TrackNumber");
+			
+			_infoMaskWinTitle = lng.Translate("MaskHelpTitle");
+			_infoMaskWinText = lng.Translate("MaskHelp");
+		}
 
+		protected void OnButtonMaskHelpClicked (object sender, EventArgs e)
+		{
+			var help = _infoMaskWinTitle;
+			help += System.Environment.NewLine;
+			help += System.Environment.NewLine;
+			help += _infoMaskWinText;
+
+			Dialogs.InfoDialog(help);
 		}
 	}
 }

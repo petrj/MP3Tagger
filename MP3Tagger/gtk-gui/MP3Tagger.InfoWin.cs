@@ -9,7 +9,7 @@ namespace MP3Tagger
 		private global::Gtk.Label label3;
 		private global::Gtk.Button buttonOK;
 		private global::Gtk.Label labelVer;
-		
+
 		protected virtual void Build ()
 		{
 			global::Stetic.Gui.Initialize (this);
@@ -65,7 +65,7 @@ namespace MP3Tagger
 			// Container child fixed.Gtk.Fixed+FixedChild
 			this.labelVer = new global::Gtk.Label ();
 			this.labelVer.Name = "labelVer";
-			this.labelVer.LabelProp = global::Mono.Unix.Catalog.GetString ("nightbuild");
+			this.labelVer.LabelProp = global::Mono.Unix.Catalog.GetString ("nightbuild (2015.01.23)");
 			this.@fixed.Add (this.labelVer);
 			global::Gtk.Fixed.FixedChild w12 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.labelVer]));
 			w12.X = 16;

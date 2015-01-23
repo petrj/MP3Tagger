@@ -609,7 +609,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Bin" id="MP3Tagger.TagWidget" design-size="401 260">
+  <widget class="Gtk.Bin" id="MP3Tagger.TagWidget" design-size="430 260">
     <property name="MemberName" />
     <property name="Visible">False</property>
     <child>
@@ -842,6 +842,21 @@
             <property name="Y">108</property>
           </packing>
         </child>
+        <child>
+          <widget class="Gtk.Button" id="buttonMaskHelp">
+            <property name="MemberName" />
+            <property name="CanFocus">True</property>
+            <property name="Type">TextAndIcon</property>
+            <property name="Icon">stock:gtk-dialog-info Menu</property>
+            <property name="Label" translatable="yes" />
+            <property name="UseUnderline">True</property>
+            <signal name="Clicked" handler="OnButtonMaskHelpClicked" />
+          </widget>
+          <packing>
+            <property name="X">334</property>
+            <property name="Y">22</property>
+          </packing>
+        </child>
       </widget>
     </child>
   </widget>
@@ -998,7 +1013,7 @@
         <child>
           <widget class="Gtk.Label" id="labelVer">
             <property name="MemberName" />
-            <property name="LabelProp" translatable="yes">nightbuild</property>
+            <property name="LabelProp" translatable="yes">nightbuild (2015.01.23)</property>
           </widget>
           <packing>
             <property name="X">16</property>

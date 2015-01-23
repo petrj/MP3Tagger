@@ -550,15 +550,16 @@ public partial class MainWindow: Gtk.Window
 						song.RenameByMask(fileRenameMask);
 					}
 				}
-			}
+			}			
+
 		}
 
 		if (selectedSongs.Count > 0)
 		{
 			foreach (var song in selectedSongs)
 			{
-				if (!song.ID3v1.Active) song.ID3v1.Clear();
-				if (!song.ID3v2.Active) song.ID3v2.Clear();
+				if (!song.ID3v1.Active) song.ID3v1.Clear(); else song.ID3v1.UnMask();
+				if (!song.ID3v2.Active) song.ID3v2.Clear(); else song.ID3v2.UnMask();
 			}
 		}
 

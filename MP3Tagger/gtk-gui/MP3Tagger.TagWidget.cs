@@ -20,7 +20,8 @@ namespace MP3Tagger
 		private global::Gtk.ComboBox comboBoxGenre;
 		private global::Gtk.Label labelTrackNumber;
 		private global::Gtk.Entry entryTrackNumber;
-		
+		private global::Gtk.Button buttonMaskHelp;
+
 		protected virtual void Build ()
 		{
 			global::Stetic.Gui.Initialize (this);
@@ -164,11 +165,35 @@ namespace MP3Tagger
 			global::Gtk.Fixed.FixedChild w15 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.entryTrackNumber]));
 			w15.X = 276;
 			w15.Y = 108;
+			// Container child fixed.Gtk.Fixed+FixedChild
+			this.buttonMaskHelp = new global::Gtk.Button ();
+			this.buttonMaskHelp.CanFocus = true;
+			this.buttonMaskHelp.Name = "buttonMaskHelp";
+			this.buttonMaskHelp.UseUnderline = true;
+			// Container child buttonMaskHelp.Gtk.Container+ContainerChild
+			global::Gtk.Alignment w16 = new global::Gtk.Alignment (0.5F, 0.5F, 0F, 0F);
+			// Container child GtkAlignment.Gtk.Container+ContainerChild
+			global::Gtk.HBox w17 = new global::Gtk.HBox ();
+			w17.Spacing = 2;
+			// Container child GtkHBox.Gtk.Container+ContainerChild
+			global::Gtk.Image w18 = new global::Gtk.Image ();
+			w18.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-dialog-info", global::Gtk.IconSize.Menu);
+			w17.Add (w18);
+			// Container child GtkHBox.Gtk.Container+ContainerChild
+			global::Gtk.Label w20 = new global::Gtk.Label ();
+			w17.Add (w20);
+			w16.Add (w17);
+			this.buttonMaskHelp.Add (w16);
+			this.@fixed.Add (this.buttonMaskHelp);
+			global::Gtk.Fixed.FixedChild w24 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.buttonMaskHelp]));
+			w24.X = 334;
+			w24.Y = 22;
 			this.Add (this.@fixed);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
 			this.Hide ();
+			this.buttonMaskHelp.Clicked += new global::System.EventHandler (this.OnButtonMaskHelpClicked);
 		}
 	}
 }

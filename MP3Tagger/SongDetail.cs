@@ -30,8 +30,7 @@ namespace MP3Tagger
 			this.Shown+= OnShown;
 			this.WidgetEvent+=OnWidgetEvent;
 
-			this.
-			MainWin = parent;
+			this.	MainWin = parent;
 
 			_framesTreeViewData = new TreeViewData(treeViewFrames);
 
@@ -314,12 +313,13 @@ namespace MP3Tagger
 			if (firstSelectedSong == null)
 				return;
 
-			var help = MainWin.Lng.Translate("FileNameByMask");
-			help += firstSelectedSong.UnMask(comboboxentryFileName.ActiveText);
-
+			var help = MainWin.Lng.Translate("FileNameByMask") + firstSelectedSong.UnMaskFileName(comboboxentryFileName.ActiveText);
 			help += System.Environment.NewLine;
 			help += System.Environment.NewLine;
-			help += MainWin.Lng.Translate("MaskHelp");
+			help += MainWin.Lng.Translate("MaskHelpTitle");
+			help += System.Environment.NewLine;
+			help += System.Environment.NewLine;
+			help += MainWin.Lng.Translate("FileMaskHelp");
 
 			Dialogs.InfoDialog(help);
 		}

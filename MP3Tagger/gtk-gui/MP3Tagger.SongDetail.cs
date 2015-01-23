@@ -38,7 +38,7 @@ namespace MP3Tagger
 		private global::Gtk.Image imageCoverFront;
 		private global::Gtk.Button buttonSetFrontCoverImage;
 		private global::Gtk.Label labelTAG2Image;
-		
+
 		protected virtual void Build ()
 		{
 			global::Stetic.Gui.Initialize (this);

@@ -68,8 +68,21 @@
 	<w key="Track" value="Stopa" />
 	<w key="TrackNumber" value="Číslo stopy" />
 	<w key="Genre" value="Žánr" />		
-	<w key="FileNameByMask" value="Jméno souboru dle masky: " />
+	<w key="FileNameByMask" value="Jméno souboru dle masky:" />
+	<w key="MaskHelpTitle" value="Použití masky" />
 	<w key="MaskHelp" value="Nápověda:
+
+*f - jméno souboru
+*n - jméno souboru bez přípony
+*e - přípona (bez .)
+
+*t - název
+*i - interpret
+*a - album
+*t - číslo tracku
+*y - rok
+" />	
+	<w key="FileMaskHelp" value="Nápověda:
 
 *f - jméno souboru
 *n - jméno souboru bez přípony

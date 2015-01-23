@@ -87,7 +87,7 @@ namespace MP3Tagger
 			return true;
 		}
 
-		public string UnMask(string mask)
+		public string UnMaskFileName(string mask)
 		{
 				string fName = System.IO.Path.GetFileName(FileName);
 				string name = System.IO.Path.GetFileNameWithoutExtension(FileName);
@@ -147,7 +147,7 @@ namespace MP3Tagger
 				if (fName == mask)
 					return false;
 
-				var fNameUnMasked = UnMask(mask);
+				var fNameUnMasked = UnMaskFileName(mask);
 
 				if (fNameUnMasked == fName)
 					return false;
@@ -238,12 +238,16 @@ namespace MP3Tagger
 					_ID3v1ActiveAfterLoad = ID3v1.Active;
 					_ID3v2ActiveAfterLoad = ID3v2.Active;
 					_ID3v2TotalByteLengthAfterLoad = ID3v2.TotalByteLength;
-
-					fs.Close();
+					
+					fs.Close();				
 				}
+				
+				if (ID3v1.Active) { ID3v1.FileName = fileName; }
+				if (ID3v2.Active) { ID3v2.FileName = fileName; }
 
 				ID3v1.Changed = false;
 				ID3v2.Changed = false;
+				
 
 			
 			} catch (Exception ex)

@@ -69,7 +69,21 @@
 	<w key="TrackNumber" value="Track Number" />
 	<w key="Genre" value="" />	
 	<w key="FileNameByMask" value="File name by mask:" />
+	<w key="MaskHelpTitle" value="Mask usage" />
 	<w key="MaskHelp" value="Nápověda:
+
+*f - fileName
+*n - name without extension
+*e - extension (without .)
+
+*t - title
+*i - interpret
+*a - album
+*t - track number
+*y - year
+
+" />	
+<w key="FileMaskHelp" value="Nápověda:
 
 *f - fileName
 *n - name without extension
