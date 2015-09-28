@@ -162,6 +162,7 @@ namespace MP3Tagger
 					(CurrentSong.ID3v2 as TAGBase).Active;
 
 				Show();
+Visible = true;
 			}
 		}
 

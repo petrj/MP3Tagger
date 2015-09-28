@@ -1,8 +1,17 @@
 MP3Tagger 
 
-OpenSource MP3 TAG edit tool
-Linux/Windows support
-mono/VS 
-GTK
-TAG v1 (full support), TAG v2 (partially support)
+MP3 metadata editing tool
+
+- TAG v1 (full support)
+- TAG v2 (partially support)
+
+- multi platform (Linux, Windows)
+- multi language (Czech, English)
+
+- Mono & .NET
+- Gtk# 
+
+
+![MP3Tagger](https://raw.github.com/petrj/MP3Tagger/master/Screens/MP3TaggerEn.png)
+![MP3Tagger](https://raw.github.com/petrj/MP3Tagger/master/Screens/MP3TaggerCz.png)
 

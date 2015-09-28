@@ -74,6 +74,8 @@ namespace MP3Tagger
 			this.Name = "MP3Tagger.SongDetail";
 			this.Title = global::Mono.Unix.Catalog.GetString ("SongDetail");
 			this.WindowPosition = ((global::Gtk.WindowPosition)(4));
+			this.Modal = true;
+			this.Resizable = false;
 			// Container child MP3Tagger.SongDetail.Gtk.Container+ContainerChild
 			this.@fixed = new global::Gtk.Fixed ();
 			this.@fixed.Name = "fixed";
@@ -293,7 +295,7 @@ namespace MP3Tagger
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
-			this.DefaultWidth = 396;
+			this.DefaultWidth = 397;
 			this.DefaultHeight = 495;
 			this.Show ();
 			this.Shown += new global::System.EventHandler (this.OnShown);

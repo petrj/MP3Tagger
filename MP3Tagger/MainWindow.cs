@@ -681,7 +681,12 @@ public partial class MainWindow: Gtk.Window
 			if (actualSelectedSong != null)
 	        {
 	            editWindow.CurrentSong = actualSelectedSong;
-	            editWindow.Show();
+	            
+	            // workaround for bug when controls are not shown 
+	            editWindow.Visible = true;	            
+	            editWindow.ShowNow();
+	            //editWindow.Show();
+	            	            
 	        }
 		}
 		catch (Exception ex)
