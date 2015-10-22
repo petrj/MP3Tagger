@@ -96,16 +96,15 @@ namespace MP3Tagger
 
 				/*
 
-					?f - FileName
-					?e - extension (without .)
+					*f - FileName
+					*e - extension (without .)
 
-					?t - title
-					?i - interpret
-					?a - album
-					?t - track number
-					?y - year
-					?p - position number in current list
-
+					*t - title
+					*i - interpret
+					*a - album
+					*r - track number
+					*y - year
+					*p - position number in current list
 				*/
 
 				var fNameUnMasked = mask;
@@ -125,7 +124,7 @@ namespace MP3Tagger
 					fNameUnMasked = fNameUnMasked.Replace("*t",tag.Title);
 					fNameUnMasked = fNameUnMasked.Replace("*i",tag.Artist);
 					fNameUnMasked = fNameUnMasked.Replace("*a",tag.Album);
-					fNameUnMasked = fNameUnMasked.Replace("*t",tag.TrackNumber.ToString());
+					fNameUnMasked = fNameUnMasked.Replace("*r",tag.TrackNumber.ToString());
 					fNameUnMasked = fNameUnMasked.Replace("*y",tag.Year.ToString());					
 				}
 

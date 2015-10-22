@@ -190,15 +190,15 @@ namespace MP3Tagger
 
 				/*
 
-					?f - FileName
-					?n - FileName without extension
-					?e - extension (without .)
+					*f - FileName
+					*n - FileName without extension
+					*e - extension (without .)
 
-					?t - title
-					?i - interpret
-					?a - album
-					?t - track number
-					?y - year					
+					*t - title
+					*i - interpret
+					*a - album
+					*r - track number
+					*y - year					
 
 				*/				
 
@@ -209,7 +209,7 @@ namespace MP3Tagger
 				mask = mask.Replace("*t",Title);
 				mask = mask.Replace("*i",Artist);
 				mask = mask.Replace("*a",Album);
-				mask = mask.Replace("*t",TrackNumber.ToString());
+				mask = mask.Replace("*r",TrackNumber.ToString());
 				mask = mask.Replace("*y",Year.ToString());								
 
 			return mask;

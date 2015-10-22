@@ -79,7 +79,7 @@
 *t - title
 *i - interpret
 *a - album
-*t - track number
+*r - track number
 *y - year
 
 " />	
@@ -92,7 +92,7 @@
 *t - title
 *i - interpret
 *a - album
-*t - track number
+*r - track number
 *y - year
 
 *2 - position number in current list of given length 

@@ -79,7 +79,7 @@
 *t - název
 *i - interpret
 *a - album
-*t - číslo tracku
+*r - číslo tracku
 *y - rok
 " />	
 	<w key="FileMaskHelp" value="Nápověda:
@@ -91,7 +91,7 @@
 *t - název
 *i - interpret
 *a - album
-*t - číslo tracku
+*r - číslo tracku
 *y - rok
 
 *2 - pozice v aktuálním seznamu (2 číslice)
