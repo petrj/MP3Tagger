@@ -1,40 +1,46 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="MP3Tagger/InfoWin.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MP3Tagger\ToolBarWin.cs">
     <Files>
-      <File FileName="MP3Tagger/MainWindow.cs" Line="1134" Column="14" />
-      <File FileName="MP3Tagger/SongDetail.cs" Line="258" Column="11" />
-      <File FileName="MP3Tagger/TreeViewData.cs" Line="169" Column="5" />
-      <File FileName="MP3Tagger/Main.cs" Line="19" Column="1" />
-      <File FileName="MP3Tagger/ProgressBarWindow.cs" Line="8" Column="38" />
-      <File FileName="MP3Tagger/ProgressEvent.cs" Line="20" Column="1" />
-      <File FileName="MP3Tagger/SongList.cs" Line="99" Column="46" />
-      <File FileName="MP3Tagger/InfoWin.cs" Line="15" Column="64" />
-      <File FileName="MP3Tagger/ToolBarWin.cs" Line="97" Column="12" />
-      <File FileName="MP3Tagger/Dialogs.cs" Line="1" Column="1" />
-      <File FileName="MP3Tagger/Configuration.cs" Line="133" Column="63" />
-      <File FileName="MP3Tagger/TAGID3v2.cs" Line="434" Column="22" />
+      <File FileName="MP3Tagger\Main.cs" Line="1" Column="1" />
+      <File FileName="MP3Tagger\MainWindow.cs" Line="1" Column="1" />
+      <File FileName="MP3Tagger\SongDetail.cs" Line="36" Column="36" />
+      <File FileName="MP3Tagger\TreeViewData.cs" Line="1" Column="1" />
+      <File FileName="MP3Tagger\ProgressBarWindow.cs" Line="1" Column="1" />
+      <File FileName="MP3Tagger\ProgressEvent.cs" Line="1" Column="1" />
+      <File FileName="MP3Tagger\SongList.cs" Line="1" Column="1" />
+      <File FileName="MP3Tagger\InfoWin.cs" Line="1" Column="1" />
+      <File FileName="MP3Tagger\ToolBarWin.cs" Line="4" Column="4" />
+      <File FileName="MP3Tagger\Dialogs.cs" Line="1" Column="1" />
+      <File FileName="MP3Tagger\Configuration.cs" Line="1" Column="1" />
+      <File FileName="MP3Tagger\TAGID3v2.cs" Line="1" Column="1" />
+      <File FileName="MP3Tagger\TagWidget.cs" Line="1" Column="1" />
+      <File FileName="MP3Tagger\TAGID3v1.cs" Line="1" Column="1" />
+      <File FileName="MP3Tagger\TAGBase.cs" Line="1" Column="1" />
+      <File FileName="MP3Tagger\TAG2Image.cs" Line="1" Column="1" />
+      <File FileName="MP3Tagger\TAG2Frame.cs" Line="1" Column="1" />
+      <File FileName="MP3Tagger\Logger.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/mnt/data/Develop/Source/mono/MP3Tagger/MP3Tagger/TAG2Frame.cs" line="113" />
-      <Breakpoint file="/mnt/data/Develop/Source/mono/MP3Tagger/MP3Tagger/TAG2Frame.cs" line="89" />
-      <Breakpoint file="/mnt/data/Develop/Source/mono/MP3Tagger/MP3Tagger/TAG2Frame.cs" line="98" />
-      <Breakpoint file="/mnt/data/Develop/Source/mono/MP3Tagger/MP3Tagger/TAGBase.cs" line="109" />
-      <Breakpoint file="/mnt/data/Develop/git/MP3Tagger/MP3Tagger/TAG2Frame.cs" line="190" />
-      <Breakpoint file="/mnt/data/Develop/git/MP3Tagger/MP3Tagger/TAGID3v2.cs" line="342" />
-      <Breakpoint file="/mnt/data/Develop/git/MP3Tagger/MP3Tagger/TAGID3v2.cs" line="147" />
-      <Breakpoint file="/mnt/data/Develop/git/MP3Tagger/MP3Tagger/TAGID3v2.cs" line="439" />
+      <Breakpoint file="/mnt/data/Develop/Source/mono/MP3Tagger/MP3Tagger/TAG2Frame.cs" line="113" column="1" />
+      <Breakpoint file="/mnt/data/Develop/Source/mono/MP3Tagger/MP3Tagger/TAG2Frame.cs" line="89" column="1" />
+      <Breakpoint file="/mnt/data/Develop/Source/mono/MP3Tagger/MP3Tagger/TAG2Frame.cs" line="98" column="1" />
+      <Breakpoint file="/mnt/data/Develop/Source/mono/MP3Tagger/MP3Tagger/TAGBase.cs" line="109" column="1" />
+      <Breakpoint file="/mnt/data/Develop/git/MP3Tagger/MP3Tagger/TAG2Frame.cs" line="190" column="1" />
+      <Breakpoint file="/mnt/data/Develop/git/MP3Tagger/MP3Tagger/TAGID3v2.cs" line="342" column="1" />
+      <Breakpoint file="/mnt/data/Develop/git/MP3Tagger/MP3Tagger/TAGID3v2.cs" line="147" column="1" />
+      <Breakpoint file="/mnt/data/Develop/git/MP3Tagger/MP3Tagger/TAGID3v2.cs" line="439" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
-    <Watch file="MP3Tagger/TAG2Frame.cs" line="188" offsetX="453" offsetY="3740" expression="dataBytes" liveUpdate="False" />
-    <Watch file="MP3Tagger/MainWindow.cs" line="61" offsetX="460" offsetY="1140" expression="MP3List" liveUpdate="False" />
-    <Watch file="MP3Tagger/TreeViewData.cs" line="63" offsetX="474" offsetY="900" expression="values" liveUpdate="False" />
-    <Watch file="MP3Tagger/MainWindow.cs" line="486" offsetX="482" offsetY="7275" expression="editingSong" liveUpdate="False" />
-    <Watch file="MP3Tagger/TAGID3v2.cs" line="327" offsetX="412" offsetY="4544" expression="framesData" liveUpdate="False" />
-    <Watch file="MP3Tagger/MainWindow.cs" line="258" offsetX="738" offsetY="3015" expression="imgFrame" liveUpdate="False" />
+    <Watch file="MP3Tagger\TAG2Frame.cs" line="188" offsetX="453" offsetY="3740" expression="dataBytes" liveUpdate="False" />
+    <Watch file="MP3Tagger\MainWindow.cs" line="61" offsetX="460" offsetY="1140" expression="MP3List" liveUpdate="False" />
+    <Watch file="MP3Tagger\TreeViewData.cs" line="63" offsetX="474" offsetY="900" expression="values" liveUpdate="False" />
+    <Watch file="MP3Tagger\MainWindow.cs" line="486" offsetX="482" offsetY="7275" expression="editingSong" liveUpdate="False" />
+    <Watch file="MP3Tagger\TAGID3v2.cs" line="327" offsetX="412" offsetY="4544" expression="framesData" liveUpdate="False" />
+    <Watch file="MP3Tagger\MainWindow.cs" line="258" offsetX="738" offsetY="3015" expression="imgFrame" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
   <AuthorInfo Name="Petr" Email="" Copyright="" Company="http://github.com/petrj/MP3Tagger" Trademark="" />
 </Properties>

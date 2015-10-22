@@ -1,4 +1,6 @@
 using System;
+using Gtk;
+using System.IO;
 using System.Collections.Generic;
 
 namespace MP3Tagger
@@ -18,6 +20,7 @@ namespace MP3Tagger
 
 		public void Show(KindEnum kind)
 		{
+
 			// hidding all action buttons (made from GUI) except Close
 			foreach (var item in toolbar.AllChildren)
 			{
@@ -60,9 +63,9 @@ namespace MP3Tagger
 					break;
 			}
 
-
-			
 			Show();
+
+			SetSizeRequest (toolbar.Allocation.Size.Width+5, toolbar.Allocation.Size.Height+10);
 		}
 
 		private void CreateLanguageButtons()
@@ -73,6 +76,7 @@ namespace MP3Tagger
 				Gtk.ToolButton button = new Gtk.ToolButton (Gtk.Stock.SelectFont);
 				button.Visible = true;
 				button.Label = lng.Description;
+				button.TooltipText = lng.Description;
 				button.Clicked += OnChangeLanguage;
 				button.Data["Flag"] = lng.Flag;
 				toolbar.Insert (button, 0); 
@@ -87,9 +91,16 @@ namespace MP3Tagger
 			LngButtons = new List<Gtk.ToolButton>();
 			CreateLanguageButtons();
 
-			Show();
+			DeleteEvent +=	delegate(object o, DeleteEventArgs args) 
+			{
+				// hide instead of delete
+				args.RetVal = true;
+				Hide ();
+			};
 
 			MainWin = mainWin;
+
+			Show();
         }
 
 		protected void OnCloseActionActivated (object sender, EventArgs e)
@@ -99,7 +110,6 @@ namespace MP3Tagger
 
 		protected void OnShown(object sender, EventArgs e)
 		{
-			// center
 				int xMainWin;
 				int yMainWin;
 				MainWin.GetPosition(out xMainWin,out yMainWin);
@@ -143,14 +153,14 @@ namespace MP3Tagger
 
 			Title = lng.Translate("Add");
 		
-			actionAddSingleFile.ShortLabel = lng.Translate("File");
-			actionAddFolder.ShortLabel = lng.Translate("Folder");
-			actionClose.ShortLabel = lng.Translate("Close");
-			actionRemoveSelected.ShortLabel = lng.Translate("Selected");
-			actionRemoveAll.ShortLabel = lng.Translate("All");
-			actionSelectAll.ShortLabel = lng.Translate("SelectAll");
-			actionUnselectAll.ShortLabel = lng.Translate("UnSelectAll");
-			actionAddFolderRecursive.ShortLabel = lng.Translate("FolderRec");
+			actionAddSingleFile.ShortLabel = actionAddSingleFile.Tooltip = lng.Translate("File");
+			actionAddFolder.ShortLabel = actionAddFolder.Tooltip = lng.Translate("Folder");
+			actionClose.ShortLabel = actionClose.Tooltip = lng.Translate("Close");
+			actionRemoveSelected.ShortLabel = actionRemoveSelected.Tooltip = lng.Translate("Selected");
+			actionRemoveAll.ShortLabel = actionRemoveAll.Tooltip = lng.Translate("All");
+			actionSelectAll.ShortLabel = actionSelectAll.Tooltip = lng.Translate("SelectAll");
+			actionUnselectAll.ShortLabel = actionUnselectAll.Tooltip = lng.Translate("UnSelectAll");
+			actionAddFolderRecursive.ShortLabel = actionAddFolderRecursive.Tooltip = lng.Translate("FolderRec");
 		}
 
 		protected void OnActionRemoveSelectedActivated (object sender, EventArgs e)

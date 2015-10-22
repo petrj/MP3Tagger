@@ -11,21 +11,28 @@ namespace MP3Tagger
 			Application.Init ();
 			MainWindow win = new MainWindow ();
 
-			Configuration.LoadConfiguration();
-			win.ApplyConfiguration();
-
-			if (args.Length>0)
+			try
 			{
-				foreach (var arg in args)
+				Configuration.LoadConfiguration();
+				win.ApplyConfiguration();
+
+				if (args.Length>0)
 				{
-					if (Directory.Exists(arg))
+					foreach (var arg in args)
 					{
-						win.AddFolder(args[0],false);
+						if (Directory.Exists(arg))
+						{
+							win.AddFolder(args[0],false);
+						}
 					}
 				}
+				win.Show ();
+				Application.Run ();
+
+			} catch (Exception ex) 
+			{
+				Logger.Logger.WriteToLog("Caught general error: ", ex);
 			}
-			win.Show ();
-			Application.Run ();
 		}
 	}
 }

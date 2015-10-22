@@ -8,7 +8,7 @@
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <widget-library name="../bin/Debug/MP3Tagger.exe" internal="true" />
   </import>
-  <widget class="Gtk.Window" id="MainWindow" design-size="1053 720">
+  <widget class="Gtk.Window" id="MainWindow" design-size="836 706">
     <action-group name="Default">
       <action id="SeznamMP3Action">
         <property name="Type">Action</property>
@@ -24,6 +24,7 @@
         <property name="Label" translatable="yes">Edit</property>
         <property name="ShortLabel" translatable="yes">Edit</property>
         <property name="StockId">gtk-edit</property>
+        <property name="Tooltip" translatable="yes">Edit</property>
         <signal name="Activated" handler="OnEditActionActivated" />
       </action>
       <action id="closeAction">
@@ -31,6 +32,7 @@
         <property name="Label" translatable="yes">Close </property>
         <property name="ShortLabel" translatable="yes">Close</property>
         <property name="StockId">gtk-close</property>
+        <property name="Tooltip" translatable="yes">Close</property>
         <signal name="Activated" handler="OnCloseActionActivated" />
       </action>
       <action id="selectMultipleAction">
@@ -38,6 +40,7 @@
         <property name="Label" translatable="yes">Edit multi</property>
         <property name="ShortLabel" translatable="yes">Edit multi</property>
         <property name="StockId">gtk-dnd-multiple</property>
+        <property name="Tooltip" translatable="yes">Edit multi</property>
         <property name="DrawAsRadio">False</property>
         <property name="Active">False</property>
         <property name="Value">0</property>
@@ -49,6 +52,7 @@
         <property name="Label" translatable="yes">Edit single</property>
         <property name="ShortLabel" translatable="yes">Edit single</property>
         <property name="StockId">gtk-dnd</property>
+        <property name="Tooltip" translatable="yes">Edit single</property>
         <property name="DrawAsRadio">False</property>
         <property name="Active">False</property>
         <property name="Value">0</property>
@@ -60,6 +64,7 @@
         <property name="Label" translatable="yes">Next</property>
         <property name="ShortLabel" translatable="yes">Next</property>
         <property name="StockId">gtk-go-forward</property>
+        <property name="Tooltip" translatable="yes">Next</property>
         <signal name="Activated" handler="OnGoForwardActionActivated" />
       </action>
       <action id="goBackAction">
@@ -67,6 +72,7 @@
         <property name="Label" translatable="yes">Previous</property>
         <property name="ShortLabel" translatable="yes">Previous</property>
         <property name="StockId">gtk-go-back</property>
+        <property name="Tooltip" translatable="yes">Previous</property>
         <signal name="Activated" handler="OnGoBackActionActivated" />
       </action>
       <action id="editingModeAction">
@@ -74,6 +80,7 @@
         <property name="Label" translatable="yes">Edit cells</property>
         <property name="ShortLabel" translatable="yes">Edit Cells</property>
         <property name="StockId">gtk-index</property>
+        <property name="Tooltip" translatable="yes">Edit cells</property>
         <property name="DrawAsRadio">False</property>
         <property name="Active">False</property>
         <signal name="Activated" handler="OnEditingModeActionActivated" />
@@ -83,6 +90,7 @@
         <property name="Label" translatable="yes">_Save</property>
         <property name="ShortLabel" translatable="yes">_Save</property>
         <property name="StockId">gtk-save</property>
+        <property name="Tooltip" translatable="yes">Save</property>
         <signal name="Activated" handler="OnSaveActionActivated" />
       </action>
       <action id="addAction">
@@ -90,6 +98,7 @@
         <property name="Label" translatable="yes">Add</property>
         <property name="ShortLabel" translatable="yes">Add</property>
         <property name="StockId">gtk-add</property>
+        <property name="Tooltip" translatable="yes">Add</property>
         <signal name="Activated" handler="OnAddActionActivated" />
       </action>
       <action id="removeAction">
@@ -97,6 +106,7 @@
         <property name="Label" translatable="yes">Remove</property>
         <property name="ShortLabel" translatable="yes">Remove</property>
         <property name="StockId">gtk-remove</property>
+        <property name="Tooltip" translatable="yes">Remove</property>
         <signal name="Activated" handler="OnRemoveActionActivated" />
       </action>
       <action id="changeLanguageAction">
@@ -104,6 +114,7 @@
         <property name="Label" translatable="yes">Language</property>
         <property name="ShortLabel" translatable="yes">Language</property>
         <property name="StockId">gtk-select-font</property>
+        <property name="Tooltip" translatable="yes">Language</property>
         <signal name="Activated" handler="OnChangeLanguageActionActivated" />
       </action>
       <action id="selectAction">
@@ -111,6 +122,7 @@
         <property name="Label" translatable="yes">Select</property>
         <property name="ShortLabel" translatable="yes">Select</property>
         <property name="StockId">gtk-select-all</property>
+        <property name="Tooltip" translatable="yes">Select</property>
         <signal name="Activated" handler="OnSelectActionActivated" />
       </action>
       <action id="dialogInfoAction">
@@ -118,6 +130,7 @@
         <property name="Label" translatable="yes">Info</property>
         <property name="ShortLabel" translatable="yes">Info</property>
         <property name="StockId">gtk-dialog-info</property>
+        <property name="Tooltip" translatable="yes">Info</property>
         <signal name="Activated" handler="OnDialogInfoActionActivated" />
       </action>
     </action-group>
@@ -194,6 +207,8 @@
           <widget class="Gtk.Toolbar" id="mainToolbar">
             <property name="MemberName" />
             <property name="ShowArrow">False</property>
+            <property name="ButtonStyle">BothHoriz</property>
+            <property name="IconSize">LargeToolbar</property>
             <node name="mainToolbar" type="Toolbar">
               <node type="Toolitem" action="addAction" />
               <node type="Toolitem" action="removeAction" />
@@ -224,7 +239,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Window" id="MP3Tagger.ProgressBarWindow" design-size="400 99">
+  <widget class="Gtk.Window" id="MP3Tagger.ProgressBarWindow" design-size="366 99">
     <property name="MemberName" />
     <property name="Title" translatable="yes">Please wait ...</property>
     <property name="WindowPosition">CenterOnParent</property>
@@ -258,13 +273,14 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Window" id="MP3Tagger.SongDetail" design-size="397 495">
+  <widget class="Gtk.Window" id="MP3Tagger.SongDetail" design-size="416 522">
     <action-group name="Default">
       <action id="goForwardAction">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">Next</property>
         <property name="ShortLabel" translatable="yes">Next</property>
         <property name="StockId">gtk-go-forward</property>
+        <property name="Tooltip" translatable="yes">Next</property>
         <signal name="Activated" handler="OnGoForwardActionActivated" />
       </action>
       <action id="goBackAction">
@@ -272,6 +288,7 @@
         <property name="Label" translatable="yes">Previous</property>
         <property name="ShortLabel" translatable="yes">Previous</property>
         <property name="StockId">gtk-go-back</property>
+        <property name="Tooltip" translatable="yes">Previous</property>
         <signal name="Activated" handler="OnGoBackActionActivated" />
       </action>
       <action id="editAction">
@@ -298,6 +315,7 @@
         <property name="Label" translatable="yes">klk</property>
         <property name="ShortLabel" translatable="yes">OK</property>
         <property name="StockId">gtk-apply</property>
+        <property name="Tooltip" translatable="yes">OK</property>
         <signal name="Activated" handler="OnApplyActionActivated" />
       </action>
       <action id="undoAction">
@@ -305,6 +323,7 @@
         <property name="Label" translatable="yes">Undo</property>
         <property name="ShortLabel" translatable="yes">Undo</property>
         <property name="StockId">gtk-undo</property>
+        <property name="Tooltip" translatable="yes">Undo</property>
         <signal name="Activated" handler="OnCancelActionActivated" />
       </action>
       <action id="closeAction1">
@@ -312,6 +331,7 @@
         <property name="Label" translatable="yes">Close</property>
         <property name="ShortLabel" translatable="yes">Close</property>
         <property name="StockId">gtk-close</property>
+        <property name="Tooltip" translatable="yes">Close</property>
         <signal name="Activated" handler="OnCloseAction1Activated" />
       </action>
     </action-group>
@@ -319,7 +339,7 @@
     <property name="Title" translatable="yes">SongDetail</property>
     <property name="WindowPosition">CenterOnParent</property>
     <property name="Modal">True</property>
-    <property name="Resizable">False</property>
+    <property name="AllowGrow">False</property>
     <signal name="Shown" handler="OnShown" />
     <child>
       <widget class="Gtk.Fixed" id="fixed">
@@ -329,6 +349,8 @@
           <widget class="Gtk.Toolbar" id="toolbar">
             <property name="MemberName" />
             <property name="ShowArrow">False</property>
+            <property name="ButtonStyle">BothHoriz</property>
+            <property name="IconSize">LargeToolbar</property>
             <node name="toolbar" type="Toolbar">
               <node type="Toolitem" action="applyAction" />
               <node type="Separator" />
@@ -419,7 +441,7 @@
             <property name="MemberName" />
             <property name="HeightRequest">330</property>
             <property name="CanFocus">True</property>
-            <property name="CurrentPage">1</property>
+            <property name="CurrentPage">0</property>
             <child>
               <widget class="Gtk.Fixed" id="fixedTAG1">
                 <property name="MemberName" />
@@ -862,13 +884,14 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Window" id="MP3Tagger.ToolBarWin" design-size="1053 94">
+  <widget class="Gtk.Window" id="MP3Tagger.ToolBarWin" design-size="380 94">
     <action-group name="Default">
       <action id="actionClose">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">Close</property>
         <property name="ShortLabel" translatable="yes">Close</property>
         <property name="StockId">gtk-close</property>
+        <property name="Tooltip" translatable="yes">Close</property>
         <signal name="Activated" handler="OnCloseActionActivated" />
       </action>
       <action id="actionAddSingleFile">
@@ -876,6 +899,7 @@
         <property name="Label" translatable="yes">Add File</property>
         <property name="ShortLabel" translatable="yes">Add File</property>
         <property name="StockId">gtk-new</property>
+        <property name="Tooltip" translatable="yes">Add File</property>
         <signal name="Activated" handler="OnActionAddFileActivated" />
       </action>
       <action id="actionAddFolder">
@@ -883,6 +907,7 @@
         <property name="Label" translatable="yes">Add folder</property>
         <property name="ShortLabel" translatable="yes">Add folder</property>
         <property name="StockId">gtk-open</property>
+        <property name="Tooltip" translatable="yes">Add folder</property>
         <signal name="Activated" handler="OnActionAddFolderActivated" />
       </action>
       <action id="actionRemoveSelected">
@@ -890,6 +915,7 @@
         <property name="Label" translatable="yes">Selected</property>
         <property name="ShortLabel" translatable="yes">Selected</property>
         <property name="StockId">gtk-dnd</property>
+        <property name="Tooltip" translatable="yes">Selected</property>
         <signal name="Activated" handler="OnActionRemoveSelectedActivated" />
       </action>
       <action id="actionRemoveAll">
@@ -897,6 +923,7 @@
         <property name="Label" translatable="yes">All</property>
         <property name="ShortLabel" translatable="yes">All</property>
         <property name="StockId">gtk-dnd-multiple</property>
+        <property name="Tooltip" translatable="yes">All</property>
         <signal name="Activated" handler="OnActionRemoveAllActivated" />
       </action>
       <action id="actionSelectAll">
@@ -904,6 +931,7 @@
         <property name="Label" translatable="yes">Select all</property>
         <property name="ShortLabel" translatable="yes">Select all</property>
         <property name="StockId">gtk-select-all</property>
+        <property name="Tooltip" translatable="yes">Select all</property>
         <signal name="Activated" handler="OnActionSelectAllActivated" />
       </action>
       <action id="actionUnselectAll">
@@ -911,6 +939,7 @@
         <property name="Label" translatable="yes">Unselect all</property>
         <property name="ShortLabel" translatable="yes">Unselect all</property>
         <property name="StockId">gtk-remove</property>
+        <property name="Tooltip" translatable="yes">Unselect all</property>
         <signal name="Activated" handler="OnActionUnselectAllActivated" />
       </action>
       <action id="actionAddFolderRecursive">
@@ -918,6 +947,7 @@
         <property name="Label" translatable="yes">Add folder rec.</property>
         <property name="ShortLabel" translatable="yes">Add folder rec.</property>
         <property name="StockId">gtk-directory</property>
+        <property name="Tooltip" translatable="yes">Add folder rec.</property>
         <signal name="Activated" handler="OnActionAddFolderREcursiveActivated" />
       </action>
       <action id="actionSelectModeSingle">
@@ -934,7 +964,7 @@
       </action>
     </action-group>
     <property name="MemberName" />
-    <property name="Title" translatable="yes">Add</property>
+    <property name="Title" translatable="yes">ToolBar</property>
     <property name="Icon">stock:gtk-add Menu</property>
     <property name="WindowPosition">CenterOnParent</property>
     <property name="Modal">True</property>
@@ -949,6 +979,8 @@
           <widget class="Gtk.Toolbar" id="toolbar">
             <property name="MemberName" />
             <property name="ShowArrow">False</property>
+            <property name="ButtonStyle">BothHoriz</property>
+            <property name="IconSize">LargeToolbar</property>
             <node name="toolbar" type="Toolbar">
               <node type="Toolitem" action="actionAddSingleFile" />
               <node type="Toolitem" action="actionAddFolder" />
@@ -969,10 +1001,11 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Window" id="MP3Tagger.InfoWin" design-size="400 193">
+  <widget class="Gtk.Window" id="MP3Tagger.InfoWin" design-size="405 212">
     <property name="MemberName" />
     <property name="Title" translatable="yes">InfoWin</property>
     <property name="WindowPosition">CenterOnParent</property>
+    <property name="AllowShrink">True</property>
     <child>
       <widget class="Gtk.Fixed" id="fixed">
         <property name="MemberName" />
@@ -1015,7 +1048,7 @@
         <child>
           <widget class="Gtk.Label" id="labelVer">
             <property name="MemberName" />
-            <property name="LabelProp" translatable="yes">nightbuild (2015.01.23)</property>
+            <property name="LabelProp" translatable="yes">nightbuild (2015.10.22)</property>
           </widget>
           <packing>
             <property name="X">16</property>

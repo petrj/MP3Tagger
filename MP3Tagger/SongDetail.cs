@@ -30,6 +30,13 @@ namespace MP3Tagger
 			this.Shown+= OnShown;
 			this.WidgetEvent+=OnWidgetEvent;
 
+			DeleteEvent +=	delegate(object o, DeleteEventArgs args) 
+			{
+				// hide instead of delete
+				args.RetVal = true;
+				Hide ();
+			};
+
 			this.	MainWin = parent;
 
 			_framesTreeViewData = new TreeViewData(treeViewFrames);
@@ -65,11 +72,11 @@ namespace MP3Tagger
 			var lng = MainWin.Lng;
 
 			// toollbar
-			applyAction.ShortLabel = lng.Translate("OK");
-			undoAction.ShortLabel = lng.Translate("Undo");
-			goBackAction.ShortLabel = lng.Translate("Previous");
-			goForwardAction.ShortLabel = lng.Translate("Next");
-			closeAction1.ShortLabel = lng.Translate("Close");
+			applyAction.ShortLabel = applyAction.Tooltip = lng.Translate("OK");
+			undoAction.ShortLabel = undoAction.Tooltip = lng.Translate("Undo");
+			goBackAction.ShortLabel = goBackAction.Tooltip = lng.Translate("Previous");
+			goForwardAction.ShortLabel = goForwardAction.Tooltip = lng.Translate("Next");
+			closeAction1.ShortLabel = closeAction1.Tooltip = lng.Translate("Close");
 
 			checkButtonID31Active.Label = lng.Translate("Tag1");
 			checkButtonID32Active.Label = lng.Translate("Tag2");

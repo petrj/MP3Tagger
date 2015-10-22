@@ -5,9 +5,13 @@ namespace MP3Tagger
 	public partial class InfoWin
 	{
 		private global::Gtk.Fixed @fixed;
+		
 		private global::Gtk.Label label2;
+		
 		private global::Gtk.Label label3;
+		
 		private global::Gtk.Button buttonOK;
+		
 		private global::Gtk.Label labelVer;
 
 		protected virtual void Build ()
@@ -17,6 +21,7 @@ namespace MP3Tagger
 			this.Name = "MP3Tagger.InfoWin";
 			this.Title = global::Mono.Unix.Catalog.GetString ("InfoWin");
 			this.WindowPosition = ((global::Gtk.WindowPosition)(4));
+			this.AllowShrink = true;
 			// Container child MP3Tagger.InfoWin.Gtk.Container+ContainerChild
 			this.@fixed = new global::Gtk.Fixed ();
 			this.@fixed.Name = "fixed";
@@ -42,40 +47,28 @@ namespace MP3Tagger
 			this.buttonOK.CanFocus = true;
 			this.buttonOK.Name = "buttonOK";
 			this.buttonOK.UseUnderline = true;
-			// Container child buttonOK.Gtk.Container+ContainerChild
-			global::Gtk.Alignment w3 = new global::Gtk.Alignment (0.5F, 0.5F, 0F, 0F);
-			// Container child GtkAlignment.Gtk.Container+ContainerChild
-			global::Gtk.HBox w4 = new global::Gtk.HBox ();
-			w4.Spacing = 2;
-			// Container child GtkHBox.Gtk.Container+ContainerChild
-			global::Gtk.Image w5 = new global::Gtk.Image ();
-			w5.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-apply", global::Gtk.IconSize.Menu);
-			w4.Add (w5);
-			// Container child GtkHBox.Gtk.Container+ContainerChild
-			global::Gtk.Label w7 = new global::Gtk.Label ();
-			w7.LabelProp = global::Mono.Unix.Catalog.GetString ("OK");
-			w7.UseUnderline = true;
-			w4.Add (w7);
-			w3.Add (w4);
-			this.buttonOK.Add (w3);
+			this.buttonOK.Label = global::Mono.Unix.Catalog.GetString ("OK");
+			global::Gtk.Image w3 = new global::Gtk.Image ();
+			w3.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-apply", global::Gtk.IconSize.Menu);
+			this.buttonOK.Image = w3;
 			this.@fixed.Add (this.buttonOK);
-			global::Gtk.Fixed.FixedChild w11 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.buttonOK]));
-			w11.X = 331;
-			w11.Y = 137;
+			global::Gtk.Fixed.FixedChild w4 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.buttonOK]));
+			w4.X = 331;
+			w4.Y = 137;
 			// Container child fixed.Gtk.Fixed+FixedChild
 			this.labelVer = new global::Gtk.Label ();
 			this.labelVer.Name = "labelVer";
-			this.labelVer.LabelProp = global::Mono.Unix.Catalog.GetString ("nightbuild (2015.01.23)");
+			this.labelVer.LabelProp = global::Mono.Unix.Catalog.GetString ("nightbuild (2015.10.22)");
 			this.@fixed.Add (this.labelVer);
-			global::Gtk.Fixed.FixedChild w12 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.labelVer]));
-			w12.X = 16;
-			w12.Y = 92;
+			global::Gtk.Fixed.FixedChild w5 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.labelVer]));
+			w5.X = 16;
+			w5.Y = 92;
 			this.Add (this.@fixed);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
-			this.DefaultWidth = 400;
-			this.DefaultHeight = 193;
+			this.DefaultWidth = 405;
+			this.DefaultHeight = 212;
 			this.Show ();
 			this.buttonOK.Clicked += new global::System.EventHandler (this.OnButtonOKClicked);
 		}

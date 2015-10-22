@@ -5,9 +5,11 @@ namespace MP3Tagger
 	public partial class ProgressBarWindow
 	{
 		private global::Gtk.Fixed @fixed;
-		private global::Gtk.ProgressBar progressBar;
-		private global::Gtk.Label label;
 		
+		private global::Gtk.ProgressBar progressBar;
+		
+		private global::Gtk.Label label;
+
 		protected virtual void Build ()
 		{
 			global::Stetic.Gui.Initialize (this);
@@ -25,7 +27,7 @@ namespace MP3Tagger
 			this.progressBar.WidthRequest = 320;
 			this.progressBar.Name = "progressBar";
 			this.progressBar.Text = "";
-			this.progressBar.PulseStep = 0.01;
+			this.progressBar.PulseStep = 0.01D;
 			this.@fixed.Add (this.progressBar);
 			global::Gtk.Fixed.FixedChild w1 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.progressBar]));
 			w1.X = 16;
@@ -42,7 +44,7 @@ namespace MP3Tagger
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
-			this.DefaultWidth = 400;
+			this.DefaultWidth = 366;
 			this.DefaultHeight = 99;
 			this.Show ();
 		}

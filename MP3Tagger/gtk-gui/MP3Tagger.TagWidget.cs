@@ -5,21 +5,37 @@ namespace MP3Tagger
 	public partial class TagWidget
 	{
 		private global::Gtk.Fixed @fixed;
+		
 		private global::Gtk.Entry entryTitle;
+		
 		private global::Gtk.Label labelTitle;
+		
 		private global::Gtk.Label labelArtist;
+		
 		private global::Gtk.Entry entryArtist;
+		
 		private global::Gtk.Entry entryAlbum;
+		
 		private global::Gtk.Entry entryYear;
+		
 		private global::Gtk.Label labelAlbum;
+		
 		private global::Gtk.Label labelYear;
+		
 		private global::Gtk.Label labelGenre;
+		
 		private global::Gtk.Label labelComment;
+		
 		private global::Gtk.ScrolledWindow GtkScrolledWindow;
+		
 		private global::Gtk.TextView textViewComment;
+		
 		private global::Gtk.ComboBox comboBoxGenre;
+		
 		private global::Gtk.Label labelTrackNumber;
+		
 		private global::Gtk.Entry entryTrackNumber;
+		
 		private global::Gtk.Button buttonMaskHelp;
 
 		protected virtual void Build ()
@@ -170,24 +186,13 @@ namespace MP3Tagger
 			this.buttonMaskHelp.CanFocus = true;
 			this.buttonMaskHelp.Name = "buttonMaskHelp";
 			this.buttonMaskHelp.UseUnderline = true;
-			// Container child buttonMaskHelp.Gtk.Container+ContainerChild
-			global::Gtk.Alignment w16 = new global::Gtk.Alignment (0.5F, 0.5F, 0F, 0F);
-			// Container child GtkAlignment.Gtk.Container+ContainerChild
-			global::Gtk.HBox w17 = new global::Gtk.HBox ();
-			w17.Spacing = 2;
-			// Container child GtkHBox.Gtk.Container+ContainerChild
-			global::Gtk.Image w18 = new global::Gtk.Image ();
-			w18.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-dialog-info", global::Gtk.IconSize.Menu);
-			w17.Add (w18);
-			// Container child GtkHBox.Gtk.Container+ContainerChild
-			global::Gtk.Label w20 = new global::Gtk.Label ();
-			w17.Add (w20);
-			w16.Add (w17);
-			this.buttonMaskHelp.Add (w16);
+			global::Gtk.Image w16 = new global::Gtk.Image ();
+			w16.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-dialog-info", global::Gtk.IconSize.Menu);
+			this.buttonMaskHelp.Image = w16;
 			this.@fixed.Add (this.buttonMaskHelp);
-			global::Gtk.Fixed.FixedChild w24 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.buttonMaskHelp]));
-			w24.X = 334;
-			w24.Y = 22;
+			global::Gtk.Fixed.FixedChild w17 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.buttonMaskHelp]));
+			w17.X = 334;
+			w17.Y = 22;
 			this.Add (this.@fixed);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();

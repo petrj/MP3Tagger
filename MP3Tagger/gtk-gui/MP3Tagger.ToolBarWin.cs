@@ -5,47 +5,59 @@ namespace MP3Tagger
 	public partial class ToolBarWin
 	{
 		private global::Gtk.UIManager UIManager;
-		private global::Gtk.Action actionClose;
-		private global::Gtk.Action actionAddSingleFile;
-		private global::Gtk.Action actionAddFolder;
-		private global::Gtk.Action actionRemoveSelected;
-		private global::Gtk.Action actionRemoveAll;
-		private global::Gtk.Action actionSelectAll;
-		private global::Gtk.Action actionUnselectAll;
-		private global::Gtk.Action actionAddFolderRecursive;
-		private global::Gtk.Action actionSelectModeSingle;
-		private global::Gtk.Action actionMultipleRowsMode;
-		private global::Gtk.Fixed @fixed;
-		private global::Gtk.Toolbar toolbar;
 		
+		private global::Gtk.Action actionClose;
+		
+		private global::Gtk.Action actionAddSingleFile;
+		
+		private global::Gtk.Action actionAddFolder;
+		
+		private global::Gtk.Action actionRemoveSelected;
+		
+		private global::Gtk.Action actionRemoveAll;
+		
+		private global::Gtk.Action actionSelectAll;
+		
+		private global::Gtk.Action actionUnselectAll;
+		
+		private global::Gtk.Action actionAddFolderRecursive;
+		
+		private global::Gtk.Action actionSelectModeSingle;
+		
+		private global::Gtk.Action actionMultipleRowsMode;
+		
+		private global::Gtk.Fixed @fixed;
+		
+		private global::Gtk.Toolbar toolbar;
+
 		protected virtual void Build ()
 		{
 			global::Stetic.Gui.Initialize (this);
 			// Widget MP3Tagger.ToolBarWin
 			this.UIManager = new global::Gtk.UIManager ();
 			global::Gtk.ActionGroup w1 = new global::Gtk.ActionGroup ("Default");
-			this.actionClose = new global::Gtk.Action ("actionClose", global::Mono.Unix.Catalog.GetString ("Close"), null, "gtk-close");
+			this.actionClose = new global::Gtk.Action ("actionClose", global::Mono.Unix.Catalog.GetString ("Close"), global::Mono.Unix.Catalog.GetString ("Close"), "gtk-close");
 			this.actionClose.ShortLabel = global::Mono.Unix.Catalog.GetString ("Close");
 			w1.Add (this.actionClose, null);
-			this.actionAddSingleFile = new global::Gtk.Action ("actionAddSingleFile", global::Mono.Unix.Catalog.GetString ("Add File"), null, "gtk-new");
+			this.actionAddSingleFile = new global::Gtk.Action ("actionAddSingleFile", global::Mono.Unix.Catalog.GetString ("Add File"), global::Mono.Unix.Catalog.GetString ("Add File"), "gtk-new");
 			this.actionAddSingleFile.ShortLabel = global::Mono.Unix.Catalog.GetString ("Add File");
 			w1.Add (this.actionAddSingleFile, null);
-			this.actionAddFolder = new global::Gtk.Action ("actionAddFolder", global::Mono.Unix.Catalog.GetString ("Add folder"), null, "gtk-open");
+			this.actionAddFolder = new global::Gtk.Action ("actionAddFolder", global::Mono.Unix.Catalog.GetString ("Add folder"), global::Mono.Unix.Catalog.GetString ("Add folder"), "gtk-open");
 			this.actionAddFolder.ShortLabel = global::Mono.Unix.Catalog.GetString ("Add folder");
 			w1.Add (this.actionAddFolder, null);
-			this.actionRemoveSelected = new global::Gtk.Action ("actionRemoveSelected", global::Mono.Unix.Catalog.GetString ("Selected"), null, "gtk-dnd");
+			this.actionRemoveSelected = new global::Gtk.Action ("actionRemoveSelected", global::Mono.Unix.Catalog.GetString ("Selected"), global::Mono.Unix.Catalog.GetString ("Selected"), "gtk-dnd");
 			this.actionRemoveSelected.ShortLabel = global::Mono.Unix.Catalog.GetString ("Selected");
 			w1.Add (this.actionRemoveSelected, null);
-			this.actionRemoveAll = new global::Gtk.Action ("actionRemoveAll", global::Mono.Unix.Catalog.GetString ("All"), null, "gtk-dnd-multiple");
+			this.actionRemoveAll = new global::Gtk.Action ("actionRemoveAll", global::Mono.Unix.Catalog.GetString ("All"), global::Mono.Unix.Catalog.GetString ("All"), "gtk-dnd-multiple");
 			this.actionRemoveAll.ShortLabel = global::Mono.Unix.Catalog.GetString ("All");
 			w1.Add (this.actionRemoveAll, null);
-			this.actionSelectAll = new global::Gtk.Action ("actionSelectAll", global::Mono.Unix.Catalog.GetString ("Select all"), null, "gtk-select-all");
+			this.actionSelectAll = new global::Gtk.Action ("actionSelectAll", global::Mono.Unix.Catalog.GetString ("Select all"), global::Mono.Unix.Catalog.GetString ("Select all"), "gtk-select-all");
 			this.actionSelectAll.ShortLabel = global::Mono.Unix.Catalog.GetString ("Select all");
 			w1.Add (this.actionSelectAll, null);
-			this.actionUnselectAll = new global::Gtk.Action ("actionUnselectAll", global::Mono.Unix.Catalog.GetString ("Unselect all"), null, "gtk-remove");
+			this.actionUnselectAll = new global::Gtk.Action ("actionUnselectAll", global::Mono.Unix.Catalog.GetString ("Unselect all"), global::Mono.Unix.Catalog.GetString ("Unselect all"), "gtk-remove");
 			this.actionUnselectAll.ShortLabel = global::Mono.Unix.Catalog.GetString ("Unselect all");
 			w1.Add (this.actionUnselectAll, null);
-			this.actionAddFolderRecursive = new global::Gtk.Action ("actionAddFolderRecursive", global::Mono.Unix.Catalog.GetString ("Add folder rec."), null, "gtk-directory");
+			this.actionAddFolderRecursive = new global::Gtk.Action ("actionAddFolderRecursive", global::Mono.Unix.Catalog.GetString ("Add folder rec."), global::Mono.Unix.Catalog.GetString ("Add folder rec."), "gtk-directory");
 			this.actionAddFolderRecursive.ShortLabel = global::Mono.Unix.Catalog.GetString ("Add folder rec.");
 			w1.Add (this.actionAddFolderRecursive, null);
 			this.actionSelectModeSingle = new global::Gtk.Action ("actionSelectModeSingle", global::Mono.Unix.Catalog.GetString ("Single row mode"), null, "gtk-dnd");
@@ -57,7 +69,7 @@ namespace MP3Tagger
 			this.UIManager.InsertActionGroup (w1, 0);
 			this.AddAccelGroup (this.UIManager.AccelGroup);
 			this.Name = "MP3Tagger.ToolBarWin";
-			this.Title = global::Mono.Unix.Catalog.GetString ("Add");
+			this.Title = global::Mono.Unix.Catalog.GetString ("ToolBar");
 			this.Icon = global::Stetic.IconLoader.LoadIcon (this, "gtk-add", global::Gtk.IconSize.Menu);
 			this.WindowPosition = ((global::Gtk.WindowPosition)(4));
 			this.Modal = true;
@@ -68,10 +80,12 @@ namespace MP3Tagger
 			this.@fixed.Name = "fixed";
 			this.@fixed.HasWindow = false;
 			// Container child fixed.Gtk.Fixed+FixedChild
-			this.UIManager.AddUiFromString ("<ui><toolbar name='toolbar'><toolitem name='actionAddSingleFile' action='actionAddSingleFile'/><toolitem name='actionAddFolder' action='actionAddFolder'/><toolitem name='actionAddFolderRecursive' action='actionAddFolderRecursive'/><toolitem name='actionRemoveSelected' action='actionRemoveSelected'/><toolitem name='actionRemoveAll' action='actionRemoveAll'/><toolitem name='actionSelectAll' action='actionSelectAll'/><toolitem name='actionUnselectAll' action='actionUnselectAll'/><separator/><toolitem name='actionClose' action='actionClose'/></toolbar></ui>");
+			this.UIManager.AddUiFromString (@"<ui><toolbar name='toolbar'><toolitem name='actionAddSingleFile' action='actionAddSingleFile'/><toolitem name='actionAddFolder' action='actionAddFolder'/><toolitem name='actionAddFolderRecursive' action='actionAddFolderRecursive'/><toolitem name='actionRemoveSelected' action='actionRemoveSelected'/><toolitem name='actionRemoveAll' action='actionRemoveAll'/><toolitem name='actionSelectAll' action='actionSelectAll'/><toolitem name='actionUnselectAll' action='actionUnselectAll'/><separator/><toolitem name='actionClose' action='actionClose'/></toolbar></ui>");
 			this.toolbar = ((global::Gtk.Toolbar)(this.UIManager.GetWidget ("/toolbar")));
 			this.toolbar.Name = "toolbar";
 			this.toolbar.ShowArrow = false;
+			this.toolbar.ToolbarStyle = ((global::Gtk.ToolbarStyle)(3));
+			this.toolbar.IconSize = ((global::Gtk.IconSize)(3));
 			this.@fixed.Add (this.toolbar);
 			global::Gtk.Fixed.FixedChild w2 = ((global::Gtk.Fixed.FixedChild)(this.@fixed [this.toolbar]));
 			w2.X = 2;
@@ -80,7 +94,7 @@ namespace MP3Tagger
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
-			this.DefaultWidth = 1053;
+			this.DefaultWidth = 380;
 			this.DefaultHeight = 94;
 			this.Show ();
 			this.Shown += new global::System.EventHandler (this.OnShown);

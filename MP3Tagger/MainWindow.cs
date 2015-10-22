@@ -103,19 +103,19 @@ public partial class MainWindow: Gtk.Window
 	{
 		// toollbar
 
-		addAction.ShortLabel = Lng.Translate("Add");
-		removeAction.ShortLabel = Lng.Translate("Remove");
-		selectSingleAction.ShortLabel = Lng.Translate("Single");
-		selectMultipleAction.ShortLabel = Lng.Translate("Multi");
-		editAction.ShortLabel = Lng.Translate("Edit");
-		editingModeAction.ShortLabel = Lng.Translate("Write");
-		saveAction.ShortLabel = Lng.Translate("Save");
-		selectAction.ShortLabel = Lng.Translate("Select");
-		closeAction.ShortLabel = Lng.Translate("Close");
-		goForwardAction.ShortLabel = Lng.Translate("Next");
-		goBackAction.ShortLabel = Lng.Translate("Previous");
-		changeLanguageAction.ShortLabel = Lng.Translate("Language");
-		dialogInfoAction.ShortLabel = Lng.Translate("Info");
+		addAction.ShortLabel = addAction.Tooltip = Lng.Translate("Add");
+		removeAction.ShortLabel = removeAction.Tooltip = Lng.Translate("Remove");
+		selectSingleAction.ShortLabel = selectSingleAction.Tooltip = Lng.Translate("Single");
+		selectMultipleAction.ShortLabel = selectMultipleAction.Tooltip = Lng.Translate("Multi");
+		editAction.ShortLabel = editAction.Tooltip = Lng.Translate("Edit");
+		editingModeAction.ShortLabel = editingModeAction.Tooltip= Lng.Translate("Write");
+		saveAction.ShortLabel = saveAction.Tooltip = Lng.Translate("Save");
+		selectAction.ShortLabel = selectAction.Tooltip = Lng.Translate("Select");
+		closeAction.ShortLabel = closeAction.Tooltip = Lng.Translate("Close");
+		goForwardAction.ShortLabel = goForwardAction.Tooltip = Lng.Translate("Next");
+		goBackAction.ShortLabel = goBackAction.Tooltip = Lng.Translate("Previous");
+		changeLanguageAction.ShortLabel = changeLanguageAction.Tooltip = Lng.Translate("Language");
+		dialogInfoAction.ShortLabel = dialogInfoAction.Tooltip = Lng.Translate("Info");
 
 		labelID3v1Tree.LabelProp = Lng.Translate("Tag1");
 		labelID3v2Tree.LabelProp = Lng.Translate("Tag2");
