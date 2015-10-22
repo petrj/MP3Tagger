@@ -183,6 +183,9 @@ namespace MP3Tagger
 		
 		private string UnMaskValue(string mask)
 		{
+			if (mask == null)
+				return null;
+
 				string fName = System.IO.Path.GetFileName(FileName);
 				string name = System.IO.Path.GetFileNameWithoutExtension(FileName);
 				string ext = System.IO.Path.GetExtension(FileName);
